@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3B5C8888-C7DC-4E32-AB5E-CBACDCD70322}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Reliance.Modals</RootNamespace>
+    <AssemblyName>Reliance.Modals</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Glimpse.AspNet, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.AspNet.1.8.0\lib\net45\Glimpse.AspNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Glimpse.Core, Version=1.8.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.1.8.2\lib\net45\Glimpse.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Glimpse.Mvc4, Version=1.5.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glimpse.Mvc4.1.5.3\lib\net40\Glimpse.Mvc4.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdminLogin.cs" />
+    <Compile Include="AllEnums.cs" />
+    <Compile Include="AllFieldAndPropertyDo.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="CreateFormTableDo.cs" />
+    <Compile Include="DemoDataTableDo.cs" />
+    <Compile Include="DemoDo.cs" />
+    <Compile Include="DropDownValueDo.cs" />
+    <Compile Include="DynamicFormField.cs" />
+    <Compile Include="DynamicUserRegistationDo.cs" />
+    <Compile Include="DynamicWorkFlowDo.cs" />
+    <Compile Include="DynamicWorkFlowgrid.cs" />
+    <Compile Include="EditDynamicDataDo.cs" />
+    <Compile Include="Entity.cs" />
+    <Compile Include="EntityFormFeilds.cs" />
+    <Compile Include="FieldPropertyDo.cs" />
+    <Compile Include="FieldValidationDO.cs" />
+    <Compile Include="FormsRoleDo.cs" />
+    <Compile Include="GlimpseSecurityPolicy.cs" />
+    <Compile Include="GpsData.cs" />
+    <Compile Include="IsROleAssignmentDo.cs" />
+    <Compile Include="JoinQuery.cs" />
+    <Compile Include="LooKUPDO.cs" />
+    <Compile Include="MasterDocumentDo.cs" />
+    <Compile Include="MasterFormDO.cs" />
+    <Compile Include="MasterMomentDo.cs" />
+    <Compile Include="MenuMasterDo.cs" />
+    <Compile Include="MenuRoleDo.cs" />
+    <Compile Include="NeedToActDo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RegistationDo.cs" />
+    <Compile Include="RoleMasterDo.cs" />
+    <Compile Include="RuleEnginDo.cs" />
+    <Compile Include="UserAttendanceAndGpsData.cs" />
+    <Compile Include="UserAttendanceDo.cs" />
+    <Compile Include="UserForm.cs" />
+    <Compile Include="VehicleTrakingReportDo.cs" />
+    <Compile Include="WorkFlowStatusDo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

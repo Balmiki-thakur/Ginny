@@ -1,0 +1,170 @@
+﻿
+@{
+    ViewBag.Title = "Documentmaster";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+<input type="hidden"   id="FormId"  name="FormId" value="@ViewBag.Id" />
+<input type="hidden"   id="RoleId"  name="FormId" value="@Session["LOGGED_ROLE"]"  />
+<input type="hidden"   id="UserId"  name="FormId" value="@Session["LOGGED_UserId"]" />
+<input type="hidden" id="CompanyId" name="Eid" value="@Session["LOGGED_Company"]" />
+<script type="text/javascript">
+
+    function GetLooKUP(sel) {
+        var currentFieldId = $(sel).attr("look");
+        var Id = $('option:selected', sel).val();
+       
+        $.ajax({
+            type: "POST",
+            url: "/FormMaster/LooKUpdataBind/?currentFieldId=" + currentFieldId + "&Id=" + Id,
+            // url: "/FormMaster/DropDownFunctionValue/?colloumType=" + DocumentName + "&formName=" + FormName + "&ColloumName=" + DocumentField + "&fieldtype=" + DataType + "&fieldName=" + Display_name,
+            datatype: "JSON",
+            contentType: "application/json;charset=utf-8",
+            traditional: true,
+            async: false,
+            success: function (data) {
+                //  var FormName = '';
+                for (var j = 0; j < data.Responses.length; j++) {
+                    var data = $.parseJSON(JSON.stringify(data));
+                    var lookdata = data.Responses[j].LookUpData;
+                    var lookKey = data.Responses[j].Id;
+                    var lookId = data.Responses[j].LookUpId;
+                    // var lookupId = lookId;
+                    $(".LookUpID-" + lookId).val(lookdata);
+                    //  $(".LookUpID-" + lookupId).name(lookKey);
+                    //  <input type='" + DataType + "' required class='form-control input-circle' placeholder='" + place + "' id='" + Display_name + "' name='" + Display_name + "'value=''/>
+                    //  $('#lookup1').val(lookdata);
+
+
+                }
+            }
+        });
+    }
+
+
+    function GetDDlFilter(sel)
+    {
+        
+        var currentFieldId = $(sel).attr("DDlFilter");
+        var Id = $('option:selected', sel).val();
+        var htmlFilter = '';
+        $.ajax({
+            type: "POST",
+            url: "/FormMaster/DDLFilterUpdataBind/?currentFieldId=" + currentFieldId + "&Id=" + Id,
+            // url: "/FormMaster/DropDownFunctionValue/?colloumType=" + DocumentName + "&formName=" + FormName + "&ColloumName=" + DocumentField + "&fieldtype=" + DataType + "&fieldName=" + Display_name,
+            datatype: "JSON",
+            contentType: "application/json;charset=utf-8",
+            traditional: true,
+            async: false,
+            success: function (data)
+            {
+
+                var data = $.parseJSON(JSON.stringify(data));
+                htmlFilter += '<option value="0">Select</option>';
+                for (var i = 0; i < data.Responses.length; i++) {
+                    htmlFilter += "<option class=' " + data.Responses[i].FormName + "' value='" + data.Responses[i].Key + "'>" + data.Responses[i].Values + "</option>";
+                }
+               // $(".LookUpID-" + lookId).val(lookdata);
+                $(".ISDDLFIlterss").html(htmlFilter)
+            }
+        });
+    }
+    $(document).ready(function () {
+        $("#txtAutoComplete").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/FormMaster/AutoCompleteCountry",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                    
+                        response($.map(data, function (item, idx) {
+                            //   alert(item);
+                            //   alert(idx);
+                            return {
+                                label: item.Value,
+                                value: item.Key
+                            };
+                        }));
+                    }
+                })
+            },
+            messages: {
+                noResults: "", results: ""
+            }
+        });
+    })
+    var data = [{ id: 108, name: "Jamaica" }, { id: 110, name: "Japan" }, { id: 110, name: "Japan7" }, { id: 111, name: "Japan1" }, { id: 112, name: "Japan2" }, { id: 113, name: "Japan3" }, { id: 114, name: "Japan4" }];
+    $(document).ready(function () {
+
+        $('#CountryName').autocomplete({
+            source: function (request, response) {
+                response($.map(data, function (item) {
+                    return {
+                        label: item.name,
+                        value: item.id
+                    }
+                }));
+            },
+            select: function (e, ui) {
+                e.preventDefault();
+                $(this).val(ui.item.label);
+                $('#CountryID').html(ui.item.value);
+            }
+        });
+    });
+</script>
+<script src="~/Scripts/DocumentMaster.js"></script>
+       <div class="portlet light bordered">
+	<div class="portlet-title">
+											<div class="caption">
+												<i class="icon-equalizer font-blue-hoki"></i>
+											
+												  <span name="formNameId" id="formNameId"></span>
+											</div>
+											<div class="tools">
+												<a href="" class="expand" data-original-title="" title="">
+												</a>
+												<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+												</a>
+												<a href="" class="reload" data-original-title="" title="">
+												</a>
+												<a href="" class="remove" data-original-title="" title="">
+												</a>
+											</div>
+										</div>
+	<div class="portlet-body form" ">								
+        		<!-- BEGIN FORM-->
+           @using (Html.BeginForm("MasterFormcreates", "FormMaster", FormMethod.Post, new {  enctype = "multipart/form-data", onsubmit = "validateForm()" }))
+               {
+								<form action="#" class="form-horizontal">
+                                <input type="hidden" id="formName" name="formName" />                                
+                                <div class="form-body 2columnStyle">
+                                    <div id="content" class="dsib"></div>
+                                      <div id="RadioCheck" class="dsib"></div>
+                                    <div id="dropdow" class="dsib"></div>
+                                    <div id="LookUp" class="dsib"></div>
+                                      <div id="IsDDLFilter" class="dsib"></div>
+                                    <div id="htmlCheckBox" class="dsib"></div>
+                                    <div id="htmlCheckBoxslist" class="col-md-4 Checkboxlist dsib"></div>
+                                     <div id="htmlRadioLable" class="dsib"></div>
+                                    <div id="htmlCheckRadioList" class="col-md-4 CheckRadioList dsib"></div>
+                                </div>
+                                    
+                                <div class="form-actions">
+                                    <div class="row">
+                                        <div class="col-md-offset-3 col-md-9">
+                                             <div id="contentdiv"></div>
+                                            <input type="submit" id="btnSave" value="Save" class="btn btn-circle green" />
+                                            <button type="button" id="cancle" data-dismiss="modal" class="btn btn-circle default">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+               
+               
+              
+          }
+											<!-- END FORM-->
+										</div>
+	</div>

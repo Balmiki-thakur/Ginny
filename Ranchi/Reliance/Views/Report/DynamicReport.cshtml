@@ -1,0 +1,291 @@
+﻿@{
+    ViewBag.Title = "DynamicReport";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+                                <div class="col-md-12">
+								<div class="portlet light">
+                                     <div class="col-md-3">
+															<div class="form-group">
+																<select class="form-control"><option>Select joins</option>
+																<option value="INNER JOIN">INNER JOIN</option>
+                                                                <option value="LEFT JOIN">LEFT JOIN</option>
+                                                                <option value="RIGHT JOIN">RIGHT JOIN</option>
+                                                                <option value="FULL JOIN">FULL JOIN</option>
+                                                                    
+																</select>
+															</div>
+														</div>
+									<div class="caption caption-md">
+											<i class="icon-globe font-green-sharp"></i>
+											<span class="caption-subject font-green-sharp bold uppercase" style="flex-align:inherit">Report Create </span>
+                                       
+										</div>
+                                    
+									<div class="portlet-body form">
+                                         <input type="hidden" id="CompanyId" name="Eid" value="@Session["LOGGED_Company"]" />
+										<div class="tab-content">
+											<div class="tab-pane active" id="portlet_tab_1_1">
+												<div class="skin skin-minimal">
+													<form role="form" onsubmit="saveRecords(); return false;">
+														<div class="form-body">
+                                                            <div class="col-md-12"">
+														<div class="row">
+															<div class="form-group col-md-2" style="background-color:aliceblue">
+                                                                <div class="caption caption-md">
+											
+											<span class="caption-subject font-green-sharp bold uppercase">All Form</span>
+										</div>
+															
+																<div class="input-group">
+																	<div class="icheck-list">
+																	<div id="FormName"></div>
+																	</div>
+																</div>
+															</div>
+                                                            <div class="form-group col-md-4" style="background-color:antiquewhite">
+                                                                <div class="caption caption-md">
+											
+											       <span class="caption-subject font-green-sharp bold uppercase">All Field </span>
+										                    </div>																
+																<div class="input-group">
+																	<div class="icheck-list">
+																	<div id="FormFields"></div>
+                                                      
+																	</div>
+                                                                     <div id="br"></div>
+															</div>
+                                                            </div>
+                                                            <div class="form-group col-md-3" style="background-color:aquamarine">
+                                                                <div class="caption caption-md">
+											
+											       <span class="caption-subject font-green-sharp bold uppercase">Join </span>
+										                    </div>																
+																<div class="input-group">
+																	<div class="icheck-list">
+																	<div id="JoinData">
+                                                                      
+																	</div>
+                                                                        <div id="KeyData" style="background-color:#aeaf5d">
+                                                                      
+																	</div>
+                                                                        <button type="button"   onclick="joinRecords();" class="btn green-haze">Create</button>
+																	</div>
+															</div>
+
+                                                            </div>	
+															</div>
+
+                                                            </div>
+                                                           </div>														  														
+														<div class="form-actions">
+															<button type="submit"  class="btn green-haze">Create</button> 
+                                                            
+														</div>     
+                                                        <div style="text-align:right">
+                                                            <button type="submit" onclick="saveFinalRecords();"  class="btn green-haze">Build Query</button>  
+                                                        </div>                                     
+												</form>
+												</div>
+											</div>
+										
+									
+										</div>
+									</div>
+
+						      	</div>
+                                   
+                                </div>
+                                <div class="col-md-12">
+								<div class="portlet light">
+									<div class="caption caption-md">
+											<i class="icon-globe font-green-sharp"></i>
+											<span class="caption-subject font-green-sharp bold uppercase">Create Query </span>
+										</div>
+									<div class="portlet-body form">
+										<div class="tab-content">
+											<div class="tab-pane active" id="portlet_tab_1">
+												<div class="skin skin-minimal">
+													<form role="form" onsubmit="saveFinalData(); return false;">@**@
+														<div class="form-body">
+                                                            <div class="col-md-12"">
+                                                                <div id="Query"></div>
+                                                                <div>
+                                                                    <textarea id="txtarea" style="margin: 0px; width: 1171px; height: 98px;"></textarea>
+                                                                </div>
+														</div>
+														<div class="form-actions">
+															<button type="submit" id="" class="btn green-haze">Submit</button>
+															<button type="button" class="btn default">Cancel</button>
+                                                           
+														</div>
+                                                            </div>
+													</form>
+												</div>
+											</div>
+											
+									
+										</div>
+									</div>
+								</div>
+							</div>
+<script src="~/Scripts/jquery-1.7.1.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var CompanyId = document.getElementById("CompanyId").value;
+        $.ajax
+               ({
+                   type: "POST",
+                   url: "/Dynamic/AllFormList/?CompanyId=" + CompanyId,
+                   datatype: "JSON",
+                   success: function (data) {
+                       var item = '';
+                       for (var j = 0; j < data.Response.length; j++) {
+                           var formName = data.Response[j].FormName;
+                           item += "<input type='checkbox' id= 'FormName" + j + "' class='icheck' value='" + data.Response[j].Id + "'/> <label>" + data.Response[j].FormName + "</label></br>";
+                           //  "<option value='" + data.Response[j].Id + "'>" + data.Response[j].FormName + "</option>";
+                       };
+
+                       $("#FormName").html(item);
+                   },
+               });
+    });
+
+    function saveRecords() {
+        debugger;
+        var ids = '';
+        $('.icheck:checked').each(function () {
+            ids += $(this).val() + ',';
+        });
+        var CompanyId = document.getElementById("CompanyId").value;
+        $.ajax({
+            type: "POST",
+            url: "/Dynamic/ReportFields/?formid=" + ids,
+            datatype: "JSON",
+            success: function (data) {
+                debugger;
+                var fieldData = '';
+                var joindata = '';
+                for (var j = 0; j < data.Response.length; j++) {
+                    var count = $('input.icheck:checked').length;
+
+                    if (count != 1)
+                    {
+                       
+                        fieldData += "<div>" + data.Response[j].FormName + "= <label><input type='checkbox'  class='iChildcheck'  value='" + data.Response[j].Display_name + "/" + data.Response[j].FormId + "'>" + data.Response[j].Display_name + "</label></br></div>";
+                        if (data.Response[j].Field_type != 'Text Box') {
+                            joindata += "" + data.Response[j].FormName + "= <label><input type='checkbox' class='actioncheck'  id='action1'    value='" + data.Response[j].Display_name + "/" + data.Response[j].FormId + "'>" + data.Response[j].Display_name + "</label></br>";
+
+                        }
+
+                    }
+                    else
+                    {
+
+                        fieldData += "<div>" + data.Response[j].FormName + "= <label><input type='checkbox'   class='iChildcheck'  value='" + data.Response[j].Display_name + "'>" + data.Response[j].Display_name + "</label></br><div>";
+                        if (data.Response[j].Field_type != 'Text Box') {
+                            joindata += "" + data.Response[j].FormName + "= <label><input type='checkbox'  class='actioncheck'  id='action1'   value='" + data.Response[j].Display_name + "/" + data.Response[j].FormId + "'>" + data.Response[j].Display_name + "</label></br>";
+
+                        }
+                    }
+                }
+                $("#FormFields").html(fieldData);
+                $("#JoinData").html(joindata);
+
+            },
+        });
+    }
+    function joincheck() {
+        var ids = '';
+        $('.actioncheck:checked').each(function () {
+            ids += $(this).val() + ',';
+               
+        });
+        return ids;
+    }
+    function joinRecords() {
+        var data = joincheck();
+        $.ajax({
+            type: "POST",
+            url: "/Report/joinQuery/?formid=" + data,
+            datatype: "JSON",
+            success: function (data) {
+                var item = "";
+                for (var j = 0; j < data.Response.length; j++) {
+                    item += "" + data.Response[j].FormName + "= <label><input type='checkbox'  id= 'joinName' class='JoinQueryCheck'  value='" + data.Response[j].FormName + "/ " + data.Response[j].Display_name + "'> " + data.Response[j].Display_name + "</label></br>";
+                }
+                $("#KeyData").html(item);
+            },
+        });
+
+    }
+</script>
+<script type="text/javascript">
+    function saveFinalRecords() {
+     
+        var ids = '';
+        var count = $('input.icheck:checked').length;
+        if (count == 1) {
+            $('.icheck:checked').each(function () {
+                ids += $(this).next("label").html() + ',';
+                // ids += $(this).next("label").html() + '/' + $(this).val() + ',';
+            });
+        }
+        else {
+            $('.icheck:checked').each(function () {
+                // ids += $(this).next("label").html() + ',';
+                ids += $(this).next("label").html() + '/' + $(this).val() + ',';
+            });
+        }
+        var idvalue = '';
+        $('.icheck:checked').each(function () {
+            idvalue += $(this).val() + ',';
+        });
+        var FieldId = '';
+        $('.iChildcheck:checked').each(function () {
+            FieldId += $(this).val() + ',';
+        });
+        var OnCondition = '';
+        $('.JoinQueryCheck:checked').each(function () {
+            OnCondition += $(this).val() + ',';
+           
+        });
+        var FormLable = '';
+        $('.actioncheck:checked').each(function () {
+            FormLable += $(this).val() + ',';
+            
+        });
+        if (OnCondition == "") {
+            debugger;
+            $.ajax({
+                type: "POST",
+                url: "/Report/FinalQuery/?formid=" + ids + "&FieldId=" + FieldId + "&FormGridId=" + idvalue ,
+                datatype: "JSON",
+                success: function (data) {
+
+                    var data1 = $.parseJSON(JSON.stringify(data));
+
+
+                    $("#txtarea").html(data1.Response);
+
+                },
+
+
+            });
+        }
+        else {
+           
+            $.ajax({
+                type: "POST",
+                url: "/Report/FinalQuery/?formid=" + ids + "&FieldId=" + FieldId + "&FormGridId=" + OnCondition + "&Formjoin=" + FormLable,
+                datatype: "JSON",
+                success: function (data) {
+                    var data1 = $.parseJSON(JSON.stringify(data));
+                    $("#txtarea").html(data1.Response);
+
+                },
+            });
+        }
+    }
+</script>
+
+

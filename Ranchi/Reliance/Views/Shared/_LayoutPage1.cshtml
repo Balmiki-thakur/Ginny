@@ -1,0 +1,502 @@
+﻿<!DOCTYPE html>
+<html>
+
+    <head>
+    <meta name="viewport" content="width=device-width" />
+    <!--<![endif]-->
+	<!-- BEGIN HEAD -->
+	 <script src="~/Scripts/jquery-1.7.1.js"></script>
+		<meta charset="utf-8"/>
+		<title>BPM</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<meta content="" name="description"/>
+		<meta content="" name="author"/>
+		<!-- BEGIN GLOBAL MANDATORY STYLES -->
+		<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/bootstrap-datepicker/css/datepicker3.css"/>
+		<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css"/>
+		<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/bootstrap-colorpicker/css/colorpicker.css"/>
+		<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css"/>
+		<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"/>
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css">
+		<link href="../../assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+		<link href="../../assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css">
+		<link href="../../assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+		<link href="../../assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css">
+		<link href="../../assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css"/>
+		<link href="../../assets/global/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet"/>
+		<!-- END GLOBAL MANDATORY STYLES -->
+		<!-- BEGIN THEME STYLES -->
+		<link href="../../assets/global/css/components.css" id="style_components" rel="stylesheet" type="text/css"/>
+		<link href="../../assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
+		<link href="../../assets/admin/layout2/css/layout.css" rel="stylesheet" type="text/css"/>
+		<link id="style_color" href="../../assets/admin/layout2/css/themes/grey.css" rel="stylesheet" type="text/css"/>
+		<link href="../../assets/admin/layout2/css/custom.css" rel="stylesheet" type="text/css"/>
+		<link href="../../assets/admin/layout2/css/kunal.css" rel="stylesheet" type="text/css"/>
+		<!-- END THEME STYLES -->
+		<link rel="shortcut icon" href="favicon.ico"/>
+	<!-- END HEAD -->
+	<!-- BEGIN BODY -->
+	<!-- DOC: Apply "page-header-fixed-mobile" and "page-footer-fixed-mobile" class to body element to force fixed header or footer in mobile devices -->
+	<!-- DOC: Apply "page-sidebar-closed" class to the body and "page-sidebar-menu-closed" class to the sidebar menu element to hide the sidebar by default -->
+	<!-- DOC: Apply "page-sidebar-hide" class to the body to make the sidebar completely hidden on toggle -->
+	<!-- DOC: Apply "page-sidebar-closed-hide-logo" class to the body element to make the logo hidden on sidebar toggle -->
+	<!-- DOC: Apply "page-sidebar-hide" class to body element to completely hide the sidebar on sidebar toggle -->
+	<!-- DOC: Apply "page-sidebar-fixed" class to have fixed sidebar -->
+	<!-- DOC: Apply "page-footer-fixed" class to the body element to have fixed footer -->
+	<!-- DOC: Apply "page-sidebar-reversed" class to put the sidebar on the right side -->
+	<!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
+</head>
+
+  	<body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white custom-layout">
+		<!-- BEGIN HEADER -->
+		<div class="page-header navbar navbar-fixed-top">
+			<!-- BEGIN HEADER INNER -->
+			<div class="page-header-inner ">
+				<!-- BEGIN LOGO -->
+                	
+				<div class="page-logo cus-dark-grey bd-le bd-ri"
+					
+						<img src="../../assets/admin/layout2/img/logo.png" alt="logo" class="logo-default"/>
+					
+					
+				</div>
+				<!-- END LOGO -->
+				<!-- BEGIN RESPONSIVE MENU TOGGLER -->
+				<a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+				</a>
+				<!-- END RESPONSIVE MENU TOGGLER -->
+				<!-- BEGIN PAGE ACTIONS -->
+				<!-- DOC: Remove "hide" class to enable the page header actions -->
+				<div class="menu-toggler sidebar-toggler flt-left m-0 bd-ri bd-le header-margin  white-txt fs-16">
+					<!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
+				</div>
+				<div class="page-actions bd-ri bd-le header-margin  white-txt fs-16">
+					
+					
+					<a href='../../Dashboard/DashboardWorkFlow'
+					<i class="fa fa-support"></i>&nbsp;<span class="hidden-sm hidden-xs">Home</span>
+					</a>
+				</div>
+				<div class="page-actions bd-le header-margin  white-txt fs-16">
+					
+					
+					
+					
+					
+				</div>
+				<!-- END PAGE ACTIONS -->
+				<!-- BEGIN PAGE TOP -->
+				<div class="page-top cus-dark-grey">
+					<!-- BEGIN HEADER SEARCH BOX -->
+					<!-- DOC: Apply "search-form-expanded" right after the "search-form" class to have half expanded search box -->
+					<!-- END HEADER SEARCH BOX -->
+					<!-- BEGIN TOP NAVIGATION MENU -->
+					<div class="top-menu">
+						<ul class="nav navbar-nav pull-right">
+							<!-- BEGIN NOTIFICATION DROPDOWN -->
+	
+							<li class="dropdown dropdown-user bd-ri bd-le p-0">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+									<img alt="" class="img-circle" src="../../assets/admin/layout2/img/avatar3_small.jpg"/>
+									<span class="username username-hide-on-mobile  fs-16">
+									@Session["LOGGED_User_NAME"] </span>
+									<i class="fa fa-angle-down"></i>
+								</a>
+								<ul class="dropdown-menu dropdown-menu-default bl">
+									<li>
+										<a href="extra_profile.html">
+										<i class="icon-user"></i> My Profile </a>
+									</li>
+									<li>
+										<a href="page_calendar.html">
+										<i class="icon-calendar"></i> My Calendar </a>
+									</li>
+									<li>
+										<a href="inbox.html">
+											<i class="icon-envelope-open"></i> My Inbox <span class="badge badge-danger">
+											3 </span>
+										</a>
+									</li>
+									<li>
+										<a href="page_todo.html">
+											<i class="icon-rocket"></i> My Tasks <span class="badge badge-success">
+											7 </span>
+										</a>
+									</li>
+									<li class="divider">
+									</li>
+									<li>
+										<a href="extra_lock.html">
+										<i class="icon-lock"></i> Lock Screen </a>
+									</li>
+									<li>
+										<a href="~/Account/LogOff">
+										<i class="icon-key"></i> Log Out </a>
+									</li>
+								</ul>
+							</li>
+							<!-- END USER LOGIN DROPDOWN -->
+							<li class="bd-le" style="padding: 9px 17px!important;">
+								<img src="../../assets/admin/layout2/img/ginni.png" alt="logo" class="logo-default"/>
+							</li>
+						</ul>
+					</div>
+					<!-- END TOP NAVIGATION MENU -->
+				</div>
+				<!-- END PAGE TOP -->
+			</div>
+			<!-- END HEADER INNER -->
+		</div>
+		<!-- END HEADER -->
+		<div class="clearfix">
+		</div>
+		<div class="page-content-wrapper cus-dark-grey">
+			<!-- BEGIN CONTAINER -->
+			<div class="page-container">
+				<!-- BEGIN SIDEBAR -->
+				<div class="page-sidebar-wrapper modified">
+					<!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+					<!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+					<div class="page-sidebar navbar-collapse collapse cus-dark-grey">                         
+                     <div id="supermenus"></div>   
+                     <Input type="hidden" id="userRole" value="@Session["LOGGED_ROLE"]" >  
+    <script type="text/javascript">
+        var Supermenu = "";
+        Supermenu += "<ul id='MainMenu' class='page-sidebar-menu  page-header-fixed cus-dark-grey dspn' style='margin-bottom:0;' data-keep-expanded='false' data-auto-scroll='true' data-slide-speed='200' >"
+        Supermenu += "<!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below 'sidebar-toggler-wrapper' LI element -->"
+        Supermenu += "<li class='sidebar-toggler-wrapper hide'>"
+        Supermenu += "	<!-- BEGIN SIDEBAR TOGGLER BUTTON -->"
+        Supermenu += "	<div class='sidebar-toggler'>"
+        Supermenu += "		<span></span>"
+        Supermenu += "	</div>"
+        Supermenu += "	<!-- END SIDEBAR TOGGLER BUTTON -->"
+        Supermenu += "</li>"
+        Supermenu += " <!-- DOC: To remove the search box from the sidebar you just need to completely remove the below 'sidebar-search-wrapper' LI element -->"
+        Supermenu += "	<li class='nav-item start active'>"
+        Supermenu += "	<a href='../../Account/DashBoard' class='nav-link nav-toggle'>"
+        Supermenu += "		<i class='icon-speedometer'></i>"
+        Supermenu += "<span class='title'>Dashboard</span>"
+        Supermenu += "<span class='selected'></span>"
+        Supermenu += "		<span class='arrow'></span>"
+        Supermenu += "	</a>"
+        Supermenu += "</li>"
+        Supermenu += "<li class='nav-item  '>"
+        Supermenu += "<a href='javascript:;' class='nav-link nav-toggle'>"
+        Supermenu += "	<i class='icon-calendar'></i>"
+        Supermenu += "	<span class='title'>User Master</span>"
+        Supermenu += "	<span class='arrow'></span>"
+        Supermenu += "	</a>"
+        Supermenu += "<ul class='sub-menu'>"
+        Supermenu += "<li class='nav-item  '>"
+										
+        Supermenu += "    <a href='../../Account/AllUser' class='nav-link nav-toggle'>"
+        Supermenu += "		<span class='title'>User Registation</span>"
+        Supermenu += "		</a>"
+        Supermenu += "	</li>"
+        Supermenu += "</ul>"
+        Supermenu += "</li>"
+
+
+        Supermenu += "<li class='nav-item '>"
+        Supermenu += "	<a href='javascript:;' class='nav-link nav-toggle'>"
+        Supermenu += "	<i class='icon-puzzle'></i>"
+        Supermenu += "	<span class='title'>DashBoard Master</span>"
+        Supermenu += "<span class='arrow'></span>"
+        Supermenu += "</a>"
+        Supermenu += "	<ul class='sub-menu'>"
+        Supermenu += "		<li class='nav-item'>"
+        Supermenu += "		<a href='../../DashBoard/DashboardConfigration'  class='nav-link nav-toggle'>"
+        Supermenu += "	<span class='title'>Add Dashboard Configration</span>"
+        Supermenu += "		</a>"
+        Supermenu += "	</li>"
+        Supermenu += "    <li class='nav-item  '>"
+        Supermenu += "		<a href='../../Document/DocummentMaster'  class='nav-link nav-toggle'>"
+        Supermenu += "			<span class='title'>Child Form</span>"
+        Supermenu += "		</a>"
+        Supermenu += "	</li>"
+        Supermenu += "</ul>"
+        Supermenu += "    </li>"
+        Supermenu += "<li class='nav-item '>"
+        Supermenu += "	<a href='javascript:;' class='nav-link nav-toggle'>"
+        Supermenu += "	<i class='icon-puzzle'></i>"
+        Supermenu += "	<span class='title'>Menu Master</span>"
+        Supermenu += "	<span class='arrow'></span>"
+        Supermenu += "	</a>"
+        Supermenu += "	<ul class='sub-menu'>"
+        Supermenu += "	<li class='nav-item  '>"
+        Supermenu += "		<a href='../../MenuMaster/Menu'  class='nav-link nav-toggle'>"
+        Supermenu += "			<span class='title'>Add Menu</span>"
+        Supermenu += "		</a>"
+        Supermenu += "	</li>"
+        Supermenu += "</ul>"
+        Supermenu += "    </li>"
+        Supermenu += "	<li class='nav-item '>"
+        Supermenu += "	<a href='javascript:;' class='nav-link nav-toggle'>"
+        Supermenu += "	<i class='icon-puzzle'></i>"
+        Supermenu += "	<span class='title'>Form Master</span>"
+        Supermenu += "	<span class='arrow'></span>"
+        Supermenu += "	</a>"
+
+        Supermenu += "<ul class='sub-menu'>"
+        Supermenu += "	<li class='nav-item  '>"
+        Supermenu += "		<a href='../../FormMaster/Form'  class='nav-link nav-toggle'>"
+        Supermenu += "	<span class='title'>Add Forms Configration</span>"
+
+        Supermenu += "</a>"
+        Supermenu += "</li>"
+                                  
+        Supermenu += "	</ul>"
+        Supermenu += "      </li>"
+        Supermenu += "	<li id='RoleMaster' class='nav-item '>"
+        Supermenu += "		<a href='javascript:;' class='nav-link nav-toggle'>"
+        Supermenu += "		<i class='icon-puzzle'></i>"
+        Supermenu += "		<span class='title'>Role Master</span>"
+        Supermenu += "		<span class='arrow'></span>"
+        Supermenu += "	</a> "
+        Supermenu += "	<ul class='sub-menu'>"
+        Supermenu += "		<li id='Roles' class='nav-item  '>"
+        Supermenu += "			<a href='../../RoleMaster/RoleMaster'  class='nav-link nav-toggle'>"
+        Supermenu += "			<span class='title'>Add Roles</span>"
+        Supermenu += "		</a>"
+        Supermenu += "	</li>"
+
+        Supermenu += "</ul> "
+        Supermenu += "   </li>"
+        Supermenu += "<li id='WorkFlow' class='nav-item '>"
+        Supermenu += "<a href='javascript:;' class='nav-link nav-toggle'>"
+        Supermenu += "	<i class='icon-puzzle'></i>"
+        Supermenu += "	<span class='title'>WorkFlow Master</span>"
+        Supermenu += "	<span class='arrow'></span>"
+        Supermenu += "</a> "
+        Supermenu += "<ul class='sub-menu'>"
+        Supermenu += "	<li id='WorkFlowStatus' class='nav-item  '>"
+        Supermenu += "		<a href='../../WorkFlowStatus/WorkFolwStatus'  class='nav-link nav-toggle'>"
+        Supermenu += "			<span class='title'>WorkFlow Status</span>"
+
+        Supermenu += "</a>"
+        Supermenu += "</li>"
+
+        Supermenu += "</ul>"
+        Supermenu += "      <ul class='sub-menu'>"
+        Supermenu += "	<li id='DynamicWorkFlow' class='nav-item  '>"
+        Supermenu += "		<a href='../../WorkFlowStatus/DynamicWorkFlow'  class='nav-link nav-toggle'>"
+        Supermenu += "			<span class='title'> DynamicWorkFlow</span>"
+
+        Supermenu += "		</a>"
+        Supermenu += "	</li>"
+
+        Supermenu += "</ul>"
+        Supermenu += "  </li>"
+        Supermenu += "   <li id='RoleAssinment' class='nav-item '>"
+        Supermenu += "<a href='javascript:;' class='nav-link nav-toggle'>"
+        Supermenu += "	<i class='icon-puzzle'></i>"
+        Supermenu += "	<span class='title'>Role Assignment</span>"
+        Supermenu += "	<span class='arrow'></span>"
+        Supermenu += "</a> "
+        Supermenu += "<ul class='sub-menu'>"
+        Supermenu += "	<li id='RoleAssinments' class='nav-item  '>"
+        Supermenu += "	<a href='../../RoleAssignment/RoleAssignment'  class='nav-link nav-toggle'>"
+        Supermenu += "		<span class='title'>Role Assignment Add</span>"
+
+        Supermenu +="	</a>"
+        Supermenu += "	</li>"
+        Supermenu +="</ul>"
+        Supermenu +="  </li>"
+
+
+        Supermenu += "<li id='Report' class='nav-item '>"
+        Supermenu += "	<a href='javascript:;' class='nav-link nav-toggle'>"
+        Supermenu += "	<i class='icon-puzzle'></i>"
+        Supermenu += "	<span class='title'>Report Master</span>"
+        Supermenu += "	<span class='arrow'></span>"
+        Supermenu += "</a>"
+        Supermenu += "<ul class='sub-menu'>"
+        Supermenu += "		<li id='AddReport' class='nav-item  '>"
+        Supermenu += "		<a href='../../Report/DynamicReport'  class='nav-link nav-toggle'>"
+        Supermenu += "		<span class='title'>Add Report</span>"
+
+        Supermenu +="		</a>"
+        Supermenu += "</li>"
+
+        Supermenu += "</ul>"
+        Supermenu += "  </li>"
+        Supermenu += " </ul>"
+       
+       
+        if (document.getElementById("userRole").value == 1) {
+            $("#supermenus").html(Supermenu);
+        }
+       
+                        </script> 
+	<ul id='MainMenu' class='page-sidebar-menu  page-header-fixed cus-dark-grey dspn' style='margin-bottom:0;' data-keep-expanded='false' data-auto-scroll='true' data-slide-speed='200' >
+      <li id='Report' class='nav-item '>
+       	<a href='javascript:;' class='nav-link nav-toggle'>
+       	<i class='icon-puzzle'></i>"
+     	<span class='title'>Report</span>
+       	<span class='arrow'></span>
+      </a>
+      <ul class='sub-menu'>
+      	<li id='AddReport' class='nav-item  '>
+        		<a href='../../GPSDataReport/GPSMileageReport'  class='nav-link nav-toggle'>
+        		<span class='title'>Milage Report</span>"
+
+       		</a>
+        </li>
+
+        </ul>
+        </li>
+       </ul>                                                                               
+ @{
+    var UserName = Session["LOGGED_User_NAME"];
+    var Companyid = Session["LOGGED_Company"];
+    if (Session["LOGGED_User_NAME"] == null && Companyid == "" || Companyid == null)
+    {
+         Response.Redirect("~/Account/LogOn");
+     };
+         
+     RelianceController.MenuMasterController  menumaster= new RelianceController.MenuMasterController();
+
+     var menusList = menumaster.AllMenu(Convert.ToString(UserName), Convert.ToInt32(Companyid));
+    
+ }
+<ul class="page-sidebar-menu  page-header-fixed cus-dark-grey"> 
+   
+@foreach (var mp in menusList.Where(p => p.PMenu == 0))
+{
+   
+<li id="mainMenu1" class="google nav-item" ><a href="#" class="smenu"><i class="icon-puzzle"></i><span>@mp.Menuname</span><span class="arrow"></a>
+        @if (menusList.Count(p => p.PMenu == mp.MenunId) > 0)
+        {
+            @:<ul class="sub-menu level1" style="padding:0 0 0 10px">     
+               @RenderMenuItem(menusList,mp)
+            @:</ul>
+        }
+      
+ </li>
+}
+</ul>
+@helper RenderMenuItem(List<Reliance.Modals.MenuMasterDo> menuList, Reliance.Modals.MenuMasterDo mi)
+{
+    foreach (var cp in menuList.Where(p => p.PMenu == mi.MenunId))
+    {
+        //if (cp.Menutype == "Static Page")
+       // {
+      //   @:<li> @Ajax.ActionLink(cp.Menuname, cp.Action, cp.Controller, new {LinKType = cp.MenuLink}, new AjaxOptions {HttpMethod = "POST"})<span class="arrow"></a>
+
+       // }
+      //  else{
+       @:<li> @Ajax.ActionLink(cp.Menuname, "MasterFormcreate", "FormMaster", new {LinKType = cp.MenuLink}, new AjaxOptions {HttpMethod = "POST"})<span class="arrow"></a>
+//}
+       // @Html.ActionLink(cp.Menuname, "MasterFormcreate", "FormMaster", new {LinKType = cp.MenuLink}, null)<span class="arrow"></a>
+        if (menuList.Count(p => p.PMenu == cp.MenunId) > 0)
+        {
+           @:<ul class="sub-menu level2" style="padding:0 0 0 8px">  
+             @RenderMenuItem(menuList, cp)
+          @:</ul>
+      }
+        else
+        {
+          @:</li>
+      }
+       }
+       
+}
+            <!-- END SIDEBAR MENU -->
+					</div>
+                            
+                        
+				</div>
+				<!-- END SIDEBAR -->
+				<!-- BEGIN CONTENT -->
+				<div class="page-content-wrapper">
+					<div class="page-content cus-light-grey">
+ @RenderBody()					
+</div>
+</div>
+<!-- END CONTENT -->
+<!-- BEGIN QUICK SIDEBAR -->
+<!--Cooming Soon...-->
+<!-- END QUICK SIDEBAR -->
+</div>
+<!-- END CONTAINER -->
+<!-- BEGIN FOOTER -->
+<div class="page-footer">
+<div class="page-footer-inner">
+
+</div>
+<div class="scroll-to-top">
+<i class="icon-arrow-up"></i>
+</div>
+</div>
+<!-- END FOOTER -->
+</div>
+<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+<!-- BEGIN CORE PLUGINS -->
+<!--[if lt IE 9]>
+<script src="../../assets/global/plugins/respond.min.js"></script>
+<script src="../../assets/global/plugins/excanvas.min.js"></script>
+<![endif]-->
+<script src="../../assets/global/plugins/respond.min.js"></script>
+<script src="../../assets/global/plugins/excanvas.min.js"></script> 
+<![endif]-->
+<script src="../../assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
+<!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+<script src="../../assets/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
+<script src="../../assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<!-- <script src="../../assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script> -->
+<script src="../../assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<!-- <script src="../../assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script> -->
+<!-- <script src="../../assets/global/plugins/jquery.cokie.min.js" type="text/javascript"></script> -->
+<!-- <script src="../../assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script> -->
+<!-- <script src="../../assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script> -->
+<!-- END CORE PLUGINS -->
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script type="text/javascript" src="../../assets/global/plugins/select2/select2.min.js"></script>*
+<script type="text/javascript" src="../../assets/global/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="../../assets/global/scripts/metronic.js" type="text/javascript"></script>
+<script src="../../assets/admin/layout2/scripts/layout.js" type="text/javascript"></script>
+<script src="../../assets/admin/layout2/scripts/demo.js" type="text/javascript"></script>
+<script src="../../assets/admin/pages/scripts/table-editable.js"></script>
+<script>
+    jQuery(document).ready(function () {
+        Metronic.init(); // init metronic core components
+        Layout.init(); // init current layout
+        Demo.init(); // init demo features
+        TableEditable.init();
+        //$('.nav-item').on({
+        //    mouseenter: function () {
+        //        $(this).addClass('open');
+        //    },
+        //  mouseleave : function() {
+        //        $(this).removeClass("open");
+        //},
+        //});
+    });
+</script>      
+<script type="text/javascript">
+              // var mainmenu1 = document.getElementById("mainmenuItem").value;
+              // alert(mainmenu1);
+               //document.getElementById("title").value(mainmenu1);
+               var screenHeight = $(window).height();
+             
+               var contantHeight = screenHeight - 101 + 'px';
+            
+               $('.page-sidebar').attr('style', 'height: ' + contantHeight + '!important');
+
+
+             //  if ($("#userRole")== '1')
+             //  {
+              //     $('#MainMenu').hide();
+                  
+              // }
+        </script>
+<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

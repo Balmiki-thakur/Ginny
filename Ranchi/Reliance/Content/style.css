@@ -1,0 +1,592 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+html{
+	font-size: 100%;
+	font-family: 'Open Sans', sans-serif;
+}
+body{
+	font-size: 1.25rem;
+}
+
+/*------------universal classes--------------*/
+.dsi li{display: inline;}
+.dsib li{display: inline-block;}
+.dsb li, .dsb{display: block;}
+.mw45{max-width: 45px}
+.black-bg{background-color: #262626;}
+.purple-bg{background-color: #0093E3!important;}
+.black-txt{color: #262626;}
+.fs-16{font-size: 16px;}
+.fs-14{font-size: 14px}
+.upc{text-transform: uppercase;}
+.m-0{margin: 0!important;}
+.p-0{padding: 0;}
+.pt-10{padding-top: 10px;}
+.pb-10{padding-bottom: 10px;}
+.inShadow{box-shadow: inset 0 2px 6px 0 rgba(0, 0, 0, 0.4), 0 2px 6px 0 rgba(0, 0, 0, 0.6);}
+.blue-bg{background-color: #4E9DE0;}
+.m0a{
+	float: none;
+	margin: 0 auto;
+}
+.cont:after, .cont:before{
+    content: "";
+    position: absolute;
+}
+/*-----------universal classes ends------------*/
+
+.icon-block { padding: 0 15px;}
+.icon-block .material-icons {font-size: inherit;}
+nav .brand-logo {
+    border-right: 1px solid #c3c3c3;
+}
+.userCon img{
+	padding: 5px 0;
+}
+.cus-xs-1 {
+    width: 4%;
+    padding: 0;
+    text-align: center;
+}
+/*---------------------flip image------------------------*/
+.flipContainer{
+		position: relative;
+		z-index: 20;
+  		perspective: 1000;
+}
+.flipCard{
+		 width: 100%;
+		
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: all .9s linear;
+  }
+  .flipContainer.flipper .flipCard {
+  transform: rotateY(180deg);
+}
+.side {
+  position: absolute;
+  width: 100%;
+line-height: 44px;
+  backface-visibility: hidden;
+  z-index:  20;
+}
+.emptyDiv{height: 55px;}
+
+.side.back {
+  display: block;
+  transform: rotateY(180deg);
+  box-sizing: border-box;
+  padding: 5px 0;
+  color: white;
+  text-align: center;
+
+}
+.side.back span{
+    display: block;
+    border-radius: 50%;
+    margin: 0 auto;
+}
+/*---------------------flip image ends------------------------*/
+
+
+
+
+
+/*---------------------Useer Info drop------------------------*/
+.userDrop {
+width: 278px;
+position: absolute;
+top: 0;
+right: 0;
+z-index: 10;
+transform: translatey(-102%);
+transition: all 0.9s ease-in-out;
+box-shadow: none;
+    line-height: 20px;
+}
+
+.open.userDrop {
+transform: translatey(0%);
+}
+.userDrop img {
+  width: 90px;
+    border: 4px solid rgba(255, 255, 255, 0.15);
+    margin: 10px auto;
+}
+.userInfo p {
+    margin: 10px 0 0 0;
+
+}
+.userInfo p a {
+    background-color: #5b9bd1;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 2px!important;
+    display: table;
+}
+.roleCon p {
+    margin: 0;
+    font-size: 14px;
+    padding: 15px 0px 15px 70px;
+    border-top: 1px solid #dadada;
+    position: relative;
+}
+.roleCon {
+    max-height: 103px;
+    overflow-y: auto;
+}
+.roleCon p:before {
+    content: attr(data-role);
+    background: #e53e2b;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 40px;
+    position: absolute;
+    left: 25px;
+    top: 9px;
+}
+.userInfo p:last-child {
+    margin-bottom: 0;
+}
+.actBtn ul {
+    padding: 15px 20px;
+    background-color: #464646;
+}
+.actBtn li:last-child {
+    float: right;
+}
+.dspn {
+    display: none;
+}
+.roleCon::-webkit-scrollbar-thumb {
+    background-clip: padding-box;
+    background-color: rgba(0,0,0,.3);;
+    border: 5px solid transparent;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    min-height: 20px;
+    min-width: 20px;
+    height: 5px;
+    width: 5px;
+}
+.roleCon::-webkit-scrollbar-button {
+    height: 0;
+    width: 0;
+}
+.roleCon::-webkit-scrollbar {
+    height: 15px;
+    width: 15px;
+}
+.roleCon::-webkit-scrollbar-thumb:hover, .gb_re ::-webkit-scrollbar-thumb:active {
+    background-color: rgba(0,0,0,.4);
+}
+.actBtn li a {
+    padding: 0px 12px;
+    display: inline-block;
+    border-radius: 2px!important;
+    line-height: 30px;
+}
+/*---------------------Useer Info drop ends------------------------*/
+
+/*---------------------Menu dropdown------------------------*/
+[class*="subNavCon"]{position: relative;}
+nav{font-size: 1.1rem;S}
+.subNav{
+    position: absolute;
+    left: 0;
+}
+.subNav a {
+    line-height: 24px;
+    padding: 10px 15px;
+    display: block;
+    font-size: 1rem;
+}
+[class*="subNavCon"]:hover>ul {
+    z-index: 1;
+    opacity: 1;
+}
+.subNav {
+    position: absolute;
+    left: 0;
+    transition: all 0.5s ease-in-out;
+    z-index: -1;
+    opacity: 0;
+}
+[class*="subNavCon"] [class*="subNavCon"] .subNav{
+	left: 100%;
+	top:0;
+}
+
+nav{
+    height: 55px;
+    line-height: 55px;
+}
+/*---------------------Menu dropdown ends------------------------*/
+.mega {display: table;}
+.mega li {display: inline-block}
+.Menu1 li{width: 32%;}
+.Menu2 li{width: 20%;}
+.Menu1{
+    left: -300px;
+    max-width: 600px;
+}
+.Menu2 {
+    left: -500px;
+    max-width: 1000px;
+}
+
+nav li {
+    line-height: 44px;
+}
+/*--------------megamenu ends----------*/
+
+/*----------serach icon starts-------------*/
+.search-icon {
+    position: relative;
+    border-right: 1px solid rgba(255,255,255,0.15);
+    height: 52px;
+}
+.search-icon:before {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    top: 18px;
+    left: 18px;
+}
+.search-icon:after {
+
+    width: 10px;
+    height: 4px;
+  
+    background: #fff;
+    border-radius: 2px;
+    left: 31px;
+    transform: rotatez(400deg);
+    top: 32px;
+}
+/*----------serach icon ends-------------*/
+/*----------arrow icon starts-------------*/
+.arrow:after {
+    border-top: 6px solid #fff;
+    border-right: 7px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 6px solid transparent;
+    top: 50%;
+    right: 5px;
+    border-radius: 2px;
+    margin-top: -3.5px;
+}
+/*----------arrow icon ends-------------*/
+/*-------close button---*/
+.close:after, .close:before {
+    width: 10px;
+    height: 1px;
+    background: #fff;
+    right: 10px;
+    top: 15px;
+    transform: rotate(45deg);
+}
+.close:before{transform: rotate(-45deg);}
+/*-------close button ends---*/
+/*-------------filters----------*/
+.filterCon {
+    white-space: nowrap;
+    overflow-x: auto;
+    border-left: 1px solid rgba(0, 0, 0, 0.12);
+}
+.filterCon li {
+    display: inline-block;
+    width: 20%;
+    position: relative;
+    margin-right: 15px!important;
+}
+.valCon{
+	position: absolute;
+    left: 0;
+    top: 31px;
+    width: 100%;
+    max-height: 304px;
+    overflow-y: auto;
+}
+.valCon span {
+    display: block;
+    max-height: 308px;
+    overflow-y: auto;
+    display: none;
+}
+.filterCon label{
+    left: 0;
+}
+input[class*='filter']{
+    margin: 9px 0!important;
+    height: 2.1rem;
+    border-color:#fff;   
+}
+input[class*='filter']:focus:not([readonly]), input.white-shadow:focus:not([readonly]){
+    border-color:#fff;
+    box-shadow: 0 1px 0 0 #fff; 
+}
+input[class*='filter'] label {
+    top: 1.1rem;
+    font-size: 0.9rem;
+    }
+.input-field label.cust.active {
+    font-size: 0.7rem;
+    -webkit-transform: translateY(-140%);
+    transform: translateY(-50%);
+    opacity: 0.4;
+}
+.valCon span:before {
+    content: attr(data-label);
+}
+/*-------------filters ends----------*/
+/*-------------filter select----------*/
+.filterSelCon li {
+    margin: 10px 5px 13px 0;
+}
+.filterSelCon li a {
+    border: 1px solid;
+    padding: 4px 30px 4px 10px;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: 100;
+    text-transform: capitalize;
+    position:   relative;
+}
+.filterSelCon {
+    background: rgba(38, 38, 38, 0.85);
+    position: fixed;
+    width: 100%;
+}
+
+/*-------------filter select ends----------*/
+.resultSec .search-icon:before, .resultSec .search-icon:after  {
+    right: 20px;
+    left: inherit;
+}
+.resultSec .search-icon:after {
+    right: 15px;
+}
+.lighter:before {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.15);
+}
+.results {
+    background: #fff;
+    font-size: 14px;
+    border-bottom: 1px solid #ccc;
+}
+[class*="resultSecCon"] li {
+    margin: 5px 10px 5px 0;
+}
+.resultSec {
+    border-radius: 2px;
+    position: absolute;
+    right: 0;
+    z-index: 2;
+    transition: 1s all ease-in-out;
+}
+.resultSecCon {
+    max-height: 207px;
+    overflow: auto;
+}
+.resultSecCon1 .results li span {
+    margin: 5px 14px 5px 0;
+    display: inline-block;
+}
+.resultSecCon1 .results li span:first-child {
+    min-width: 23px;
+    text-align: center;
+}
+.resultSecCon1 {
+    height: calc(60% - 25px);
+    overflow-y: auto;
+}
+.resultSecCon {
+    height: calc(41% - 25px);
+    overflow: auto;
+}
+.chartCon {
+    transform: translateX(-97%);
+    z-index: 1;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 1s ease-in-out;
+}
+/*.resultSec.chartCon.close {
+    transform: translateX(200%);
+}*/
+.chartCon .collapsible-body {
+    padding: 20px;
+}
+.legendDes li {
+    font-size: 1rem;
+    padding: 5px 24px;
+    position: relative;
+}
+.legendDes li:before {
+    background: #b73a3a;
+    left: 0;
+    width: 15px;
+    height: 15px;
+    top: 10px;
+}
+.chartCon .collapsible {
+    border: none;
+    background: #f1f1f1;
+}
+.chartCon .collapsible-header {
+    background: #515151;
+    border: none;
+    border-bottom: 1px solid #fff;
+    color: #fff;
+    font-size: 1rem;
+    position: relative;
+}
+.collapsible-header.active {
+    background: #fff;
+    color: #262626;
+    border-color: #cacaca;
+    font-weight: normal;
+}
+.chartCon .collapsible-header.arrow:after, .chartCon .collapsible-header.active.arrow:after {
+        border-bottom-color: #515151;
+    right: 20px;
+    margin: -8px 0 0 0;
+}
+.chartCon .collapsible-header.arrow:after {
+     border-top-color: #fff;
+     margin: 0
+}
+.legendCon img {
+    vertical-align: sub;
+}
+.legendCon {
+    max-width: 45px;
+    position: absolute;
+    padding: 0;
+    border-radius: 5px;
+    top: 180px;
+    left: 20px;
+    z-index:1;
+}
+.legendCon ul li {
+    padding: 8px 0;
+    border-bottom: 1px solid #d8d8d8;
+    cursor: pointer;
+        position: relative;
+}
+.legendCon span {
+    background: #f35048;
+    color: #fff;
+    padding: 2px 9px;
+    border-radius: 50%;
+}
+.button-collapse.arrow {
+    height: 49px;
+    position: absolute;
+    z-index: 2;
+    max-width: 35px;
+    left: 6%;
+        background: #515151;
+    transition: 1s all ease-in-out;
+    top: 31.5%;
+}
+.button-collapse.arrow:after{
+    top: 17px;
+    border-top: 10px solid transparent;
+    border-right: 10px solid #fff;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid transparent;
+    right: 15px;
+    cursor: pointer;
+}
+.button-collapse.arrow.close-sec:after{
+     border-top: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid #fff;
+    right:2px;
+}
+.transX0 {
+    transform: translatex(0%);
+}
+.transX100 {
+    transform: translatex(100%);
+}
+.legendCon ul li:after {
+    content: attr(data-legend);
+    left: 50px;
+    position: absolute;
+    color: #fff;
+    background: #515151;
+    font-size: 15px;
+    padding: 0;
+    top: 13px;
+    z-index: 8;
+    border-radius: 2px;
+    text-transform: capitalize;
+    transition: all 0.3s ease-out;
+    width: 0;
+    overflow: hidden;
+}
+.legendCon ul li:hover:after {
+    width: auto;
+    padding: 0 8px;
+    position: absolute;
+    color: #fff;
+    background: #515151;
+    font-size: 15px;
+    top: 13px;
+    z-index: 8;
+    border-radius: 2px;
+    text-transform: capitalize;
+    transition: all 0.3s ease-out;
+    overflow: hidden;
+}
+::-webkit-scrollbar {
+    height: 15px;
+    width: 15px;
+    border: 16px solid #fff;
+}
+::-webkit-scrollbar-button {
+    height: 0;
+    width: 0;
+}
+::-webkit-scrollbar-thumb {
+    background-clip: padding-box;
+    background-color: rgba(0,0,0,.3);
+    border: 5px solid transparent;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    min-height: 20px;
+    min-width: 20px;
+    height: 5px;
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover, ::-webkit-scrollbar-thumb:active {
+    background-color: rgba(0,0,0,.4);
+}
+.select-circle:after {
+    content: "";
+    position: absolute;
+    background: #7e57c2;
+    width: 10px;
+    height: 10px;
+    right: 5px;
+    top: 50%;
+    margin-top: -5px;
+    border-radius: 20px;
+}
+.resultSecCon .results{cursor: pointer;}

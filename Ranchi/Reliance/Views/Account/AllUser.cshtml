@@ -1,0 +1,235 @@
+﻿@{
+    ViewBag.Title = "AllUser";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+<script src="~/Scripts/jquery-1.7.1.js"></script>
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/select2/select2.css"/>
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
+<script src="~/Scripts/UserRegistation.js"></script>
+<!-- Modal -->
+
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Add User</button>
+
+<!-- Modal -->
+<div class="row">
+					<div class="col-md-12">
+						<!-- BEGIN EXAMPLE TABLE PORTLET-->
+						<div class="portlet box blue">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-edit"></i>USer Master 
+							</div>			
+							</div>
+							<div class="portlet-body">
+						
+								<table class="table table-striped table-hover table-bordered" id="sample_editable_2">
+									<thead>
+								<tr role="row">
+                                    <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Username
+									: activate to sort column ascending" style="width: 165px;">
+										User Name
+									</th>
+                                  
+                                    <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+									Email 
+									</th>
+                                   <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+								Mobile No.
+									</th>
+                                     <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+								DOB 
+									</th>
+                                      <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+								Create On
+									</th>
+                                     <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+								Role
+									</th>
+                                      
+                                     <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+								Action
+									</th>
+									</tr>
+								</thead>
+                                 <tbody>	
+                                  @{RelianceController.RegistationController registationController = new RelianceController.RegistationController();
+                                    Reliance.Modals.RegistationDoList relienceModal = registationController.AllUser();
+                                    for (int i = 0; i < relienceModal.Count; i++)
+                                    {							
+							        	<tr role="row" class="odd">
+									 <td  class="sorting_1">@relienceModal[i].UserName</td>                          
+									 <td class="sorting_1">@relienceModal[i].Email</td>
+                                      <td class="sorting_1">@relienceModal[i].MobileNo</td>
+                                      <td class="sorting_1">@relienceModal[i].DOB</td>
+                                      <td class="sorting_1">@relienceModal[i].CreateOn</td>
+                                     <td class="sorting_1">@relienceModal[i].Role</td>
+                                    <td class="sorting_1">
+                                         @Html.ActionLink("EditUsers","EditUsers",new {Id = @relienceModal[i].Userid},null)
+                                        </td>                                                 	
+                                    </tr>
+                                    }
+                                   }                      		
+								</tbody>
+								</table>
+								
+							</div>
+						</div>
+						<!-- END EXAMPLE TABLE PORTLET-->
+					</div>
+				</div>
+  <div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+          <div class="portlet box red"  style="width:570px ; background-color:#29272d" >
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-gift"></i> Add User
+								</div>
+								<div class="tools">
+									<a href="" class="collapse" data-original-title="" title="">
+									</a>
+									<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+									</a>
+									<a href="" class="reload" data-original-title="" title="">
+									</a>
+									<a href="" class="remove" data-original-title="" title="">
+									</a>
+								</div>
+							</div>
+							<div class="portlet-body form">
+							<form role="form" method="post" action="~/User/UserRegistation" enctype="application/x-www-form-urlencoded">
+                              @using (Html.BeginForm("UserRegistation", "User", FormMethod.Post)) 
+{ 
+                                @Html.AntiForgeryToken()               
+                                  @Html.ValidationSummary(true)
+									<div class="form-body">
+										<div class="form-group">
+                                            <input type="hidden" id="Company" name="Company" value="@Session["LOGGED_Company"]" />
+											<label>User Name</label>
+											<input type="text" id="UserName" name="UserName" required=""  class="form-control input-lg" placeholder="Please Insert UserName">
+										</div>
+										<div class="form-group">
+											<label>Email</label>
+                                             <input type="email"  id="email" name="Email" class="form-control input-lg"  required=""   placeholder="Please Insert Email">
+										</div>
+										<div class="form-group">
+											<label>Mobile</label>
+											 <input type="text" class="form-control" required="" id="MobileNo" name="MobileNo" data-error="This field is required">
+										</div>
+                                        <div class="form-group">
+											<label>Date of Birth</label>
+											 <input type="date" class="form-control" required="" id="dob" name="DOB" data-error="That date is invalid">	
+                                        </div>
+                   						<div class="form-group">
+											<label>User Role</label>  				
+											<select class="form-control input-lg" id="selectItems" name="Role">
+                                                  @{ RelianceController.RoleMasterController  roleMasterController=new  RelianceController.RoleMasterController();
+                                                     Reliance.Modals.RoleMasterDoList roleModal = roleMasterController.AllRole(1);
+                                                         <option value="0">Select</option>
+                                                      for (int i = 0; i < roleModal.Count; i++)
+                                                      {	               
+												       <option value="@roleModal[i].RoleId">@roleModal[i].RoleName</option>
+                                                      }
+                                                  }
+											</select>                                             
+										</div>
+                                        
+                                         <input type="hidden" id="formName" name="formName" />
+                          
+                                <div class="form-body 2columnStyle">
+                                    <div id="content" class="dsib"></div>
+                                      <div id="RadioCheck" class="dsib"></div>
+                                    <div id="dropdow" class="dsib"></div>
+                                    <div id="LookUp" class="dsib"></div>
+                                      <div id="IsDDLFilter" class="dsib"></div>
+                                    <div id="htmlCheckBox" class="dsib"></div>
+                                    <div id="htmlCheckBoxslist" class="col-md-4 Checkboxlist dsib"></div>
+                                     <div id="htmlRadioLable" class="dsib"></div>
+                                    <div id="htmlCheckRadioList" class="col-md-4 CheckRadioList dsib"></div>
+
+                                </div>
+									</div>
+									<div class="form-actions right">		
+                                    <button type="submit" id="btnSubmit11" name="UserRegistation" class="btn btn-primary">Submit</button>
+                                    <button type="reset" class="btn btn-default">Reset</button>
+									</div>
+                                }
+								</form>
+							
+							</div>
+						</div>
+      </div>
+    </div>
+  </div>
+</div> 
+<script src="../../assets/admin/pages/scripts/table-editable.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('form').submit(function () {
+            if ($(this).valid()) {
+                $.ajax({
+                    url: this.action,
+                    type: this.method,
+                    data: $(this).serialize(),
+                    success: function (result) {
+                        $('#result').html(result);
+                    }
+                });
+            }
+            return false;
+        });
+    });
+</script>    
+<script>
+
+    jQuery(document).ready(function () {
+       Metronic.init(); // init metronic core components
+       // Layout.init(); // init current layout
+        Demo.init(); // init demo features
+        TableEditable.init();
+    });
+</script>
+
+@*<script type ="text/javascript">
+         $(document).ready(function () {
+             debugger;
+             $("#btnSubmit11").click(function () {
+                 debugger;
+                 var UserName = document.getElementById("UserName").value;
+                 var Email = document.getElementById("email").value;
+                 var Password = document.getElementById("Password").value;
+                 var Dob = document.getElementById("dob").value;
+                 var MobileNo = document.getElementById("selectItems").value;
+                 // var IsAuthantication = document.getElementById("isAuthantication").value;
+                 var url = "/User/ABC?UserName=" + UserName + "&Email=" + Email + '&Password=' + Password + '&Dob=' + Dob + '&MobileNo=' + MobileNo;
+                 alert(url);
+                 $.ajax({
+                     url: "/User/AllUser?UserName=" + UserName + "&Email=" + Email + '&Password=' + Password + '&Dob=' + Dob + '&MobileNo=' + MobileNo,// '&IsAuthantication=' + IsAuthantication
+                     type: "POST",
+                     success: function (data) {
+                         alert("Menu Is Successfully Add Thanku");
+                     },
+                     error: function () {
+                         $("#testarea").html("ERROR");
+                     }
+                 });
+             });
+         });
+	</script>*@
+

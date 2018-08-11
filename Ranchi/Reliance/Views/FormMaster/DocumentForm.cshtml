@@ -1,0 +1,48 @@
+﻿@model Reliance.Modals.AllFieldAndPropertyDo
+ 
+  @{Reliance.Modals.AllFieldProPertyList formlist = RelianceController.AllFieldandPropertyController.FieldByFormId("1", Convert.ToString(@Session["LOGGED_Company"]));
+
+    foreach(var fields in formlist)
+    {
+        if (fields.Field_type == "Text Box")
+        {
+            if (fields.Field_type == "date")
+            { 
+               @Html.EditorFor(model => fields.UFieldName)              
+            }
+            else if (fields.Field_type == "TextArea")
+            {
+             @Html.TextAreaFor(model => fields.UFieldName,new {@class = "img-shadow" })
+            }
+            else
+            {
+              @Html.EditorFor(model => fields.UFieldName) 
+            }
+        }
+        if (fields.Field_type == "RadioCheck") 
+        {
+            @Html.RadioButtonFor(model =>model.UFieldName,"UFieldName",false);         
+        }
+        if (fields.Field_type == "AutoComplete")
+        {
+             
+        }
+        if (fields.Field_type == "Drop Down")
+        {
+            if (fields.IsRoleAssignment == 1)
+            {
+                RelianceController.IsRoleAssignmentController isRoleAssignmentController = new RelianceController.IsRoleAssignmentController();
+                Reliance.Modals.IsROleAssignmentDo IsROleAssignmentDo =isRoleAssignmentController.IsROleAssignment(Convert.ToString(fields.FormId), Convert.ToString(fields.FieldId), Convert.ToString(Session["LOGGED_UserId"]), Convert.ToString(Session["LOGGED_ROLE"]), "");
+                if (IsROleAssignmentDo.DocumentDataid == "")
+                {
+                    if (fields.IsLookUp == 1)
+                    {
+                        //  @Html.DropDownList("YourDiscipline", IsROleAssignmentDo.DocumentFormId as SelectList, htmlAttributes: new { @class = "form-control" })      
+                       // @Html.DropDownList("IsROleAssignmentDo", new SelectList(Model, "Id", "Name"))
+                     //   @Html.DropDownListFor(m => IsROleAssignmentDo., IsROleAssignmentDo.DocumentFormId)
+                    }
+                }             
+            }
+        }        
+    }
+                   

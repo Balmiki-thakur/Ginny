@@ -1,0 +1,1563 @@
+﻿@{
+    ViewBag.Title = "Form Master";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+<script src="~/Scripts/jquery-1.7.1.js"></script>
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/select2/select2.css"/>
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
+<!-- Modal --> 
+ <style>
+     .btn-add { padding:7px 5px!important;
+     }
+ </style>
+ @using (Ajax.BeginForm("FormCreate", "FormMaster",
+ new AjaxOptions { OnSuccess = "OnSuccess", OnFailure = "OnFailure" }))
+{         
+    <!-- Form Submit --> 
+<div id="myFormModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">      
+										<div class="modal-content">
+											<div class="modal-header" style="background:#2977f7; color:#FFF;">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+												<h4 class="modal-title" style="font-size:22PX;">Form Master</h4>
+											</div>
+											<div class="modal-body">
+                                                 <label class="control-label">Static Page<span style="color:#FF0000">*</span></label>
+														<input type="CheckBox" id="StaticPage"  value="">
+												 <div class="row">	 
+                                                     <div class="Static col-md-4" style="display:none">
+															<div class="form-group">
+																<label>Static Pages<span style="color:#FF0000">*</span></label>																
+                                                                    <select class="form-control" id="StaticPages" name="StaticPages">
+                                                                         <option value=" ">Select </option>
+                                                                    <option value="UserRegistation">User Master</option>
+                                                                    <option value="RoleMaster">Role Master</option>         
+                                                                    </select>
+															</div>
+														</div>  	
+												  <div class="CheckStatic col-md-4">
+												 	<div class="form-group">
+														<label class="control-label">Table Name<span style="color:#FF0000">*</span></label>
+														<input type="text" id="formname" name="FormName" class="form-control" value=" " />
+													</div>
+                                                    </div>
+
+                                                      <div  class="col-md-4 col-sm-4">
+                                                      <div class="form-group">
+														<label class="control-label"> Form  Name<span style="color:#FF0000">*</span></label>
+														<input type="text" id="TableName" name="UFormName" class="form-control" value="" />
+                                                          <input type="hidden" id="CompanyId" name="Eid" value="@Session["LOGGED_Company"]" />
+													</div>
+                                                          </div>
+
+												      <div class="col-md-4">
+															<div class="form-group">
+																<label>Form Source<span style="color:#FF0000">*</span></label>																
+                                                                    <select class="form-control" id="FormSource" name="FormSource">
+                                                                     <option value="">Select</option>
+                                                                    <option value="MenuDriven">Menu Driven</option>
+                                                                    <option value="DetailForm">Detail Form</option>   
+                                                                    <option  value="ActionFrom">Action From</option>                                                            
+                                                                    </select>
+															</div>
+														</div> 
+                                                     <div id="actionDocument"></div> 
+                                                      <div id="actionDocumentstatus"></div> 
+                                                       <div id="Documentstatus"></div>                       
+                                                       <div id="actiondata"></div>                 
+                                                     <div class="col-md-4">
+															<div class="form-group">
+																<label>Form Layout<span style="color:#FF0000">*</span></label>																
+                                                                    <select class="form-control" id="FormLayout" name="FormLayout">
+                                                                    <option value="Form Actions On Bottom">Form Actions On Bottom</option>
+                                                                    <option value="Horizontal Form">2 Column</option>   
+                                                                    <option  value="Default Form">2 Column Horizontal</option>   
+                                                                    <option value="2 Colloum View Only">2 Column View Only</option> 
+                                                                    <option value="Seprate Row">Seperate Row</option>
+                                                                         
+                                                                    </select>
+															</div>
+														</div>                                               																		
+											</div>
+											<hr>
+											<div class="row">
+											
+											<div class="col-md-12">
+															<div class="form-group">
+																<label>Form Description</label>
+																<textarea class="form-control" id="formdiscription" name="Formdescription" rows="3" name="orderNotes" data-bind="value: orderNotes"></textarea>
+															</div>
+														</div>
+											</div>
+											</div>
+											<div class="modal-footer">
+                                              <div class="input-group">
+																	<div class="icheck-inline">
+																		<label>
+																		<input type="checkbox" name="WorkFlow" value="1" class="icheck"> WorkFlow </label>
+                                                                        <label>
+																		<input type="checkbox"  name="RoleDefinition" value="1" class="icheck"> Role Definition </label>
+                  
+																	</div>
+																</div>
+                                                <input type="hidden" id ="modalformid" value=""/>
+												<button type="button" class="btn default" data-dismiss="modal">Close</button>
+												<Input type="Submit" name="FormCreate" class="btn blue" />
+											</div>
+										</div>
+										<!-- /.modal-content -->
+									</div>
+       
+</div>
+       <!-- End Form Submit --> 
+}
+<div class="row">
+					<div class="col-md-12">
+						<!-- BEGIN EXAMPLE TABLE PORTLET-->
+						<div class="portlet box blue">
+							<div class="portlet-title" style="background-color:#4a5465">
+								<div class="caption">
+									<i class="fa fa-edit"></i>Form Master Table
+								</div>
+                                <div style="float: right;"> <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myFormModal"  style="background-color:#2d3b52">Add Form</button>
+</div>
+							
+							</div>
+							<div class="portlet-body">
+						
+								<table class="table table-striped table-hover table-bordered data-table" id="sample_editable_1">
+									<thead>
+								<tr role="row">
+                                     <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Username
+									: activate to sort column ascending" style="width: 165px;">
+										Serial No
+									</th>
+                                     <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Username
+									: activate to sort column ascending" style="width: 165px;">
+										Form Name
+									</th>
+                                    <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Username
+									: activate to sort column ascending" style="width: 165px;">
+										Table Name
+									</th>
+                                    <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Full Name
+									: activate to sort column ascending" style="width: 208px;">
+										Form Type
+									</th>
+                                    
+                                    <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+									Created On
+									</th>
+                                   <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+								Menu Description
+									</th>
+                                     <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Edit
+									: activate to sort column ascending" style="width: 78px;">
+										All Actions
+									</th>
+									</tr>
+								</thead>
+                                 
+                                 <tbody id="AllFormList" >	
+
+                                 	   @{RelianceController.CreateFormMaster createFormMaster= new RelianceController.CreateFormMaster();
+                                       Reliance.Modals.CreateTableDoList createTableDoList = createFormMaster.AllCreateForm(Convert.ToString(Session["LOGGED_Company"]));
+                                         for (int i = 0; i <createTableDoList.Count; i++)
+                                    {	                                          				
+								<tr role="row" class="odd" >									
+                                 <td class="center">@(i + 1)</td>    
+                                       <td class="center">
+                                         @createTableDoList[i].UFormName
+                                        </td>                                     
+                                     <td class="center">
+                                         @createTableDoList[i].FormName
+                                        </td>
+									 <td class="center">
+                                          @createTableDoList[i].Formlayout
+                                       </td>
+									 <td class="sorting_1">@createTableDoList[i].CreatedOn</td>
+									 <td class="center"> @createTableDoList[i].Formdescription </td>                                
+                                   <td > 
+                                                                       
+                                 <a href="#FieldFormModals" role="button" class="btn" data-toggle="modal"> <i  class="fa fa-plus-circle" onclick="FormFieldName(@createTableDoList[i].Id,'@createTableDoList[i].FormSource')" id="FormFields" title="Insert a Fields"></i></a>
+
+                                                                              
+                                     <a href="#myFormModal" role="button" class="btn" data-toggle="modal"> <i  class="fa fa-pencil-square-o" onclick="FormEdit(@createTableDoList[i].Id)" id="FormEdit" title="Edits a Form"></i></a>
+                                                        
+                                                                
+                                       <a href="#FieldFormvalidationmodals" role="button" class="btn" data-toggle="modal">  <i class="fa fa-lock" onclick="FormFieldValidation(@createTableDoList[i].Id)" title="Validation a Form Fields"> </i></a>
+                                  
+                                         <a href="#XMLInWardOutWardConfiguration" role="button" class="btn" data-toggle="modal">  <i class="fa fa-circle" onclick="XMLInWardOutWardConfiguration(@createTableDoList[i].Id)" title="Validation a Form Fields"> </i></a>
+                                         </td>              
+                                    <input type="hidden" class="formfield" id="formIdfields_@createTableDoList[i].Id" value="@createTableDoList[i].Id" /> 
+                                    <input type="hidden" id="formnamefields_@createTableDoList[i].Id" value="@createTableDoList[i].FormName " /> 
+                                               	
+                                    </tr>    
+                                                                    
+                                    }                                            
+                                       }            		
+								</tbody>
+								</table>
+								
+							</div>
+						</div>
+						<!-- END EXAMPLE TABLE PORTLET-->
+					</div>
+				</div>
+<div id="FieldFormModals" class="modal fade " role="dialog">
+  <div class="modal-dialog "style="width:950px" >
+    <!-- Modal content-->
+    <div class="modal-content ">
+      <div class="modal-body col-md-14">
+          <div class="row">
+					<div class="col-md-12">
+						<!-- BEGIN EXAMPLE TABLE PORTLET-->
+						<div class="portlet box blue">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-edit"></i>Form Fields
+							</div>
+                               
+						<div class="form-group col-md-2" style="float: right;margin: 10px 0; padding: 0; ">            
+                             <select  class="form-control"style=" border: none; border-radius: 4px!important;" id="colorselector" name="dll">
+                              <option  selected="selected" value="Select">Select</option>                    
+                              <option value="Text Box">Text Box</option>
+                              <option value="Drop Down">Drop Down</option>                            
+                              <option value="AutoComplete">AutoComplete</option>
+                              <option value="CheckBoxList">CheckBox List</option>                           
+                              <option value="FilterDDL">FilterDDL</option>
+                              <option value="Lookup">Lookup</option>
+                            <option  value="RadioCheck">Radio Check</option>
+						  </select>
+						</div>	
+                  
+			
+							</div>
+							<div class="portlet-body">
+						
+								<table class="table table-striped table-hover table-bordered" role="grid" id="sample_editable_1">
+									<thead>
+								<tr role="row">
+                                    <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Username
+									: activate to sort column ascending" style="width: 165px;">
+										Field Name
+									</th>
+                                  
+                                    <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+									Field Type
+									</th>
+                                     <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+								Data Type
+									</th>
+                                   <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+								Display Order
+									</th>
+                                     <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+								Field Description
+									</th>
+                                      <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+								Create On
+									</th>
+                                      <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Edit
+									: activate to sort column ascending" style="width: 78px;">
+									 Actions
+									</th>
+									</tr>
+								</thead>
+
+                                 <tbody id="myTable">	
+                                 						
+								 <i class="fa fa-lock" title="validation a Form Fields"></i>
+                                                   		
+								</tbody>
+                               
+								</table>
+                               
+                                <div id="MyDiv"></div>
+                                 <div id="MyDivLookUp"></div>
+                                  <div id="MyDivDDlFilter"></div>
+								 <table id="formActionTable" style="display:none;">
+                                   
+                                      		<thead>
+								<tr role="row">
+                                    <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Username
+									: activate to sort column ascending" style="width: 165px;">
+										Field Action
+									</th>
+                                  
+                                    <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+									Field Name
+									</th>
+                                     <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+								Field Type
+									</th>
+
+                                  
+                                      <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Edit
+									: activate to sort column ascending" style="width: 78px;">
+									Active
+									</th>
+									</tr>
+								</thead>
+                                   
+                                    <tbody id="FormActionData">
+                                        
+                                    </tbody>
+                                    
+
+                                </table>
+							</div>
+						</div>
+					</div>
+				</div>
+          
+
+
+            </div>
+        </div>
+  </div>
+</div>
+  
+
+
+
+<div id="myModal" class="modal fade cus-modal-open" role="dialog" style="left:45%;">
+  <div class="modal-dialog" style="width:764px;">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+          <div class="portlet box red "  style="width:730px ;background-color:#38d8b3" >
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-gift"></i> Add Form Fields
+								</div>
+								<div class="tools">
+									
+									
+								</div>
+							</div>
+								<div class="portlet-body form kMaxHeight">
+								<form role="form" id="1" field="show">
+									<div class="form-body">
+                                        <div class="col-md-6">
+                                        <div class="form-group">
+											<label> Field Name</label>
+											<input type="text" id="txtColoum" name="txtColoum" required="" class="form-control input-lg" placeholder="Please Insert UserName">
+										</div>
+                                            </div>
+                                        <div class="col-sm-6">
+										<div class="form-group">
+											<label>Coloum Name</label>
+											<input type="text" id="txtname" name="txtname" required="" class="form-control input-lg" placeholder="Please Insert UserName">
+										</div>
+                                            </div>     
+                                        <div class="col-sm-6">
+								    <div class="form-group">
+									    <label>Display Order</label>
+									    <input type="text" id="displayorder" name="displayorder" required="" class="form-control input-lg" placeholder="Please Insert Menu Description">
+								    </div>
+                                            </div>
+                                                                             
+                                        <div class="maxMin">
+                                            <div class="col-sm-6">
+								    <div class="form-group">
+									    <label>Data Type</label>
+                                        <select class="form-control" id="dataway" name="dataway"  required="" class="form-control input-lg" placeholder="Please Insert Menu Description">
+                                                <option  value="0">Select</option>
+                                                <option  value="text">text</option>
+                                                <option value="TextArea">Text Area</option>
+                                                <option  value="number">Numaric</option>
+                                                <option  value="date">Calender</option>
+                                                <option  value="time">Time</option>                                              
+                                                <option  value="email">Email</option>
+                                                <option  value="password">password</option>
+                                                <option value="url">url</option>
+                                                <option  value="GeoFence">Geo Fence</option>
+                                                <option value="CheckBox">Check Box</option>
+                                                <option value="file">Image Uploder</option>
+                                                
+							                </select>
+					    </div>
+                                            </div>
+                                        <div class="col-sm-6">
+								    <div class="form-group">
+									    <label>Min Lenght</label>
+									    <input type="number" id="MinLenth" type="text" name="MinLenth" class="form-control input-lg " required>
+ 
+								    </div>
+                                            </div> 
+                                        <div class="col-sm-6">
+								    <div class="form-group">
+									    <label>Max Lenght</label>
+									    <input type="number" id="MaxLenth" type="text" name="MaxLenth" class="form-control input-lg " required>
+ 
+								    </div>
+                                            </div> 
+                                             </div> 
+                                        <div class="col-sm-6">
+								    <div class="form-group">
+									    <label>Description</label>
+									    <input id="Description" type="text" name="Description" class="form-control input-lg" class="validate" required>
+ 
+								    </div>
+                                            </div>                                        
+                                        <div class="textBox">
+                                            <div class="col-sm-6">
+                                            <div class="form-group">
+									    <label>Document Type</label>
+                                        <select class="form-control" id="DocumentName" name="datatype"  required="" class="form-control input-lg dspn" placeholder="Please Select Document Type">
+                                            <option >select </option>
+							                </select>
+							            </div>
+                                                </div>
+                                            <div class="col-sm-6">
+                                            <div class="form-group">
+									    <label>Document Field</label>
+                                        <select class="form-control" id="DocumentField" name="datatype"  required="" class="form-control input-lg dspn" placeholder="Please Select Document Fields">
+                                            <option>select </option>
+							                </select>
+					                            </div> 
+                                                </div>
+                                        </div>
+                                     
+									    <div class="form-actions right col-sm-12">
+                                            <div>		
+                                        <button type="button" data-dismiss="modal" class="btn default">Close</button>  @*closeAff*@
+	                                     <button type="button" class="btn blue " id="btnformffield">Save</button>
+									</div>
+                                            </div>
+                                        	</div>
+								</form>
+							</div>
+
+
+
+
+
+						</div>
+          </div>
+        </div>
+  </div>
+</div>
+<div id="FieldFormvalidationmodals" class="modal fade " role="dialog">
+ <div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+												<h4 class="modal-title">Form  Field Validation  </h4>
+											</div>
+											<div class="modal-body">							
+                                        <div class="form-body">
+                                        <div class="form-group">
+											<label>Validation Type</label>
+											  <select class="form-control" id="ValidationType" name="ValidationType" required="" placeholder="Please Insert Validation Type">
+                                                  <option value="0">Select</option>
+                                                  <option value="1">Static</option>
+                                                  <option value="2">Field</option>
+                                                  <option value="3">Mandatary</option>
+                                                  <option value="4">Dynamic</option>
+                                                  <option value="5">Duplicacy Check</option>
+                                                 
+                                                
+							                   </select>
+										</div>
+                                        <div class="form-group">
+											<label>Field Name</label>
+											  <select class="form-control" id="FieldName" name="FieldName" required="" placeholder="Please Select Field Name">
+                                               
+                                                 
+                                                 
+                                                
+							                   </select>
+										</div>
+										<div class="form-group">
+											<label>Operator</label>
+											 <select class="form-control" id="Operator" name="Operator" required="" placeholder="Please Insert Validation Type">
+                                                  <option value="0">Select</option>
+                                                  <option value="1"> = </option>
+                                                  <option value="2"> < </option>
+                                                  <option value="3">< =</option>
+                                                   <option value="4"> > </option>
+                                                  <option value="5">= ></option>       
+							                   </select>
+										</div>										
+										<div class="form-group">
+											<label>Value</label>
+											<input id="txtValue" type="text" name="txtValue" class="form-control input-lg" required="">
+ 
+										</div>
+                                        <div class="form-group">
+											<label>Error Message</label>
+											<input id="ErrorMessage" type="text" name="ErrorMessage" class="form-control input-lg" required="">
+ 
+										</div>
+                                        <div class="form-group">
+											<label>Doc Nature</label>
+											<select class="form-control" id="DocNature" name="DocNature" required="" placeholder="Please Select Field Name">
+                                                  <option value="0">Select</option>
+                                                  <option value="1">Create</option>
+                                                  <option value="2">Modifed</option>
+                                                  <option value="3">Both</option>
+                                                 
+                                                
+							                   </select>
+ 
+										</div>
+                                            </div>
+							                     </div>
+                                            <div class="modal-footer">
+												<button type="button" data-dismiss="modal" class="btn default">Close</button>
+												<button type="button" id="SaveValidation" class="btn green">Save changes</button>
+											</div>
+											</div>
+											
+										</div>
+									</div>
+
+<div id="XMLInWardOutWardConfiguration" class="modal fade col-sm-12 " role="dialog" >
+ <div class="modal-dialog" style="width: 60%;">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+												<h4 class="modal-title">XML InWard & OutWard Configuration</h4>
+											</div>
+											<div class="modal-body">							
+                                        <div class="form-body">
+                                      <div class="portlet light z-depth-1 clearfix">
+										<div class="portlet-title">
+											
+											<div class="tabbable-line">
+												<ul class="nav nav-tabs fl-r">	
+													<li class="green-active active">
+														<a href="#tab_15_2" data-toggle="tab" aria-expanded="true">
+														Xml Inward <span id="totalCount"></span> </a>
+													</li>
+													<li class="">
+														<a href="#tab_15_3" data-toggle="tab" aria-expanded="false">
+														Xml OutWard<span id="totalRequest"></span> </a>
+													</li>
+                                                    <li class="">
+														<a href="#tab_15_4" data-toggle="tab" aria-expanded="false">
+														Xml Registation<span id="totalRequests"></span> </a>
+													</li>
+                                                     <li class="">
+														<a href="#tab_15_5" data-toggle="tab" aria-expanded="false">
+														Xml ReturnTag &RelationShipTag<span id="total"></span> </a>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="portlet-body">
+											
+											
+											<div class="tab-content">
+								            	<div class="tab-pane active" id="tab_15_2">
+												<ul class="list-group">
+                                         <li>
+											<div class="table-scrollable">
+									<table class="table table-hover">
+									<thead>
+									<tr>
+									
+										<th>
+											Ischeck
+										</th>
+										<th>
+										Display Name	
+										</th>
+										<th>
+											Inword XmlTag
+										</th>
+										
+									</tr>
+									</thead>
+									<tbody id="datarow">
+									
+									  
+									</tbody>
+									</table>
+								            </div>
+		                                </li>
+								       </ul>		
+													
+									</div>
+								              	<div class="tab-pane" id="tab_15_3">
+										
+										<ul class="list-group">
+										
+                                       <li>  
+									<table class="table table-hover">
+									<thead>
+									<tr>
+									
+										<th>
+											Ischeck
+										</th>
+										<th>
+										Display Name	
+										</th>
+										<th>
+											OutWard XmlTag
+										</th>
+										
+									</tr>
+									</thead>
+									<tbody id="datarow1">
+									
+									  
+									</tbody>
+									</table>
+                                    </li>   
+								</ul>
+							</div>
+                                                  <div class="tab-pane" id="tab_15_4">
+										
+										<ul class="list-group">
+										
+                                       <li>  
+									       <div class="col-sm-6">
+								    <div class="form-group">
+									    <label>TallY XML Registration Field</label>
+									    <input id="TallYXMLRegistrationField" type="text" name="TallYXMLRegistrationField" class="form-control input-lg">
+ 
+								    </div>
+                                            </div>	
+                                           <div class="col-sm-6">
+								    <div class="form-group">
+									    <label>	TallY XML Return Field</label>
+									    <input id="	TallYXMLReturnField" type="text" name="TallYXMLReturnField" class="form-control input-lg">
+ 
+								    </div>
+                                            </div>	
+                                           <div class="col-sm-6">
+								    <div class="form-group">
+									    <label>TallY XML Return Tag Field</label>
+									    <input id="TallYXMLReturnTagField" type="text" name="TallYXMLReturnTagField" class="form-control input-lg">
+ 
+								    </div>
+                                            </div>		
+
+
+                                            <div class="form-actions right ">
+                                            <div>		
+                                        <button type="button" data-dismiss="modal" class="btn default">Close</button>  @*closeAff*@
+	                                     <button type="button" class="btn blue " id="xmlRegistation">Save</button>
+									</div>
+                                            </div>
+									
+                                    </li>   
+								</ul>
+							</div>                                                
+                                                  <div class="tab-pane" id="tab_15_5">
+										
+										<ul class="list-group">
+										
+                                       <li>  
+									       <div class="col-sm-6">
+								    <div class="form-group">
+									    <label>TallY XML Return Tag</label>
+									    <input id="TallYXMLReturnTag" type="text" name="TallYXMLReturnTag" class="form-control input-lg">
+ 
+								    </div>
+                                            </div>	
+                                           <div class="col-sm-6">
+								    <div class="form-group">
+									    <label>TallY XML Return Relationship</label>
+									    <input id="	TallYXMLReturnRelationshipTag" type="text" name="TallYXMLReturnRelationshipTag" class="form-control input-lg">
+ 
+								    </div>
+                                            </div>	
+                                         
+
+
+                                            <div class="form-actions right ">
+                                            <div>		
+                                        <button type="button" data-dismiss="modal" class="btn default">Close</button>  @*closeAff*@
+	                                     <button type="button" class="btn blue " id="XmlReturnTagRelationShipTag">Save</button>
+									</div>
+                                            </div>
+									
+                                    </li>   
+								</ul>
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+                                            </div>
+							                     </div>
+                                           
+											</div>
+											
+										</div>
+									</div>
+
+<div id="MyProperty" class="modal fade " role="dialog">
+ <div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+												<h4 class="modal-title">Form  Field Validation  </h4>
+											</div>
+     
+											<div class="modal-body">							
+                                        <div class="form-body"> 
+                                                                                 
+                                         <div class="bcheckbox col-sm-12">
+                                             <div class="form-group">
+                                          <input type="checkbox" id="select_all"/> Selecct All
+                                                 </div>
+                                              <div class="form-group">
+                                        <label class="control control--checkbox">
+                                        <input type="checkbox" id="Mandatory" name="Mandatory" class="iChildcheck" value="1">Mandatory
+                                        <div class="control__indicator"></div></label>
+                                                  </div>
+                                              <div class="form-group">
+                                            <label class="control control--checkbox">
+                                        <input type="checkbox" id="Active" name="Active" class="iChildcheck" value="1">Active
+                                        <div class="control__indicator"></div></label>
+                                                  </div>
+                                              <div class="form-group">
+                                            <label class="control control--checkbox">
+                                        <input type="checkbox" id="Editable" name="Editable" class="iChildcheck" value="1">Editable
+                                        <div class="control__indicator"></div></label>
+                                                  </div>
+                                              <div class="form-group">
+                                            <label class="control control--checkbox">
+                                        <input type="checkbox" id="Unique" name="Unique" class="iChildcheck" value="1">Unique
+                                        <div class="control__indicator"></div></label>
+                                                  </div>                                                
+                                              <div class="form-group">
+                                                 <label class="control control--checkbox">
+                                        <input type="checkbox" id="WORKFLOW" name="WORKFLOW" class="iChildcheck" value="1">WORK FLOW
+                                        <div class="control__indicator"></div></label>
+                                                  </div>                                          
+                                              <div class="form-group">
+                                             <label class="control control--checkbox">
+                                        <input type="checkbox" id="SHOWONAMENDMENT" class="iChildcheck" value="1">SHOW ON AMENDMENT
+                                        <div class="control__indicator"></div></label>
+                                                  </div>
+                                              <div class="form-group">
+                                             <label class="control control--checkbox">
+                                        <input type="checkbox" id="EDITONAMENDMENT" name="EDITONAMENDMENT" class="iChildcheck" value="1">EDIT ON AMENDMENT
+                                        <div class="control__indicator"></div></label>
+                                                  </div>
+                                              <div class="form-group">
+                                             <label class="control control--checkbox">
+                                        <input type="checkbox" id="IMIENo" name="IMIENo" class="iChildcheck" value="1">IMIE No
+                                        <div class="control__indicator"></div></label>
+                                                  </div>
+                                              <div class="form-group">
+                                                  <label class="control control--checkbox">
+                                            <input type="checkbox" id="INLINEEDITING" name="INLINEEDITING" class="iChildcheck" value="1">IN LINE EDITING
+                                            <div class="control__indicator"></div></label>
+                                                     </div>
+                                              <div class="form-group">
+                                                  <label class="control control--checkbox">
+                                            <input type="checkbox" id="SHOWONDOCDETAIL" name="SHOWONDOCDETAIL" class="iChildcheck" value="1">SHOW ON DOC DETAIL
+                                            <div class="control__indicator"></div></label>
+                                                     </div>
+                                              <div class="form-group">
+                                                  <label class="control control--checkbox">
+                                            <input type="checkbox" id="Invisible" name="Invisible" class="iChildcheck" value="1">Invisible
+                                            <div class="control__indicator"></div></label>
+                                                     </div>
+                                              <div class="form-group">
+                                                 <label class="control control--checkbox">
+                                            <input type="checkbox" id="SPLITTABLE" name="SPLITTABLE" class="iChildcheck" value="1">SPLITTABLE
+                                            <div class="control__indicator"></div></label>
+                                                  </div>
+                                              <div class="form-group">
+                                                      <label class="control control--checkbox">
+                                            <input type="checkbox" id="SHOWONSPLIT" name="SHOWONSPLIT" class="iChildcheck" value="1">SHOW ON SPLIT
+                                            <div class="control__indicator"></div></label>
+
+                                            </div>                                            
+                                              <div class="form-group">
+                                                      <label class="control control--checkbox">
+                                            <input type="checkbox" id=" ISSUPERVISOR" name="ISSUPERVISOR" class="iChildcheck" value="1"> IS SUPERVISOR
+                                            <div class="control__indicator"></div></label>
+
+                                            </div> 
+                                              <div class="form-group">
+                                                      <label class="control control--checkbox">
+                                            <input type="checkbox" id="EnableEdit" name="EnableEdit" class="iChildcheck" value="1">EnableEditT
+                                            <div class="control__indicator"></div></label>
+
+                                            </div> 	
+                                              <div class="form-group">
+                                                      <label class="control control--checkbox">
+                                            <input type="checkbox" id="CRMReminder" name="CRMReminder" class="iChildcheck" value="1">CRM Reminder
+                                            <div class="control__indicator"></div></label> 
+
+                                            </div> 
+                                              <div class="form-group">
+                                                      <label class="control control--checkbox">
+                                            <input type="checkbox" id="ShowOnDeshboard" name="ShowOnDeshboard" class="iChildcheck" value="1">Show On Deshboard
+                                            <div class="control__indicator"></div></label> 
+
+                                            </div> 
+                                              <div class="form-group">
+                                                      <label class="control control--checkbox">
+                                            <input type="checkbox" id="ShowOnCRM" name="ShowOnCRM" class="iChildcheck" value="1">Show On CRM	
+                                            <div class="control__indicator"></div></label> 
+
+                                            </div> 
+                                              <div class="form-group">
+                                                      <label class="control control--checkbox">
+                                            <input type="checkbox" id="EDITOnCRM" name="EDITOnCRM" class="iChildcheck" value="1">EDIT On CRM
+                                            <div class="control__indicator"></div></label> 
+
+                                            </div> 
+                                              <div class="form-group">
+                                                      <label class="control control--checkbox">
+                                            <input type="checkbox" id="IsTotal" name="IsTotal" class="iChildcheck" value="1">Is Total
+                                            <div class="control__indicator"></div></label> 
+
+                                            </div> 
+                                              <div class="form-group">
+                                                      <label class="control control--checkbox">
+                                            <input type="checkbox" id=" AllowEditOnEdit" name="AllowEditOnEdit" class="iChildcheck" value="1"> Allow EditOn Edit
+                                            <div class="control__indicator"></div></label> 
+
+                                            </div> 
+                                              <div class="form-group">
+                                                      <label class="control control--checkbox">
+                                            <input type="checkbox" id="ShowInRoleAssignment" name="ShowInRoleAssignment" class="iChildcheck" value="1">Show In Role Assignment
+                                            <div class="control__indicator"></div></label> 
+
+                                            </div> 
+                                              <div class="form-group">
+                                                      <label class="control control--checkbox">
+                                            <input type="checkbox" id="IsCardNo" name="IsCardNo" class="iChildcheck" value="1">Is Card No
+                                            <div class="control__indicator"></div></label> 
+
+                                            </div>
+                                              <div class="form-group">
+                                                      <label class="control control--checkbox">
+                                            <input type="checkbox" id="PlaceofStay" name="PlaceofStay" class="iChildcheck" value="1">Place of Stay	
+                                            <div class="control__indicator"></div></label> 
+
+                                            </div>
+                                              <div class="form-group">
+                                                      <label class="control control--checkbox">
+                                            <input type="checkbox" id="PopupNotificationFieldonMobile" name="PopupNotificationFieldonMobile" class="iChildcheck" value="1">PopupNotificationFieldonMobile
+                                            <div class="control__indicator"></div></label> 
+
+                                            </div>
+
+
+                                              <div class="form-group">
+                                                      <label class="control control--checkbox">
+                                            <input type="checkbox" id="ActionFormField" name="ActionFormField" class="iChildcheck" value="1">Action Form Field
+                                            <div class="control__indicator"></div></label> 
+
+                                            </div>
+                                            
+                                            </div>
+							                     </div>
+                                            <div class="modal-footer">
+												<button type="button" data-dismiss="modal" class="btn default">Close</button>
+												<button type="button" id="Saveproperty" class="btn green">Save changes</button>
+											</div>
+											</div>
+                                          
+										</div>
+									</div>
+<!--script--->
+<script src="../../assets/admin/pages/scripts/table-editable.js"></script>
+<script src="~/Scripts/form.js"></script>
+  <script type="text/javascript"> 
+      function OnSuccess(response) {
+          alert("Form Is Add SuccessFully");
+      }
+      function OnFailure(response) {
+          alert("Whoops! That didn't go so well did it?");
+      }
+
+      function FormEdit(id)
+     {
+          var CompanyId = document.getElementById("CompanyId").value;
+          $.ajax({
+              type: "POST",
+              url: "/FormMaster/FormEdit/?eid=" + CompanyId + "&formid=" + id,
+              datatype: "JSON",
+              success: function (data) {
+                  var data = $.parseJSON(JSON.stringify(data));
+                 
+                  document.getElementById("TableName").value = data.Response[0].UFormName;
+                  document.getElementById("FormLayout").value = data.Response[0].Formlayout;
+                  document.getElementById("formdiscription").value = data.Response[0].Formdescription;
+                  document.getElementsByName("WorkFlow").value = data.Response[0].WorkFlow;                
+                  document.getElementsByName("RoleDefinition").value = data.Response[0].IsRoleAssignment;
+                      
+              }
+          });
+
+      }
+     
+      $("#FormSource").change(function () {      
+          var fieldtype=document.getElementById("FormSource").value;      
+          if (fieldtype == "ActionFrom") {
+              $("#actionDocument").show();
+              $("#actionDocumentstatus").show();
+              var CompanyId = document.getElementById("CompanyId").value;
+              $.ajax
+                      ({
+                          type: "POST",
+                          url: "/Dynamic/AllWorkFlowForm/?CompanyId=" + CompanyId,
+                          datatype: "JSON",
+                          success: function (data) {
+                              var data1 = "<div class='col-md-4'><div class='form-group'><label>Select Document<span style='color:#FF0000'>*</span></label><select class='form-control' id='documentactions' name='DocumentId'></select></div></div>";
+                              var workFlowStatus = "<div class='col-md-4'><div class='form-group'><label>Select Document Status<span style='color:#FF0000'>*</span></label><select class='form-control' id='documentactionsstatus' name='DocStatus'></select></div></div>";
+                              var data2 = "<div class='col-md-4'><div class='form-group'><label>SELECT EVENT<span style='color:#FF0000'>*</span></label><select class='form-control' id='fieldStatus' name='StatusAction'><option >Select</option><option value='1'>APPROVAL</option><option value='2'>REJECTION</option><option  value='3'>RECONSIDER</option></select></div></div>";
+                              var item = '<option value="0">Select</option>'
+                              for (var j = 0; j < data.Response.length; j++) {
+                                  var formName = data.Response[j].FormName;
+
+                                  item += "<option value='" + data.Response[j].Id + "'>" + data.Response[j].FormName + "</option>";
+                              };
+                              $("#actionDocumentstatus").html(data2);
+                              $("#actionDocument").html(data1);
+                              $("#Documentstatus").html(workFlowStatus);
+                              $("#documentactions").html(item);
+
+                              $.getScript("../../Scripts/status.js");
+                          },
+                      });
+            
+
+          }
+          else
+          {
+              $("#actionDocument").hide();
+              $("#actionDocumentstatus").hide();
+          }
+       
+      });
+     
+      $('#StaticPage').click(function () {
+         
+          $('.CheckStatic').css('display', 'none');
+          $('.Static').css('display', 'block');
+
+      });
+       
+    
+      function XMLInWardOutWardConfiguration(id) {
+          var formIdName = document.getElementById("formIdfields_" + id).value;
+          var FormName = document.getElementById("formnamefields_" + id).value;
+          var CompanyId = document.getElementById("CompanyId").value;
+          $.ajax({
+              type: "POST",
+              url: "/Dynamic/MultiFields/?formid=" + formIdName + "&CompanyId=" + CompanyId,
+              datatype: "JSON",
+              success: function (data) {
+
+                  var formIdName = document.getElementById("formIdfields_" + id).value;
+                  //  var FormName = document.getElementById("formnamefields_" + id).value;
+                  var data = $.parseJSON(JSON.stringify(data));
+
+                  var html = '';
+                  var htmlhidden = '';
+                  for (var j = 0; j < data.Response.length; j++) {
+
+                      html += '<tr role="row" class="odd"><td  class=""> <input type="checkbox" id="Ischeck"></td><td class="center">' + data.Response[j].Display_name + '</td><td class="center"><div class="col-sm-6"> <input id="TallYXMLRegistrationField" type="text" name="TallYXMLRegistrationField" class="form-control input-lg"></td>'
+                    
+                  }
+                 
+                  $('#datarow').html(html);
+                  $('#datarow1').html(html);
+                 
+              },
+
+          });
+      }
+
+
+
+
+
+      function FormFieldName(id, StatusAction) {
+         
+          //var Status = "ActionFrom";
+        
+          if (StatusAction == 'ActionFrom') {
+              debugger;
+              $('#formActionTable').css('display', 'block');
+              var formIdName = document.getElementById("formIdfields_" + id).value;
+              var FormName = document.getElementById("formnamefields_" + id).value;
+              var CompanyId = document.getElementById("CompanyId").value;
+              $.ajax({
+                  type: "POST",
+                  url: "/Dynamic/MultiFields/?formid=" + formIdName + "&CompanyId=" + CompanyId,
+                  datatype: "JSON",
+                  success: function (data) {
+                     
+                      var formIdName = document.getElementById("formIdfields_" + id).value;
+                      //  var FormName = document.getElementById("formnamefields_" + id).value;
+                      var data = $.parseJSON(JSON.stringify(data));
+                      var ActionForm = '';
+                      var html = '';
+                      var htmlhidden = '';
+                      for (var j = 0; j < data.Response.length; j++) {
+                     
+                          html += '<tr role="row" class="odd"><td  class=""><input type="checkbox"><td  class=""> ' + data.Response[j].Display_name + '</td>'
+                          html += '<td class="center">' + data.Response[j].Field_type + '</td>'
+                          html += '<td class="sorting_1">' + data.Response[j].DataTypes + '</td> </tr>';
+                      }
+                      $('#FormActionData').html(html);                   
+                  },
+
+              });
+
+          } else {
+              debugger;
+              $('#formActionTable').css('display', 'none');
+
+              var formIdName = document.getElementById("formIdfields_" + id).value;
+              var FormName = document.getElementById("formnamefields_" + id).value;
+              var CompanyId = document.getElementById("CompanyId").value;
+              $.ajax({
+                  type: "POST",
+                  url: "/Dynamic/MultiFields/?formid=" + formIdName + "&CompanyId=" + CompanyId,
+                  datatype: "JSON",
+                  success: function (data) {
+                      //if (Status != StatusAction) {
+                      var formIdName = document.getElementById("formIdfields_" + id).value;
+                      //  var FormName = document.getElementById("formnamefields_" + id).value;
+                      var data = $.parseJSON(JSON.stringify(data));
+                      var ActionForm = '';
+                      var html = '';
+                      var htmlhidden = '';
+                      for (var j = 0; j < data.Response.length; j++) {
+                          ActionForm += '<tr role="row" class="odd"><td  class=""><input type="checkbox"></td>'
+                          html += '<tr role="row" class="odd"><td  class=""> ' + data.Response[j].Display_name + '</td>'
+                          html += '<td class="center">' + data.Response[j].Field_type + '</td>'
+                          html += '<td class="sorting_1">' + data.Response[j].DataTypes + '</td>'
+                          html += '<td class="sorting_1">' + data.Response[j].Order_number + '</td>'
+                          html += '<td class="center" >' + data.Response[j].Field_description + '</td>'
+                          html += '<td class="center">' + data.Response[j].CreateOn + '</td>'
+                          html += '<td class="center"> <a href="#myModal" role="button" class="btn btn-add" data-toggle="modal">'
+                          html += '<i class="fa fa-pencil-square-o" onclick="formFieldId(' + data.Response[j].FieldId + ')" title="Edits a Form Fields"></i>'
+                          html += '</a><a href="#MyProperty" role="button" class="btn btn-add" data-toggle="modal"><i class="fa fa-cog" onclick="formFieldProperty(' + data.Response[j].FieldId + ',' + data.Response[j].FormId + ')" title="Edits a Form Fields"></i> </a> </td></tr>';
+                      }
+                      htmlhidden += '<input type="hidden" id="modalmyid" value="' + formIdName + '" /><input type="hidden" id="modalformname" value="' + FormName + '" />';
+
+                      $('#myTable').html(html);
+                      $('#MyDiv').html(htmlhidden);
+                      //}
+                  },
+
+              });
+
+          }
+             
+      }
+
+
+
+
+
+      function FormFieldValidation(id) {
+          var formIdName = document.getElementById("formIdfields_" + id).value;
+          var FormName = document.getElementById("formnamefields_" + id).value;
+          var CompanyId = document.getElementById("CompanyId").value;
+          $.ajax({
+              type: "POST",
+              url: "/Dynamic/MultiFields/?formid=" + formIdName + "&CompanyId=" + CompanyId,
+              datatype: "JSON",
+              success: function (data) { 
+                  var data = $.parseJSON(JSON.stringify(data));
+                  var htmlValidationvalue = '';
+                  htmlValidationvalue += '<option value="0">Select</option>';
+                  for (var i = 0; i < data.Response.length; i++)
+                  {
+                      htmlValidationvalue += "<option value="+data.Response[i].FieldId+">" + data.Response[i].Display_name + "</option>";
+                  }      
+                  $('#FieldName').html(htmlValidationvalue);
+                
+              },
+
+          });
+      }
+
+      $(document).ready(function () {
+          $("#btnformffield").click(function () {
+             
+                  var formField = {                  
+                      FormId: document.getElementById("modalmyid").value,
+                      FormName: document.getElementById("modalformname").value,
+                      UFieldName: document.getElementById("txtColoum").value,
+                      Display_name: document.getElementById("txtname").value,
+                      Order_number: document.getElementById("displayorder").value,
+                     // Field_type: document.getElementById("datatype").value,
+                      Field_description: document.getElementById("Description").value,
+                      SelectedField: document.getElementById("colorselector").value,
+                      DataTypes: document.getElementById('dataway').options[document.getElementById('dataway').selectedIndex].value,
+                      DocumentName: document.getElementById('DocumentName').options[document.getElementById('DocumentName').selectedIndex].value,            
+                      DocumentField: document.getElementById('DocumentField').options[document.getElementById('DocumentField').selectedIndex].value,
+                      DocumentFieldId: document.getElementById('DocumentName').options[document.getElementById('DocumentName').selectedIndex].value,
+                      Eid: document.getElementById("CompanyId").value,
+                      MaxLenght: document.getElementById("MaxLenth").value,
+                      MinLenght: document.getElementById("MinLenth").value,
+                  };
+                  var jsonFormField = JSON.stringify({ 'formsroledo': formField });          
+                  $.ajax({
+                      url: "/FormMaster/AddFormField",
+                      type:"POST",
+                      data: jsonFormField,
+                      dataType: "json",
+                      contentType: "application/json;charset=utf-8",
+                      traditional: true,
+                      success: function (data) {
+                          alert("Field Insert Sucessfully");
+                         // window.opener.location.reload(true);
+                        // FormFieldData();
+                      },
+                      error: function () {
+                          $("#testarea").html("ERROR");
+                      }
+                  });
+              });
+      });
+      $(document).ready(function () {
+           $('#colorselector').change(function () {
+               var selectfield = $('#colorselector option:selected').val();
+               switch (selectfield) {
+                   case "Text Box":
+                       $('#myModal').modal
+                       ({
+                           show: 'true'
+                       });
+                       $('.cus-modal-open').addClass('active');
+                       $('#1').css('background-color', '#ddd;');
+                       $('.textBox').hide();
+                       $('#1').attr('field', 'show');
+                       break;
+                   case "Drop Down":
+                       var CompanyId = document.getElementById("CompanyId").value;
+                       $.ajax
+                       ({
+                           type: "POST",
+                           url: "/Dynamic/AllFormList/?CompanyId=" + CompanyId,
+                           datatype: "JSON",
+                           success: function (data) {
+                               var item = '<option value="0">Select</option>'
+                               for (var j = 0; j < data.Response.length; j++)
+                               {
+                                   var formName = data.Response[j].FormName;
+                                   item += "<option value='" + data.Response[j].Id + "'>" + data.Response[j].FormName + "</option>";
+                               };
+                               $("#DocumentName").html(item);
+                           },
+                       });
+                       $("#DocumentName").change(function () {
+                           var formId =document.getElementById("DocumentName").value;
+                           var CompanyId =document.getElementById("CompanyId").value;
+                           $.ajax
+                            ({
+                                type: "POST",
+                                url: "/Dynamic/MultiFields/?formid=" + formId + "&CompanyId=" + CompanyId,
+                                success: function (data) {
+                                    var fieldData = '<option value="0">Select</option>'
+                                    for (var j = 0; j < data.Response.length; j++) {
+                                        fieldData += "<option value='" + data.Response[j].FieldId + "'>" + data.Response[j].Display_name + "</option>";
+                                    }
+                                    $("#DocumentField").html(fieldData);
+                                },
+                            });
+                       });
+                       $('#myModal').modal({
+                           show: 'true'
+                       });
+                       $('#1').css('background-color', 'rgba(250, 235, 204, 0.38);');
+                       $('.textBox').show();
+                       $('.maxMin').hide();
+                       $('.kunalSelect').removeClass('dspn');
+                       $('#1').attr('field', 'maxMin', 'textBox');
+                       var colorselector = document.getElementById("colorselector option:Selected" == "Dropdown")
+                       break;
+                   case "AutoComplete":
+                       var CompanyId = document.getElementById("CompanyId").value;
+                       $.ajax
+                       ({
+                           type: "POST",
+                           url: "/Dynamic/AllFormList/?CompanyId=" + CompanyId,
+                           datatype: "JSON",
+                           success: function (data) {
+                               var item = '<option value="0">Select</option>'
+                               for (var j = 0; j < data.Response.length; j++) {
+                                   var formName = data.Response[j].FormName;
+                                   item += "<option value='" + data.Response[j].Id + "'>" + data.Response[j].FormName + "</option>";
+                               };
+                               $("#DocumentName").html(item);
+                           },
+                       });
+                       $("#DocumentName").change(function () {
+                           var formId = document.getElementById("DocumentName").value;
+                           var CompanyId = document.getElementById("CompanyId").value;
+                           $.ajax
+                            ({
+                                type: "POST",
+                                url: "/Dynamic/MultiFields/?formid=" + formId + "&CompanyId=" + CompanyId,
+                                success: function (data) {
+                                    var fieldData = '<option value="0">Select</option>'
+                                    for (var j = 0; j < data.Response.length; j++) {                                    
+                                        fieldData += "<option value='" + data.Response[j].FieldId + "'>" + data.Response[j].Display_name + "</option>";
+                                    }
+                                    $("#DocumentField").html(fieldData);
+                                },
+                            });
+                       });
+                       $('#myModal').modal({
+                           show: 'true'
+                       });
+                       $('#1').css('background-color', 'rgba(204, 250, 222, 0.380392);');
+                     
+                       $('.textBox').show();
+                       $('.maxMin').hide();
+                       $('.kunalSelect').removeClass('dspn');
+                       $('#1').attr('field', 'maxMin', 'textBox');
+                       var colorselector = document.getElementById("colorselector option:Selected" == "AutoComplete")
+                       break;
+          case "Lookup":
+                       var formId = document.getElementById("modalmyid").value;
+                       $.ajax({
+                           type: "POST",
+                           url: "/Dynamic/AllFormLookUp?formid=" + formId,
+                           datatype: "JSON",
+                           success: function (data) {
+                               var item = '<option value="0">Select</option>'
+                               var hiddenLookUp = '';
+                               for (var j = 0; j < data.Response.length; j++)
+                               {
+                                   item += "<option value='" + data.Response[j].FieldId + "'>" + data.Response[j].Display_name + "</option>"
+                                  hiddenLookUp += '<input type="hidden" id="FieldLookUp" value="' + data.Response[j].DocumentField + '" /><input type="hidden" id="FormLookup" value="' + data.Response[j].DocumentName + '" />';
+                               };
+                               $("#DocumentName").html(item);
+                               $("#MyDivLookUp").html(hiddenLookUp);
+                           },
+                       });
+                       $("#DocumentName").change(function () {
+                           var FieldId = document.getElementById("DocumentName").value;
+                         //  var DocumentField = document.getElementById("FieldLookUp").value;
+                          // var DocumentType = document.getElementById("FormLookup").value;
+                           $.ajax({
+                               type: "POST",
+                               url: "/Dynamic/DocumentFieldLookUp/?FieldId=" + FieldId,
+                               success: function (data) {
+                                   debugger;
+                                   // var html = '<option value="0">Select</option>';
+                                   var fieldData = '<option value="0">Select</option>'
+                                   for (var j = 0; j < data.Response.length; j++)
+                                   {
+                                       fieldData += "<option value='" + data.Response[j].FieldId + "'>" + data.Response[j].Display_name + "</option>";
+                                   }
+                                   $("#DocumentField").html(fieldData);
+
+                               }
+                           });
+                       });
+                       $('#myModal').modal({
+
+                           show: 'true'
+
+                       });
+                       $('#1').css('background-color', 'rgba(198, 137, 12, 0.380392);');
+                       $('.textBox').show();
+                       $('.maxMin').hide();
+                       $('.kunalSelect').removeClass('dspn');
+                       $('#1').attr('field', 'textBox', 'Lookup', 'Drop Down');
+                       var colorselector = document.getElementById("colorselector option:Selected" == "Lookup")
+                       break
+                   case "FilterDDL":
+                       var formId = document.getElementById("modalmyid").value;
+                       $.ajax({
+                           type: "POST",
+                           url: "/Dynamic/AllFormLookUp?formid=" + formId,
+                           datatype: "JSON",
+                           success: function (data) {
+                               var item = '<option value="0">Select</option>'
+                               var hiddenLookUp = '';
+                               for (var j = 0; j < data.Response.length; j++) {
+                                   item += "<option value='" + data.Response[j].FieldId + "'>" + data.Response[j].Display_name + "</option>"
+                                   hiddenLookUp += '<input type="hidden" id="FieldLookUp" value="' + data.Response[j].DocumentField + '" /><input type="hidden" id="FormLookup" value="' + data.Response[j].DocumentName + '" />';
+                               };
+                               $("#DocumentName").html(item);
+                               $("#MyDivLookUp").html(hiddenLookUp);
+                           },
+                       });
+                       $("#DocumentName").change(function () {
+                           var FieldId = document.getElementById("DocumentName").value;
+                           //  var DocumentField = document.getElementById("FieldLookUp").value;
+                           // var DocumentType = document.getElementById("FormLookup").value;
+                           $.ajax({
+                               type: "POST",
+                               url: "/Dynamic/DocumentFieldLookUp/?FieldId=" + FieldId,
+                               success: function (data) {
+                                   debugger;
+                                   // var html = '<option value="0">Select</option>';
+                                   var fieldData = '<option value="0">Select</option>'
+                                   for (var j = 0; j < data.Response.length; j++) {
+                                       fieldData += "<option value='" + data.Response[j].FieldId + "'>" + data.Response[j].Display_name + "</option>";
+                                   }
+                                   $("#DocumentField").html(fieldData);
+
+                               }
+                           });
+                       });
+                       $('#myModal').modal({
+
+                           show: 'true'
+
+                       });
+                       $('#1').css('background-color', 'rgba(250, 235, 204, 0.38);');
+                       $('.textBox').show();
+                       $('.maxMin').hide();
+                       $('.kunalSelect').removeClass('dspn');
+                       $('#1').attr('field', 'textBox', 'Drop Down','CheckBoxList');
+                       var colorselector = document.getElementById("colorselector option:Selected" == "FilterDDL")
+                       break
+                   case "CheckBoxList":
+                       var CompanyId = document.getElementById("CompanyId").value;
+                       $.ajax
+                       ({
+
+                           type: "POST",
+                           url: "/Dynamic/AllFormList/?CompanyId=" + CompanyId,
+                           datatype: "JSON",
+                           success: function (data) {
+                               var item = '<option value="0">Select</option>'
+                               for (var j = 0; j < data.Response.length; j++) {
+                                   var formName = data.Response[j].FormName;
+                                   item += "<option value='" + data.Response[j].Id + "'>" + data.Response[j].FormName + "</option>";
+                               };
+                               $("#DocumentName").html(item);
+                           },
+                       });
+                       $("#DocumentName").change(function () {
+                           var formId = document.getElementById("DocumentName").value;
+                           var CompanyId = document.getElementById("CompanyId").value;
+                           $.ajax
+                            ({
+                                type: "POST",
+                                url: "/Dynamic/MultiFields/?formid=" + formId + "&CompanyId=" + CompanyId,
+                                success: function (data) {
+                                    var fieldData = '<option value="0">Select</option>'
+                                    for (var j = 0; j < data.Response.length; j++) {
+                                        fieldData += "<option value='" + data.Response[j].FieldId + "'>" + data.Response[j].Display_name + "</option>";
+                                    }
+                                    $("#DocumentField").html(fieldData);
+                                },
+                            });
+                       });
+                       $('#myModal').modal({
+                           show: 'true'
+                       });
+                       $('#1').css('background-color', 'rgb(171, 171, 111);');
+                       $('.textBox').show();
+                       $('.maxMin').hide();
+                       $('.kunalSelect').removeClass('dspn');
+                       $('#1').attr('field', 'textBox', 'Drop Down', 'Lookup');
+                       var colorselector = document.getElementById("colorselector option:Selected" == "CheckBoxList")
+                       break
+                   case "RadioCheck":
+                       var CompanyId = document.getElementById("CompanyId").value;
+                       $.ajax
+                       ({
+                           type: "POST",
+                           url: "/Dynamic/AllFormList/?CompanyId=" + CompanyId,
+                           datatype: "JSON",
+                           success: function (data) {
+                               var item = '<option value="0">Select</option>'
+                               for (var j = 0; j < data.Response.length; j++) {
+                                   var formName = data.Response[j].FormName;
+                                   item += "<option value='" + data.Response[j].Id + "'>" + data.Response[j].FormName + "</option>";
+                               };
+                               $("#DocumentName").html(item);
+                           },
+                       });
+                       $("#DocumentName").change(function () {
+                           var formId = document.getElementById("DocumentName").value;
+                           var CompanyId = document.getElementById("CompanyId").value;
+                           $.ajax
+                            ({
+                                type: "POST",
+                                url: "/Dynamic/MultiFields/?formid=" + formId + "&CompanyId=" + CompanyId,
+                                success: function (data) {
+                                    var fieldData = '<option value="0">Select</option>'
+                                    for (var j = 0; j < data.Response.length; j++) {
+                                        fieldData += "<option value='" + data.Response[j].FieldId + "'>" + data.Response[j].Display_name + "</option>";
+                                    }
+                                    $("#DocumentField").html(fieldData);
+                                },
+                            });
+                       });
+                       $('#myModal').modal({
+                           show: 'true'
+                       });
+                       $('#1').css('background-color', 'rgb(179, 119, 169);');
+                       $('.textBox').show();
+                       $('.maxMin').hide();
+                       $('.kunalSelect').removeClass('dspn');
+                       $('#1').attr('field', 'textBox', 'Drop Down', 'Lookup', 'RadioCheck');
+                       var colorselector = document.getElementById("colorselector option:Selected" == "RadioCheck")
+                       break
+                   case "FormulaField":
+                       break
+
+                       
+               }
+           });
+           $(window).load(function () {
+           });
+      });
+      $(document).ready(function () {
+          $("#SaveValidation").click(function ()
+          {
+              var formFieldVAlidation = 
+                  {
+                ValidationType: document.getElementById("ValidationType").options[document.getElementById("ValidationType").selectedIndex].value,
+                FieldId  : document.getElementById("FieldName").options[document.getElementById("FieldName").selectedIndex].value,
+                Operator : document.getElementById("Operator").options[document.getElementById("Operator").selectedIndex].value,
+                //FormId   : document.getElementById("formIdfields_" + id).value,
+                Value    : document.getElementById("txtValue").value,
+                Errormsg : document.getElementById("ErrorMessage").value,
+                DocNature: document.getElementById("DocNature").options[document.getElementById("DocNature").selectedIndex].value
+              };
+              var jsonFormFieldValidation = JSON.stringify({ 'fieldvalidationDO': formFieldVAlidation });
+              $.ajax({
+                  url: "/FieldValidation/Validaton",
+                  type:"POST",
+                  data: jsonFormFieldValidation,
+                  dataType: "json",
+                  contentType: "application/json;charset=utf-8",
+                  traditional: true,
+                  success: function (data)
+                  {
+                      alert("Insert Validation  Sucessfully")
+                  }
+
+              });
+
+          });
+
+
+      });
+      function formFieldProperty(id ,Formid) {
+          $("#Saveproperty").click(function () {
+              var formFieldProperty =
+                  {
+                      FieldId: id,
+                      FormId:Formid,
+                      Mandatory: ($("#Mandatory").is(':checked')) ? 1 : 0,
+                      Active: ($("#Active").is(':checked')) ? 1 : 0,
+                      Editable: ($("#Editable").is(':checked')) ? 1 : 0,
+                      Unique: ($("#Unique").is(':checked')) ? 1 : 0,
+                      WORKFLOW: ($("#WORKFLOW").is(':checked')) ? 1 : 0,
+                      SHOWONAMENDMENT: ($("#SHOWONAMENDMENT").is(':checked')) ? 1 : 0,
+                      EDITONAMENDMENT: ($("#EDITONAMENDMENT").is(':checked')) ? 1 : 0,
+                      IMIENo: ($("#IMIENo").is(':checked')) ? 1 : 0,
+                      INLINEEDITING: ($("#INLINEEDITING").is(':checked')) ? 1 : 0,
+                      SHOWONDOCDETAIL: ($("#SHOWONDOCDETAIL").is(':checked')) ? 1 : 0,
+                      Invisible: ($("#Invisible").is(':checked')) ? 1 : 0,
+                      SPLITTABLE: ($("#SPLITTABLE").is(':checked')) ? 1 : 0,
+                      SHOWONSPLIT: ($("#SHOWONSPLIT").is(':checked')) ? 1 : 0,
+                      ISSUPERVISOR: ($("#ISSUPERVISOR").is(':checked')) ? 1 : 0,
+                      EnableEdit: ($("#EnableEdit").is(':checked')) ? 1 : 0,
+                      CRMReminder: ($("#CRMReminder").is(':checked')) ? 1 : 0,
+                      ShowOnDeshboard: ($("#ShowOnDeshboard").is(':checked')) ? 1 : 0,
+                      ShowOnCRM: ($("#ShowOnCRM").is(':checked')) ? 1 : 0,
+                      EDITOnCRM: ($("#EDITOnCRM").is(':checked')) ? 1 : 0,
+                      IsTotal: ($("#IsTotal").is(':checked')) ? 1 : 0,
+                      AllowEditOnEdit: ($("#AllowEditOnEdit").is(':checked')) ? 1 : 0,
+                      ShowInRoleAssignment: ($("#ShowInRoleAssignment").is(':checked')) ? 1 : 0,
+                      IsCardNo: ($("#IsCardNo").is(':checked')) ? 1 : 0,
+                      ShowInRoleAssignment: ($("#ShowInRoleAssignment").is(':checked')) ? 1 : 0,
+                      PlaceofStay: ($("#PlaceofStay").is(':checked')) ? 1 : 0,
+                      PopupNotificationFieldonMobile: ($("#PopupNotificationFieldonMobile").is(':checked')) ? 1 : 0,
+                      ActionFormField: ($("#ActionFormField").is(':checked')) ? 1 : 0,
+                  };
+              var jsonformFieldProperty = JSON.stringify({ 'fieldProperty': formFieldProperty });         
+              $.ajax({
+                  url: "/FieldPropertys/AddFieldPropertys",
+                  type: "POST",
+                  data: jsonformFieldProperty,
+                  dataType: "json",
+                  contentType: "application/json;charset=utf-8",                 
+                  success: function (data) {
+                      alert("Insert Validation  Sucessfully")
+                      return "false";
+                  }
+
+              });
+          });
+      };
+
+    
+
+     
+      Metronic.init(); // init metronic core components
+      Demo.init(); // init demo features  
+      TableEditable.init();
+      jQuery(document).ready(function () {
+          
+      });
+
+
+
+</script>
+  <script type="text/javascript">
+        var select_all = document.getElementById("select_all"); //select all checkbox
+        var checkboxes = document.getElementsByClassName("iChildcheck"); //checkbox items
+        //select all checkboxes
+        select_all.addEventListener("change", function (e) {
+            for (i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = select_all.checked;
+            }
+        });
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].addEventListener('change', function (e) { //".checkbox" change 
+                //uncheck "select all", if one of the listed checkbox item is unchecked
+                if (this.checked == false) {
+                    select_all.checked = false;
+                }
+                //check "select all" if all checkbox items are checked
+                if (document.querySelectorAll('.checkbox:checked').length == checkboxes.length) {
+                    select_all.checked = true;
+                }
+            });
+        }
+    </script>
+    </div>
+
+

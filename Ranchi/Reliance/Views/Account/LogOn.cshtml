@@ -1,0 +1,194 @@
+﻿@model Reliance.Models.LogOnModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+	<!--<![endif]-->
+	<!-- BEGIN HEAD -->
+	<head>
+		<meta charset="utf-8"/>
+		<title>BPM</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+		<meta content="" name="description"/>
+		<meta content="" name="author"/>
+		<!-- BEGIN GLOBAL MANDATORY STYLES -->
+		<link href="../../assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+		<link href="../../assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
+		<link href="../../assets/admin/layout2/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+		<link href="../../assets/admin/layout2/css/kunal.css" rel="stylesheet" type="text/css"/>
+		<!-- END THEME STYLES -->
+		<link rel="shortcut icon" href="favicon.ico"/>
+	</head>
+	<!-- END HEAD -->
+	<!-- BEGIN BODY -->
+	<body >
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>      
+    <script src="../../assets/global/scripts/materialize.js" type="text/javascript"></script>
+	<script src="../../assets/global/scripts/init.js" type="text/javascript"></script>
+
+        	<div class="container-fluid">
+			<div class="row m-0">
+				
+				<div class="slider fullscreen m-0 col l7 m6 s12">
+					<ul class="slides">
+						<li>
+							<img src="../../assets/admin/layout2/img/slider1.jpg" alt="slider" class="logo-default"/> <!-- random image -->
+							<div class="caption center-align">
+								<!-- <h3>This is our big Tagline!</h3>
+								<h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5> -->
+							</div>
+						</li>
+						<li>
+							<img src="../../assets/admin/layout2/img/slider1.jpg" alt="slider" class="logo-default"/> <!-- random image -->
+							<div class="caption left-align">
+								
+							</div>
+						</li>
+						<li>
+							<img src="../../assets/admin/layout2/img/slider1.jpg" alt="slider" class="logo-default"/> <!-- random image -->
+							<div class="caption right-align">
+								
+							</div>
+						</li>
+						<li>
+							<img src="../../assets/admin/layout2/img/slider1.jpg" alt="slider" class="logo-default"/> <!-- random image -->
+							<div class="caption center-align">
+						
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="m-0 col l5 m6 s12 fl-r mbg">
+					<div class="row valign-wrapper m-0 mvh">
+						<div class="col m12 center-m0 valign lfw" id="load-form">
+							<div class="login-form-container">
+								<h3 class="upc login-head fw-100 center" >Sashanka Agro Tech pvt.ltd.</h3>
+								@*<p class="fw-300 center">Its a future </p>*@
+
+    @using (Html.BeginForm()) 
+    {
+        @Html.ValidationSummary(true)  
+        <fieldset  style="border: none;">               
+           <div class="input-field col s12 p-0 validate">
+                @Html.LabelFor(model => model.UserName)            
+           
+                @Html.EditorFor(model => model.UserName)
+                @Html.ValidationMessageFor(model => model.UserName)
+            </div>    
+           <div class="input-field col s12 p-0 validate">
+                @Html.LabelFor(model => model.Password)
+           
+                @Html.EditorFor(model => model.Password)
+                @Html.ValidationMessageFor(model => model.Password)
+            </div>
+           <div class="input-field col s12 p-0 validate">
+                @Html.LabelFor(model => model.CompanyName)                      
+                @Html.EditorFor(model => model.CompanyName)
+                @Html.ValidationMessageFor(model => model.CompanyName)
+            </div> 
+           <div class="input-field col s12 p-0  validate">
+                @Html.LabelFor(model => model.RememberMe)
+            
+                @Html.EditorFor(model => model.RememberMe)
+                @Html.ValidationMessageFor(model => model.RememberMe)
+            </div>   
+                <input type="submit" value="Login" class="cust-btn mb-10 upc dark-blue-bg col s12 pt-10 pb-10 waves-effect waves-light fs-16 white-txt center-align" />
+                <div class="col s6 p-0">
+				<input type="checkbox" id="test5" /> <label style="top:0;font-weight:normal;line-height: 18px;" for="test5">Remember me</label>
+				</div>
+				<div class="col s6 p-0" style="text-align: right;">
+				<a class="for-pass">Forgot Passord <span>?</span></a>
+				</div> 
+        </fieldset>
+    }
+                                <div class="col s12 center">
+											@*<img src="../../assets/admin/layout2/img/sql.png" alt="logo" class="logo-default">*@
+										</div>
+    
+                                </div>
+						</div>
+						
+					</div>
+					
+				</div>
+				
+			</div>
+		</div>
+       
+	
+</body>
+	
+	<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+	<!-- BEGIN CORE PLUGINS -->
+	<!--[if lt IE 9]>
+	<script src="../../assets/global/plugins/respond.min.js"></script>
+	<script src="../../assets/global/plugins/excanvas.min.js"></script>
+	<![endif]-->
+	<script src="../../assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+	$('#login-r').click(function(){
+		if($(this).is(':checked')) {
+			$("#sub-att").html("login");
+		}
+	});
+	$('#markin-r').click(function(){
+		if($(this).is(':checked')) {
+			$("#sub-att").html("Mark in");
+			// $(".markout-r").attr('checked',true);
+		}
+	});
+	$('#markout-r').click(function(){
+		if($(this).is(':checked')) {
+			$("#sub-att").html("Mark out");
+			// $(".markin-r").attr('checked',true);
+		}
+	});
+		$('#sub-att').click(function(){
+	if($('#markin-r').is(':checked')) {
+		$(".markout-r-wrapper, .mark-in-time").removeClass("vnst");
+		$(".markin-r-wrapper").addClass("vnst") ;
+		$(".mark-in-time").addClass("vbst");
+		// $(".markout-r").prop('checked',true);
+		$(this).html("mark out");
+		window.setTimeout(function(){
+	$(".mark-in-time").addClass('vnst');
+	}, 5000);}
+	
+	if($('#markout-r').is(':checked')) {
+	$(".markin-r-wrapper, .mark-out-time").removeClass("vnst");
+		$(".markout-r-wrapper").addClass("vnst") ;
+		window.setTimeout(function(){
+		$(".mark-out-time").addClass("vbst");
+		// $(".markin-r").prop('checked',true);
+		$(this).html("mark in");
+	$(".mark-out-time").addClass('vnst');
+	}, 5000);}
+	});
+
+	$(".for-pass").click(function(){
+		$(".login-form-container").fadeOut(
+			function(){
+				$(this).detach();
+			});
+		$("#load-form").load("login_form.html .pass-form-container");
+
+	});
+
+
+
+	});
+	</script>
+    
+</html>	
+	<!-- END JAVASCRIPTS -->
+
+<!-- END BODY -->

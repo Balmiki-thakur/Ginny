@@ -1,0 +1,8 @@
+E:\Project\Reliance\Reliance\Ranchi\Reliance.Modals\bin\Debug\Reliance.Modals.dll
+E:\Project\Reliance\Reliance\Ranchi\Reliance.Modals\bin\Debug\Reliance.Modals.pdb
+E:\Project\Reliance\Reliance\Ranchi\Reliance.Modals\bin\Debug\Glimpse.AspNet.dll
+E:\Project\Reliance\Reliance\Ranchi\Reliance.Modals\bin\Debug\Glimpse.Core.dll
+E:\Project\Reliance\Reliance\Ranchi\Reliance.Modals\bin\Debug\Glimpse.Mvc4.dll
+E:\Project\Reliance\Reliance\Ranchi\Reliance.Modals\obj\Debug\Reliance.Modals.dll
+E:\Project\Reliance\Reliance\Ranchi\Reliance.Modals\obj\Debug\Reliance.Modals.pdb
+E:\Project\Reliance\Reliance\Ranchi\Reliance.Modals\obj\Debug\Reliance.Modals.csprojResolveAssemblyReference.cache

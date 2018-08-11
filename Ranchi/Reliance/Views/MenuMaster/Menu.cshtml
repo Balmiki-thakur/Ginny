@@ -1,0 +1,491 @@
+﻿
+@{
+    ViewBag.Title = "Menu";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+<script src="~/Scripts/jquery-1.7.1.js"></script>
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/select2/select2.css"/>
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
+<!-- Modal -->
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/icheck/skins/all.css" />
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/icheck/skins/all.css" />
+ <input type="hidden" id="CompanyId1" name="CompanyId1" value="@Session["LOGGED_Company"]" />
+<div id="mySubMenuModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+       <div class="portlet box red">
+							<div class="portlet-title" style="background-color:#b5f84b">
+								<div class="caption">
+									<i class="fa fa-gift"></i> Add Sub Menu 
+								</div>
+								<div class="tools">
+									<a href="" class="collapse" data-original-title="" title="">
+									</a>
+									<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+									</a>
+									<a href="" class="reload" data-original-title="" title="">
+									</a>
+									<a href="" class="remove" data-original-title="" title="">
+									</a>
+								</div>
+							</div>
+							<div class="portlet-body form">
+								<form role="form">
+									<div class="form-body">
+                                        <div class="form-group">
+											<label>Parent Menu</label>
+							 <select onchange=""  class="form-control" id = "SubMenuList" required>
+                                    <option value = "0"> Select Menu</option>                                                                                              
+               @{RelianceController.MenuMasterController menuMasterController= new  RelianceController.MenuMasterController();
+                 Reliance.Modals.MenuMasterList menu = menuMasterController.MenuNameAndMenuId();
+                 for (int i = 0; i < menu.Count; i++)
+                 {
+
+                     if (menu[i].PMenu == 0)
+                     {
+                                   <option  value="@menu[i].MenunId"><style="color-text:red">@menu[i].Menuname</style></option>
+                     }
+                     else
+                     {
+                        <option  value="@menu[i].MenunId">@menu[i].Menuname</option>
+                     }
+                 }    
+                    
+                      }                
+                             </select>
+										</div>
+                                          <div class="form-group">
+											<label>Page Link Type</label>
+											<select onchange="" class="form-control" id="PageLinKType" required="required">
+                                                <option value="0">Select Page Link Type</option>
+												<option value="Static Page">Static Page</option>
+												<option value="Master">Master</option>
+												<option value="Document">Document</option>
+												<option value="Report">Report</option>
+												<option value="Calender">Calender</option>
+                                                <option value="Calender Master">Calender Master</option>
+											</select>
+										</div>
+                                        <div class="form-group">
+											<label>Page Link Type</label>
+											<select class="form-control" id="pagelink" required>
+                                                <option value="0">Select Page Link </option>
+                                               @{RelianceController.CreateFormMaster createFormMaster=new RelianceController.CreateFormMaster();
+                                                
+                                                 Reliance.Modals.CreateTableDoList createFormList = createFormMaster.AllCreateForm(Convert.ToString(Session["LOGGED_Company"]));
+                                                 for (int i = 0; i < createFormList.Count; i++)
+                                                 {                                       
+                                               <option value="@createFormList[i].Id">@createFormList[i].FormName</option>					
+                                                 }    
+                                               }
+											</select>
+										</div>
+                                        <div class="form-group">
+											<label>Menu Name</label>
+										<input type="text" id="SubMenuName"  name="SubMenuName" required="" class="form-control input-lg" placeholder="Please Insert SubMenuName">
+										</div>
+										<div class="form-group">
+											<label>Display Order</label>
+											<input type="text" id="SubMenuOrder"  maxlength="10" name="SubMenuOrder" required="" class="form-control input-lg" placeholder="Please Insert Display Order">
+										</div>
+											<div class="form-group">
+											<label>Menu Image</label>
+											<input id="SubMenuImage" type="file" name="SubMenuImage" class="form-control input-lg" class="validate" required="required">
+										</div>
+									</div>
+									<div class="form-actions right">
+										<button type="button"data-dismiss="modal" class="btn default">Cancel</button>
+										   <button type="submit" id="btnSubSubmit" name="btnSubSubmit"  class="btn btn-primary">Submit</button>
+									</div>
+								</form>
+							</div>
+						</div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="row">
+					<div class="col-md-12">
+						<!-- BEGIN EXAMPLE TABLE PORTLET-->
+						<div class="portlet box blue">
+							<div class="portlet-title"  style="background-color:#48cddc">
+								<div class="caption">
+									<i class="fa fa-edit"></i> List Of Details
+								</div>
+                                	  <div style="float: right;"> <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#mySubMenuModal"  style="background-color:#48dcd8">Add Sub Menu</button>
+</div>				
+							  <div style="float: right;"> <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"  style="background-color:#48dcd8">Add Parent Menu</button>
+</div>
+						
+								
+							</div>
+							<div class="portlet-body">
+						
+								<table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+									<thead>
+								<tr role="row"><th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Username
+									: activate to sort column ascending" style="width: 165px;">
+										Menu Name
+									</th><th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Full Name
+									: activate to sort column ascending" style="width: 208px;">
+										Menu Type
+									</th><th class="sorting_desc" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Points
+									: activate to sort column ascending" style="width: 111px;" aria-sort="descending">
+									Menu Order
+									</th>
+                                     <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+									Menu Id
+									</th>
+                                    <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+									Created On
+									</th>
+                                   <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+								Menu Description
+									</th>
+                                     <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+								Menu Role
+									</th>
+                                     <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+								Menu Action
+									</th>
+									</tr>
+								</thead>
+                                 <tbody>	
+                                  @{RelianceController.MenuMasterController menuMasterControllers = new RelianceController.MenuMasterController();
+                                    Reliance.Modals.MenuMasterList menuModal = menuMasterControllers.AllMenus();
+                                    for (int i = 0; i < menuModal.Count; i++)
+                                    {							
+								<tr role="row" class="odd">                                
+									 <td  class="">@menuModal[i].Menuname</td>
+                                     <td class="center">@menuModal[i].Menutype</td>
+									 <td class="center">@menuModal[i].MenuOrder</td>
+									 <td class="sorting_1">@menuModal[i].PMenu</td>
+									 <td class="center">@menuModal[i].CreateOn</td>
+                                     <td class="center">@menuModal[i].MenuDescription</td> 
+                                         <td >                                
+                                 <a href="#MenuRoleModals" role="button" class="btn" data-toggle="modal"> 
+                                     <i  class="fa fa-plus-circle"   id="menuId" onclick="menuRole(@menuModal[i].MenunId)" title="Insert a Fields"></i></a>  @* onclick="FormFieldName(@menuModal[i].MenunId)" *@                                  
+                                    </td>
+                                    <td>
+                                         <a href="#mySubMenuModal" role="button" class="btn" data-toggle="modal">
+                                            <i class="fa fa-pencil-square-o"  onclick="menuEdit(@menuModal[i].MenunId)"  title="Edits a Form Fields"></i> 
+                                             </a>
+                                      <input type="hidden"  id="menuId_@menuModal[i].MenunId" value="@menuModal[i].MenunId"/> 
+                                           <input type="hidden" id="MenuName_@menuModal[i].MenunId" value="@menuModal[i].Menuname"/> 
+                                         <input type="hidden" id="CompanyId" name="CompanyId" value="@Session["LOGGED_Company"]" />
+                                        </td>                                       	
+                                    </tr>
+                                    }
+                                 }  
+                                                  		
+								</tbody>
+								</table>
+								
+							</div>
+						</div>
+						<!-- END EXAMPLE TABLE PORTLET-->
+					</div>
+    <div id="MenuRoleModals" class="modal fade cus-modal-open" role="dialog">
+  <div class="modal-dialog ">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+          <div class="portlet box red"  style="width:570px ;background-color:#38d8b3" >
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-gift"></i> <Span id="MyDiv"></Span>
+								</div>
+								<div class="tools">
+									
+									
+								</div>
+							</div>
+							<div class="portlet-body form">
+								<form role="form" id="menuRole" >
+                                   
+                                    
+                                    <input type="hidden" id="MenuId" value="" />
+									<div class="form-body">
+                                        <table id="tblUserRole" class="table table-striped table-hover table-bordered">
+									<thead>
+								<tr role="row">
+                                      <th style="width: 165px;">Serial No</th>
+                                    <th style="width: 165px;">Role Name</th>
+                                    <th style="width: 165px;">Is View</th>
+                                     <th style="width: 165px;">Is Edit</th>
+                                     <th style="width: 165px;">Is Delete</th>
+									</tr>
+								</thead>
+                                 <tbody>	                                        	               	                        
+                          @{RelianceController.RoleMasterController  roleMasterController= new RelianceController.RoleMasterController();
+                              Reliance.Modals.RoleMasterDoList roleModal = roleMasterController.AllRole(Convert.ToInt32(Session["LOGGED_Company"]));
+                            for (int i = 0; i < roleModal.Count; i++)
+                                  {	 
+                                           <tr id="roleRow">
+                                           														
+                                                <td class="center">@(i + 1)</td>                                                    
+                                               <td align="center" id="roleID">                                                                                                                                                              
+										 <Input type="hidden" id="formId" value="@roleModal[i].RoleId" /> @roleModal[i].RoleName                         
+                                                </td>
+                                               <td align="center" id="tdIsView">
+                                                 <input type="checkbox" value="true"  id="IsView"  class="box">
+                                               </td>
+                                               <td align="center" id="tdIsEdit">
+                                        <input type="checkbox"   value="true" id="IsEdit"  class="box">
+                                               </td>
+                                               <td align="center" id="tdIsDelete">
+                                              <input type="checkbox"  value="true" id="IsDelete"  class="box">
+                                               </td>     
+                                           </tr>
+                                                  }
+                                               }
+
+                                      </tbody>
+                                 </table>
+						              </div>                                    
+									<div class="form-actions right">		
+                                        <button type="button" data-dismiss="modal" class="btn default">Close</button>  @*closeAff*@
+	                                  <button type="submit" id="GetTotal" name="btnRole" class="btn btn-primary">Submit</button>
+									</div>
+								</form>
+							</div>
+						</div>
+          </div>
+        </div>
+  </div>
+</div>
+</div>
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      
+      <div class="modal-body">
+          <div class="portlet box red"  style="width:570px ;background-color:#b5f84b" >
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-gift"></i> Add Main Menu
+								</div>
+								<div class="tools">
+									<a href="" class="collapse" data-original-title="" title="">
+									</a>
+									<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+									</a>
+									<a href="" class="reload" data-original-title="" title="">
+									</a>
+									<a href="" class="remove" data-original-title="" title="">
+									</a>
+								</div>
+							</div>
+							<div class="portlet-body form">
+								<form role="form">
+									<div class="form-body">
+										<div class="form-group">
+											<label>Menu Name</label>
+											<input type="text" id="MenuName" name="MenuName" required="" class="form-control input-lg" placeholder="Please Insert UserName">
+										</div>
+                                        <div class="form-body">
+										<div class="form-group">
+											<label>Menu Description</label>
+											<input type="text" id="MenuDescription" name="MenuDescription" required="" class="form-control input-lg" placeholder="Please Insert Menu Description">
+										</div>
+										<div class="form-group">
+											<label>Menu Order</label>
+                                            <input type="text" id="MenuOrder" name="MenuOrder" required="" class="form-control input-lg" placeholder="Please Insert Order">
+							</div>
+										<div class="form-group">
+											<label>Menu Image</label>
+											<input id="MenuImage" type="file" name="Image" class="form-control input-lg" class="validate" required>
+ 
+										</div>
+									</div>
+									<div class="form-actions right">		
+                                         <button type="submit" id="btnSubmit" name="AddUserRegistation" class="btn btn-primary">Submit</button>
+                                          <button type="reset" data-dismiss="modal" class="btn btn-default">Cancle</button>
+									</div>
+								</form>
+							</div>
+						</div>
+      </div>
+    </div>
+  </div>
+</div> 
+<script type="text/javascript">
+	     $(document).ready(function () {
+	         $("#btnSubSubmit").click(function () {
+	         
+	             var parentmenu = document.getElementById("SubMenuList").value;
+	             var PageLinKType = document.getElementById("PageLinKType").value;
+	             var pagelink = document.getElementById("pagelink").value;
+	             var SubMenuName = document.getElementById("SubMenuName").value;
+	             var SubMenuOrder = document.getElementById("SubMenuOrder").value;
+	             var SubMenuImage = document.getElementById("SubMenuImage").value;
+	             var CompanyId = document.getElementById("CompanyId").value;
+	          //   var data = form.serilize;
+	             $.ajax({
+	                 type: "POST",
+	                 url: "/MenuMaster/SubMenuItems?parentmenu=" + parentmenu + "&PageLinKType=" + PageLinKType + '&pagelink=' + pagelink + '&SubMenuName=' + SubMenuName + '&SubMenuOrder=' + SubMenuOrder + '&SubMenuImage=' + SubMenuImage + "&CompanyId=" + CompanyId,
+	                 // dataType: 'Json',
+	                 success: function (data) {
+	                     alert("Menu Is Successfully Add Thanku");
+	                 },
+	                 error: function () {
+	                     $("#testarea").html("ERROR");
+	                 }
+	             });
+	         });
+	     });
+	     $(document).ready(function () {
+	         $("#btnSubmit").click(function () {
+	             
+	             var menuname = document.getElementById("MenuName").value;
+	             var menuDescription = document.getElementById("MenuDescription").value;
+	             var MenuOrder = document.getElementById("MenuOrder").value;
+	             var Image = document.getElementById("MenuImage").value;
+	             var CompanyId = document.getElementById("CompanyId1").value;
+	             // var data = form.serilize;
+	             $.ajax({
+	                 type: "POST",
+	                 url: "/MenuMaster/MenuItems?menuname=" + menuname + "&menuDescription=" + menuDescription + '&MenuOrder=' + MenuOrder + '&Image=' + Image + "&CompanyId=" + CompanyId,
+	                 // dataType: 'Json',
+	                 success: function (data) {
+	                     alert("Menu Is Successfully Add Thanku");
+	                 },
+	                 error: function () {
+	                     $("#testarea").html("ERROR");
+	                 }
+	             });
+	         });
+	     });
+	     $(document).ready(function () {
+	         $("#btnMenuRole").click(function () {
+	             var menuId = document.getElementById("menuId").value;
+	             var menuName = document.getElementById("menuName").value;
+	             var RoleId = document.getElementById("RoleId").value;
+	             var RoleName = document.getElementById("RoleName").value;
+	             var IsValid = document.getElementById("IsValid").value;
+	             var IsEdit = document.getElementById("IsEdit").value;
+	             var colorselector = document.getElementById("IsDelete").value;
+	             $.ajax({
+	                 url: "/FormMaster/AddFormField?formId=" + formId + "&formName=" + formName + "&fieldname=" + fieldname + "&fieldorder=" + fieldorder + "&fieldtype=" + fieldtype + "&fielddescription=" + fielddescription + '&colorselector=' + colorselector,
+	                 type: "POST",
+	                 success: function (data) {
+	                     alert("Field Insert Sucessfully");
+	                     window.load;
+	                     //  FormFieldData();
+	                 },
+	                 error: function () {
+	                     $("#testarea").html("ERROR");
+	                 }
+	             });
+	         });
+	     })	    
+	     function menuRole(id) {
+
+	         var MenuId = document.getElementById("menuId_" + id).value;
+	         var menuName = document.getElementById("MenuName_" + id).value;
+	         $('#MyDiv').html(menuName);
+	         $('#MenuId').val(MenuId);
+	     }
+	     $(document).ready(function () {	       
+	         $('#GetTotal').on('click', function () {
+	             var roles = [];
+	             $('#menuRole table#tblUserRole tbody tr').each(function () {
+	                 //console.log(this);
+	                 //debugger;
+	                 var role = {
+	                     RoleId: $(this).find('td#roleID #formId').val(),
+	                     //RoleName: $(this).find('td#roleID #formId').val(),
+	                     MenuId: $('#menuRole #MenuId').val(),
+	                     //MenuName: $(this).find('td#roleID #formId').val(),
+	                     IsValid: $(this).find('td#tdIsView #IsView:checked').val(),
+	                     Isedit: $(this).find('td#tdIsEdit #IsEdit:checked').val(),
+	                     Isdelete: $(this).find('td#tdIsDelete #IsDelete:checked').val()
+	                 };
+	                 //console.log(this);
+	                 // roles.push($(this).attr("value"));
+	                 roles.push(role);
+
+	             });
+	             var jsonRoles = JSON.stringify({ 'roles': roles });       
+	             $.ajax({
+	                 url: "/MenuMaster/ArrayHandler",
+	                 type: "POST",
+	                 data: jsonRoles,
+	                 dataType: "json",
+	                 contentType: "application/json;charset=utf-8",
+	                 traditional: true,
+	                 success: function (data) {
+	                     alert(data);
+	                 }
+	             });
+	         });
+	     });
+
+
+	     function menuEdit(id) {
+	         $.ajax({
+                     
+	                url: "/MenuMaster/MenuEdit?Id=" + id,
+	                type: "POST",
+	                success: function (data)
+	                {
+	                    var data = $.parseJSON(JSON.stringify(data));
+	                   
+	                    document.getElementById("SubMenuList").value =//data.Response.Menuname
+	                    document.getElementById("PageLinKType").value =// data.Response.Menuname
+	                    document.getElementById("pagelink").value =// data.Response.Menuname
+	                    document.getElementById("SubMenuName").value = data.Response.Menuname
+	                    document.getElementById("SubMenuOrder").value = data.Response.MenuOrder
+	                    document.getElementById("SubMenuImage").value = data.Response.Image
+
+	                }
+	            });
+
+	     }
+	     $("#PageLinKType ").change(function () {
+	         if ("Static Page" == document.getElementById("PageLinKType").value)
+	         $.ajax
+            
+                      var fieldData = '<option value="0"></option>'
+                     
+                      $("#DocumentField").html(fieldData);
+             
+	     });
+	</script>
+
+
+
+<!-- END CORE PLUGINS -->
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+
+<!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+
+<script src="../../assets/admin/pages/scripts/table-editable.js"></script>
+@*<script>
+    jQuery(document).ready(function () {
+       Metronic.init(); // init metronic core components
+       // Layout.init(); // init current layout
+        Demo.init(); // init demo features
+        TableEditable.init();
+    });
+</script>*@

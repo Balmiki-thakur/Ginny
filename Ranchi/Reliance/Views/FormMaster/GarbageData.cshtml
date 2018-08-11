@@ -1,0 +1,170 @@
+﻿ @*  var Formid = document.getElementById("FormId").value;
+    $.ajax({
+        type: "POST",
+        url: "/FieldValidation/ValidationByFormId/?formid=" + Formid,
+        datatype: "JSON",
+        success: function (data) {
+            var data = $.parseJSON(JSON.stringify(data));
+            var textAppand = "";
+            for (var j = 0; j < data.Response.length; j++) {
+
+                var FormId = data.Response[j].FormId;
+                var FieldId = data.Response[j].FieldId;
+                var OpratorId = data.Response[j].Operator;
+                var Value = data.Response[j].Value;
+                var ErrorMsg = data.Response[j].ErrorMsg;
+                var DocumentType = data.Response[j].DocNature;
+                var ValidationType = data.Response[j].ValidationType;
+                textAppand += " <input type='hidden'  class='form-control input-circle'validationtype='" + ValidationType + "' ValidateValue='" + Value + "'    id='M" + FieldId + "' name='" + FieldId + "' value='" + ErrorMsg + "'/>"
+                $("#contentdiv").html(textAppand);
+
+            }
+
+        }
+    });
+
+
+    $('#btnSave').on('click', function (e) {
+        e.preventDefault();
+        $("#FormValidationId .input-circle").each(function () {
+            var Fieldid = this.id;
+            var fieldValue = $(this).val();
+            var fieldtype = $(this).attr('type');
+
+            var result = matchValues(Fieldid, fieldValue, fieldtype);
+            if (result == "Errordata") {
+                return false;
+            }
+        });
+
+    });
+
+    function matchValues(Fieldid, fieldValue, fieldtype) {
+        var returnValue = null;
+        var ValidateField = "M" + Fieldid;
+        $("#" + ValidateField).each(function () {
+            var ValidationId = this.name;
+            var Validationvalue = $(this).val();
+            var validationtype = $(this).attr("validationtype");
+            var validatevalue = $(this).attr("ValidateValue");
+
+            if (ValidationId == Fieldid) {
+
+
+                if (validationtype == 3) {
+                    if (fieldValue == "") {
+                        $('#errmsg').html(Validationvalue);
+                        returnValue = "Errordata";
+                        return false;
+                    }
+                    else {
+                        $('#errmsg').html("");
+                    }
+
+
+                    if (fieldValue >= 0 && fieldValue <= validatevalue) {
+                        $('#errmsg').html(Validationvalue);
+                        returnValue = "Errordata";
+                        return false;
+                    }
+                    else {
+                        $('#errmsg').html("");
+                    }
+                    if (fieldtype == "number") {
+                        var x = document.getElementById(Fieldid).value;
+                        var regex = /^[a-zA-Z]+$/;
+                        if (x.match(regex)) {
+                            $('#errmsg').html("Must input numbers");
+                            returnValue = "Errordata";
+                            return false;
+                        }
+                        else {
+                            $('#errmsg').html("");
+                        }
+                    }
+                    if (fieldtype == "email") {
+                        var reg = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+                        var emailField = document.getElementById(Fieldid).value;
+                        if (reg.test(emailField.value) == false) {
+                            $('#errmsg').html(Validationvalue);
+                            returnValue = "Errordata";
+                            return false;
+                        }
+                        else {
+                            $('#errmsg').html("");
+                        }
+                    }
+                }
+            }
+        });
+        return returnValue;
+    }
+    </script>*@
+@*<script type="text/javascript">
+    $(document).on("click", "#calculate", function () {   
+        $(".validateRule").each(function () {           
+            var fieldValue = $(this).val();
+            var CatgorieCondition = $(this).attr('condition');
+            var data = document.getElementById(fieldValue).value;          
+            var errorMessage = $(this).attr('placeholder');
+            debugger;
+            if (data = "")
+            {               
+                alert(errorMessage)
+                return false;
+            }
+            var data = fieldValue
+        if (data == true)
+            {
+            alert(errorMessage)
+            return false;
+           }           
+             //$("#TotelAmount").val(result)
+             // var id = $('#calculate').val();
+
+             // $(".FormulaField-" + id).val(result);
+         });
+    })
+</script>*@
+@*<script type="text/javascript">
+    var employees = [{ "name": "Linda Anderson", "id": "1" }, { "name": "Hannah Flores", "id": "2" }, { "name": "John Smith", "id": "3" }, { "name": "Steven Edwards", "id": "4" }, { "name": "Thomas Fleming", "id": "5" }, { "name": "Robert Craig", "id": "6" }, { "name": "Fiona Grace", "id": "7" }, { "name": "Russel Hamilton", "id": "8" }, { "name": "Jasmine Morgan", "id": "9" }, { "name": "Ramakrishnan Narayanan", "id": "10" }, { "name": "Ramakrishnan Narayanan", "id": "11" }, { "name": "raja bangaram", "id": "31" }, { "name": "ggggg kkkkk", "id": "38" }];
+    var employeesArray = eval(employees);
+    var errorMsge;
+    var lang_typeForHints = 'Type for hints...';
+    var time_EmployeeNameRequired = 'Required';
+    var time_ValidEmployee = 'Invalid';
+
+    $(document).ready(function () {
+        $("#employee").autocomplete(employees, {
+            formatItem: function (item) {
+                return $('<div/>').text(item.name).html();
+            },
+            formatResult: function (item) {
+                return item.name
+            }
+            , matchContains: true
+        }).result(function (event, item) {
+            $("#employee").valid();
+        });
+
+        $("#employeeSelectForm").validate({
+
+            rules: {
+                'time[employeeName]': {
+                    required: true,
+                    maxlength: 200,
+                    validEmployeeName: true,
+                    onkeyup: false
+                }
+            },
+            messages: {
+                'time[employeeName]': {
+                    required: time_EmployeeNameRequired,
+                    validEmployeeName: time_ValidEmployee
+                }
+            }
+
+        });
+    });
+
+    </script>*@

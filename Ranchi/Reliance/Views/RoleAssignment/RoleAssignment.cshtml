@@ -1,0 +1,790 @@
+﻿@{
+    ViewBag.Title = "RoleAssignment";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+@*<style>
+    .control-group {
+  display: inline-block;
+  vertical-align: top;
+  background: #fff;
+  text-align: left;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  padding:0 10px;
+  width: 100%;
+  margin: 10px;
+}
+
+    .control-group h3 { margin-top:0!important; border-bottom:1px solid #ccc;
+    }
+.control {
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  font-size: 18px;
+  float:left;
+  margin-right:20px;
+  width:18%;
+}
+.control input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+.control__indicator {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background: #e6e6e6;
+}
+.control--radio .control__indicator {
+  border-radius: 50%;
+}
+.control:hover input ~ .control__indicator,
+.control input:focus ~ .control__indicator {
+  background: #ccc;
+}
+.control input:checked ~ .control__indicator {
+  background: #2aa1c0;
+}
+.control:hover input:not([disabled]):checked ~ .control__indicator,
+.control input:checked:focus ~ .control__indicator {
+  background: #0e647d;
+}
+.control input:disabled ~ .control__indicator {
+  background: #e6e6e6;
+  opacity: 0.6;
+  pointer-events: none;
+}
+.control__indicator:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+.control input:checked ~ .control__indicator:after {
+  display: block;
+}
+.control--checkbox .control__indicator:after {
+  left: 8px;
+  top: 4px;
+  width: 3px;
+  height: 8px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+
+}
+.control--checkbox input:disabled ~ .control__indicator:after {
+  border-color: #7b7b7b;
+}
+.control--radio .control__indicator:after {
+  left: 7px;
+  top: 7px;
+  height: 6px;
+  width: 6px;
+  border-radius: 50%;
+  background: #fff;
+}
+.control--radio input:disabled ~ .control__indicator:after {
+  background: #7b7b7b;
+}
+.select {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 15px;
+  width: 100%;
+}
+.select select {
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
+  padding: 10px 15px;
+  outline: 0;
+  border: 0;
+  border-radius: 0;
+  background: #e6e6e6;
+  color: #7b7b7b;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+.select select::-ms-expand {
+  display: none;
+}
+.select select:hover,
+.select select:focus {
+  color: #000;
+  background: #ccc;
+}
+.select select:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.select__arrow {
+  position: absolute;
+  top: 16px;
+  right: 15px;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  border-style: solid;
+  border-width: 8px 5px 0 5px;
+  border-color: #7b7b7b transparent transparent transparent;
+}
+.select select:hover ~ .select__arrow,
+.select select:focus ~ .select__arrow {
+  border-top-color: #000;
+}
+.select select:disabled ~ .select__arrow {
+  border-top-color: #ccc;
+}
+
+</style>
+
+<link href="~/assets/admin/layout2/css/kunal.css" rel="stylesheet" />
+
+<div class="tab-pane active" id="tab_1">
+    
+    <form>
+									<div class="portlet box blue">
+										<div class="portlet-title">
+											<div class="caption">
+												<i class="fa fa-gift"></i>Device Issuance
+											</div>
+											<div class="tools">
+												<a href="javascript:;" class="collapse" data-original-title="" title="">
+												</a>
+												<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+												</a>
+												<a href="javascript:;" class="reload" data-original-title="" title="">
+												</a>
+												<a href="javascript:;" class="remove" data-original-title="" title="">
+												</a>
+											</div>
+										</div>
+										<div class="portlet-body form">
+														<div class="col-md-3">
+															<div class="form-group">
+																<label>Role<span style="color:#FF0000">*</span></label>
+																<select class="form-control input-lg" id="selectItems" name="Role">
+                                                  @{Reliance.Modals.RoleMasterDoList roleModal = RelianceController.RoleMasterController.AllRole(Convert.ToInt32(Session["LOGGED_Company"]));
+                                                         <option value="0">Select</option>
+                                                      for (int i = 0; i < roleModal.Count; i++)
+                                                      {	               
+												       <option value="@roleModal[i].RoleId">@roleModal[i].RoleName</option>
+                                                      }
+                                                  }
+											</select>     
+															</div>
+														</div>
+														<div class="col-md-3">
+															<div class="form-group">
+                                                                <input type="hidden" id="CompanyId" name="Eid" value="@Session["LOGGED_Company"]" />
+																<label>Select User<span style="color:#FF0000">*</span></label>
+																<select id="roleuser" class="form-control">
+															
+																</select>
+															</div>
+														</div>
+                                            <div class="col-md-3">
+                                             <div class="form-group">
+											<label>Document Type</label>
+                                            <select class="form-control" id="DocumentName" name="datatype"  required="" class="form-control input-lg dspn" placeholder="Please Select Document Type">
+                                                  <option  value="NULL">Select</option>
+                                                 
+							                   </select>
+							                </div>
+                                                </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+											<label>Document Field</label>
+                                            <select class="form-control" id="DocumentField" name="datatype"  required="" class="form-control input-lg dspn" placeholder="Please Select Document Fields">
+                                                   <option  value="NULL">Select</option>
+							                   </select>
+					                        		</div>
+                                                </div>
+										</div>	
+													
+												</div>
+												
+											</form>
+   
+</div>
+<div class="portlet-body form">
+										<div class="tab-content">
+											<div class="tab-pane active" id="portlet_tab_1_1">
+												<div class="skin skin-minimal">
+													<form role="form" onsubmit="saveRecords(); return false;">
+														<div class="form-body">
+                                                            <div class="col-md-12" >
+														<div class="row">
+                                                            <div class="control-group  kMaxHeight" style="background:#fff; height:300px;">
+                                                            <h3>All Data</h3>                                                          
+                                                            <div  id="FormFieldData"></div>
+                                                            </div>
+                                                          
+                                                            
+                                                                                                                                                 
+                          								</div>
+                                                               
+
+                                                                  <div>
+                                                               <input type='checkbox' id="Create" class='Create' value="1"/><label > Can Create </label>
+                                                                 <input type='checkbox' id="Edit" class='Edit' value="1"/><label> Can Edit </label>
+                                                                 <input type='checkbox' id="View" class='View' value="1"/><label> Can View </label>
+                                                                   </div>
+                                                                    <div class="form-actions right">
+	                                                                   <button type="button" class="btn default">Cancel</button>
+                                                                       <button type="submit" id="btnSubmit" class="btn blue"><i class="fa fa-check"></i> Save</button>
+	                                                               </div>
+                                                            </div>
+                                                           </div>														  														   
+                                                                                       
+												</form>
+												</div>
+											</div>
+										
+									
+										</div>
+									</div>
+<div class="row" style="">
+      
+    </div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#selectItems").change(function () {
+            var formId = document.getElementById("selectItems").value;
+            $.ajax({
+                type: "Post",
+                url: "/RoleAssignment/RoleByUser/?RoleId=" + formId,
+                success: function (data) {
+                    var fieldData = '<option value="0">Select</option>'
+                    for (var j = 0; j < data.Responses.length; j++)
+                    {
+                        fieldData += "<option value='" + data.Responses[j].Userid + "'>" + data.Responses[j].UserName + ":--  (" + data.Responses[j].Email + ")  </option>";
+                    }
+                    $("#roleuser").html(fieldData);
+                },
+            });
+        });
+        var CompanyId = document.getElementById("CompanyId").value;
+        $.ajax
+        ({
+            type: "POST",
+            url: "/Dynamic/AllFormList/?CompanyId=" + CompanyId,
+                          datatype: "JSON",
+                          success: function (data) {
+                              var item = '<option value="0">Select</option>'
+                              for (var j = 0; j < data.Response.length; j++) {
+                                  var formName = data.Response[j].FormName;
+                                  item += "<option value='" + data.Response[j].Id + "'>" + data.Response[j].FormName + "</option>";
+                              };
+                              $("#DocumentName").html(item);
+                          },
+                      });
+        $("#DocumentName").change(function () {
+            var formId = document.getElementById("DocumentName").value;
+            var CompanyId = document.getElementById("CompanyId").value;
+            $.ajax
+             ({
+                 type: "POST",
+                 url: "/Dynamic/MultiFields/?formid=" + formId + "&CompanyId=" + CompanyId,
+                 success: function (data) {
+                     var fieldData = '<option value="0">Select</option>'
+                     for (var j = 0; j < data.Response.length; j++) {
+                         fieldData += "<option value='" + data.Response[j].FieldId + "'>" + data.Response[j].Display_name + "</option>";
+                     }
+                     $("#DocumentField").html(fieldData);
+                 },
+             });
+        });
+
+        $("#DocumentField").change(function () {
+            var formId = document.getElementById("DocumentName").value;           
+            var FieldId = document.getElementById("DocumentField").value;
+         
+            $.ajax
+             ({
+                 type: "POST",
+                 url: "/FormMaster/DropDownData/?FormId=" + formId + "&FieldId=" + FieldId,
+                 success: function (data) {
+                     var item = '';
+                     var main = "<div class='control-group'>";
+                     var Mainend = "</div>";
+                     for (var j = 0; j < data.Responses.length; j++) {
+                         debugger;
+                       //  var formName = data.Response[j].FormName;
+                         item += "<label class='control control--checkbox'><input type='checkbox' class='iChildcheck' value='" + data.Responses[j].Key + "'/>" + data.Responses[j].Values + "<div class='control__indicator'></div></label>";
+                         //"<option value='" + data.Response[j].Id + "'>" + data.Response[j].FormName + "</option>";
+                     };
+                     $("#FormFieldData").html(item);
+                 },
+             });
+        });
+    });
+
+
+</script>
+<script type="text/javascript">
+    $(document).ready(function ()
+    {
+        $.ajax
+              ({
+                  type: "POST",
+                  url: "/Dynamic/AllFormList",
+                  datatype: "JSON",
+                  success: function (data)
+                  {
+                    var item = '';
+                       for (var j = 0; j < data.Response.length; j++) {
+                          var formName = data.Response[j].FormName;
+                          item += "<input type='checkbox' id= 'FormName'" + j + "value='" + data.Response[j].Id + "'/> <label>" + data.Response[j].FormName + "</label></br>";
+                          //"<option value='" + data.Response[j].Id + "'>" + data.Response[j].FormName + "</option>";
+                      };
+                            $("#FormName").html(item);
+                   },
+              });
+
+          });
+    </script>
+<script type ="text/javascript">
+         $(document).ready(function () {
+             $("#btnSubmit").click(function () {
+                 var roleid = document.getElementById("selectItems").value;
+                 var useridId = document.getElementById("roleuser").value;    
+                 var DocumentFormId = document.getElementById("DocumentName").value;
+                 var DocumentFieldid = document.getElementById("DocumentField").value;
+                 var formIdvalue = '';
+                 $('.icheck:checked').each(function () {
+                     formIdvalue += $(this).val();
+                 });
+                 var FormFieldData = '';
+                 $('.iChildcheck:checked').each(function () {
+                     FormFieldData += $(this).val() + ',';
+                 });             
+                 var View = '';
+                 $('#View:checked').each(function () {
+                     debugger;
+                     View += $(this).val() ;
+                 });
+                 var Create = '';
+                 $('#Create:checked').each(function () {
+                     debugger;
+                     Create += $(this).val();
+                    
+                 });
+                 var Edit = '';
+                 $('#Edit:checked').each(function () {
+                     debugger;
+                     Edit += $(this).val() ;
+                 });         
+              
+                 $.ajax({
+                     url: "/RoleAssignment/AddRoleAssigment?Roleis=" + roleid + "&Userid=" + useridId + '&DocumentFormId=' + DocumentFormId + '&DocumentFields=' + DocumentFieldid + '&FormId=' + formIdvalue + '&documentDataid=' + FormFieldData + '&IsView=' + View +'&IsCreate=' + Create + '&IsEdit=' + Edit,
+                     type: "POST",
+                     success: function (data) {
+                         alert("Role Is Successfully Add Thanku");
+                     },
+                     error: function () {
+                         $("#testarea").html("ERROR");
+                     }
+                 });
+             });
+         });
+	</script>*@
+
+<style>
+    .bckeckgroup {border:1px solid #ccc; padding:10px; overflow:hidden; box-shadow:0 0 2px 2px #ccc;
+    }
+    .box-scroll .control { width:100%;
+    }
+    .box-scroll { height:200px; border:1px solid #ccc; margin-top:20px; box-shadow:0 0 3px 1px #ccc; overflow-y:scroll; padding:0 10px;
+    }
+        .box-scroll h3 {     margin-top: 0!important;
+    position: absolute;
+    top: 21px;
+    width: 278px;
+    left: 16px;
+    background: lightblue;
+    font-size: 19px;
+    padding: 5px;
+    z-index: 1000;
+        }
+    .mainformname {
+        margin-top:16px;
+    }
+
+    .control-group {
+  display: inline-block;
+  vertical-align: top;
+  background: #fff;
+  text-align: left;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  padding:0 10px;
+  width: 100%;
+  margin: 10px;
+}
+
+    .control-group h3 { margin-top:0!important; border-bottom:1px solid #ccc;
+    }
+.control {
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  font-size: 14px;
+  float:left;
+  margin-right:20px;
+  width:18%;
+}
+.control input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+.control__indicat
+or {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background: #e6e6e6;
+}
+.control--radio .control__indicator {
+  border-radius: 50%;
+}
+.control:hover input ~ .control__indicator,
+.control input:focus ~ .control__indicator {
+  background: #ccc;
+}
+.control input:checked ~ .control__indicator {
+  background: #2aa1c0;
+}
+.control:hover input:not([disabled]):checked ~ .control__indicator,
+.control input:checked:focus ~ .control__indicator {
+  background: #0e647d;
+}
+.control input:disabled ~ .control__indicator {
+  background: #e6e6e6;
+  opacity: 0.6;
+  pointer-events: none;
+}
+.control__indicator:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+.control input:checked ~ .control__indicator:after {
+  display: block;
+}
+.control--checkbox .control__indicator:after {
+  left: 8px;
+  top: 4px;
+  width: 3px;
+  height: 8px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+
+}
+.control--checkbox input:disabled ~ .control__indicator:after {
+  border-color: #7b7b7b;
+}
+.control--radio .control__indicator:after {
+  left: 7px;
+  top: 7px;
+  height: 6px;
+  width: 6px;
+  border-radius: 50%;
+  background: #fff;
+}
+.control--radio input:disabled ~ .control__indicator:after {
+  background: #7b7b7b;
+}
+.select {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 15px;
+  width: 100%;
+}
+.select select {
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
+  padding: 10px 15px;
+  outline: 0;
+  border: 0;
+  border-radius: 0;
+  background: #e6e6e6;
+  color: #7b7b7b;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+.select select::-ms-expand {
+  display: none;
+}
+.select select:hover,
+.select select:focus {
+  color: #000;
+  background: #ccc;
+}
+.select select:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.select__arrow {
+  position: absolute;
+  top: 16px;
+  right: 15px;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  border-style: solid;
+  border-width: 8px 5px 0 5px;
+  border-color: #7b7b7b transparent transparent transparent;
+}
+.select select:hover ~ .select__arrow,
+.select select:focus ~ .select__arrow {
+  border-top-color: #000;
+}
+.select select:disabled ~ .select__arrow {
+  border-top-color: #ccc;
+}
+
+</style>
+<div class="tab-pane active" id="tab_1">
+									<div class="portlet box blue">
+										<div class="portlet-title">
+											<div class="caption">
+												<i class="fa fa-gift"></i>Role Assignment
+											</div>
+											<div class="tools">
+												<a href="javascript:;" class="collapse" data-original-title="" title="">
+												</a>
+												<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+												</a>
+												<a href="javascript:;" class="reload" data-original-title="" title="">
+												</a>
+												<a href="javascript:;" class="remove" data-original-title="" title="">
+												</a>
+											</div>
+										</div>
+										<div class="portlet-body form">
+											<!-- BEGIN FORM-->
+											<form action="#" class="horizontal-form">
+												<div class="form-body">
+													<h3 class="form-section">Form Role</h3>
+													<div class="row">
+														
+														<div class="col-md-3">														
+																<div class="form-group">
+																<label>Role<span style="color:#FF0000">*</span></label>
+																<select class="form-control input-lg" id="selectItems" name="Role">
+                                                  @{RelianceController.RoleMasterController roleMasterController= new RelianceController.RoleMasterController();
+                                                    Reliance.Modals.RoleMasterDoList roleModal = roleMasterController.AllRole(Convert.ToInt32(Session["LOGGED_Company"]));
+                                                    
+                                                         <option value="0">Select</option>
+                                                      for (int i = 0; i < roleModal.Count; i++)
+                                                      {	               
+												       <option value="@roleModal[i].RoleId">@roleModal[i].RoleName</option>
+                                                      }
+                                                  }
+                                                 
+											</select>     
+															</div>																											
+														</div>														
+														<div class="col-md-3">
+															<div class="form-group">
+                                                                <input type="hidden" id="CompanyId" name="Eid" value="@Session["LOGGED_Company"]" />
+																<label>Select User<span style="color:#FF0000">*</span></label>
+																<select id="roleuser" class="form-control">
+																</select>
+															</div>
+														</div>
+                                                         <div class="col-md-3">
+															<div class="form-group">
+																<label class="control-label">Start Date</label>
+																<input type="text" class="form-control" id="StateDate" placeholder="dd/mm/yyyy">
+															</div>
+														</div>
+                                                    <div class="col-md-3">
+															<div class="form-group">
+																<label class="control-label">End Date</label>
+																<input type="text" class="form-control" id="endDate" placeholder="dd/mm/yyyy">
+															</div>
+														</div>
+												</div>	
+												  
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label class="control-label">Selecct All</label>
+                                                               <input type="checkbox" id="select_all"/> 
+                                                            </div>
+													<div id="AllForms" class="bckeckgroup"></div>
+                                                        <div class="row">                                                                                                           
+                                                            <div id="FormFieldData"></div>
+                                                        </div>
+														 
+												   </div>
+                                                           
+												</div>
+													
+													
+												
+												<div class="form-actions right">
+													<button type="button" class="btn default">Cancel</button>
+													<button type="submit" id="btnSubmit" onclick="FormSubmit()" class="btn blue"><i class="fa fa-check"></i> Save</button>
+												</div>
+											</form>
+											<!-- END FORM-->
+										</div>
+									</div>
+									
+								</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#selectItems").change(function () {
+            var formId = document.getElementById("selectItems").value;
+            $.ajax({
+                type: "Post",
+                url: "/RoleAssignment/RoleByUser/?RoleId=" + formId,
+                success: function (data) {
+                    var fieldData = '<option value="0">Select</option>'
+                    for (var j = 0; j < data.Responses.length; j++) {
+                        fieldData += "<option value='" + data.Responses[j].Userid + "'>" + data.Responses[j].UserName + ":--  (" + data.Responses[j].Email + ")  </option>";
+                    }
+                    $("#roleuser").html(fieldData);
+                },
+            });
+        });
+        var CompanyId = document.getElementById("CompanyId").value;
+        $.ajax
+        ({
+            type: "POST",
+            url: "/RoleAssignment/AllFormListWithRoleAssingment/?CompanyId=" + CompanyId,
+            datatype: "JSON",
+            success: function (data) {
+                var item = '';
+                var main = "<div class='control-group'>";
+                var Mainend = "</div>";
+                var FieldDiv = "";
+                for (var j = 0; j < data.Response.length; j++) {
+
+                    //  var formName = data.Response[j].FormName;
+                    item += "<label class='control control--checkbox'><input type='checkbox' class='Childcheck MasterForm' value='" + data.Response[j].FormId + "'/>" + data.Response[j].FormName + "<div class='control__indicator'></div></label>";
+                    if (data.Response[j].RoleAssignment) {
+                        FieldDiv += "<div class='col-sm-3'><div class='mainformname'><div class='box-scroll'>'<h3 Class='formids' value='"+data.Response[j].FormId+"'>" + data.Response[j].FormName + "</h3>'<div id='" + data.Response[j].FormName + "'></div></div> </div></div>";
+                        GetData(data.Response[j].DocumentFormId, data.Response[j].DocumentFieldId, data.Response[j].FormName)
+                    }
+                };
+                $("#FormFieldData").html(FieldDiv);
+                $("#AllForms").html(item);
+            },
+        });
+        function GetData(DocumentFormId, DocumentFieldId,FormDivid) {
+            var formId = DocumentFormId;
+            var FieldId = DocumentFieldId;
+            
+            $.ajax
+           ({
+               type: "POST",
+               url: "/FormMaster/DropDownData/?FormId=" + formId + "&FieldId=" + FieldId,
+               success: function (data) {
+                   var item = '';
+                   var main = "<div class='control-group'>";
+                   var Mainend = "</div>";
+                   for (var j = 0; j < data.Responses.length; j++) {
+                     
+                       //  var formName = data.Response[j].FormName;
+                       item += "<label class='control control--checkbox'><input type='checkbox' class='iChildcheck FormFeidData"+ FieldId +"' value='" + data.Responses[j].Key + "'/>" + data.Responses[j].Values + "<div class='control__indicator'></div></label>";
+                       //"<option value='" + data.Response[j].Id + "'>" + data.Response[j].FormName + "</option>";
+                   };
+                   $("#" + FormDivid).append(item);
+               },
+           });
+        }
+    });
+</script>
+<script type="text/javascript">
+    var select_all = document.getElementById("select_all"); //select all checkbox
+    var checkboxes = document.getElementsByClassName("Childcheck"); //checkbox items
+  
+        //select all checkboxes
+        select_all.addEventListener("change", function (e) {
+            for (i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].checked = select_all.checked;
+            }
+        });
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].addEventListener('change', function (e) { //".checkbox" change 
+                //uncheck "select all", if one of the listed checkbox item is unchecked
+                if (this.checked == false) {
+                    select_all.checked = false;
+                }
+                //check "select all" if all checkbox items are checked
+                if (document.querySelectorAll('.checkbox:checked').length == checkboxes.length) {
+                    select_all.checked = true;
+                }
+            });
+        }
+    </script>
+<script type ="text/javascript">
+    $(document).ready(function () {
+        $("#btnSubmit").click(function () {
+            debugger;
+            var roleid = document.getElementById("selectItems").value;
+           
+            var useridId = document.getElementById("roleuser").value;          
+            var formIdvalue = '';
+            $('.MasterForm:checked').each(function () {
+                formIdvalue += $(this).val()+ ',';
+              
+            });
+            alert(formIdvalue);
+            var formid
+            $('.formids').each(function () {
+                formid += $(this).val() + ',';
+            });
+            alert(formid);
+         //   var FormFieldData = '';
+         //   $(".iChildcheck"+DocumentFieldId + ":checked").each(function () {
+         //       FormFieldData += $(this).val() + ',';
+          //  });
+         //   //alert(FormFieldData);
+            //var View = '';
+            //$('#View:checked').each(function () {
+            //    debugger;
+            //   View += $(this).val();
+            //});
+            //var Create = '';
+            //$('#Create:checked').each(function () {
+            //    debugger;
+            //    Create += $(this).val();
+
+            //});
+            //var Edit = '';
+            //$('#Edit:checked').each(function () {
+            //    debugger;
+            //    Edit += $(this).val();
+            //});
+
+            $.ajax({
+              //  url: "/RoleAssignment/AddRoleAssigment?Roleis=" + roleid + "&Userid=" + useridId + '&DocumentFormId=' + DocumentFormId + '&DocumentFields=' + DocumentFieldid + '&FormId=' + formIdvalue + '&documentDataid=' + FormFieldData + '&IsView=' + View + '&IsCreate=' + Create + '&IsEdit=' + Edit,
+                type: "POST",
+                success: function (data) {
+                    alert("Role Is Successfully Add Thanku");
+                },
+                error: function () {
+                    $("#testarea").html("ERROR");
+                }
+            });
+        });
+    });
+	</script>

@@ -1,0 +1,353 @@
+﻿@{
+    ViewBag.Title = "MasterDynamicReport";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+<style>
+    .bckeckgroup {border:1px solid #ccc; padding:10px; overflow:hidden; box-shadow:0 0 2px 2px #ccc;
+    }
+    .box-scroll .control { width:100%;
+    }
+    .box-scroll { height:200px; border:1px solid #ccc; margin-top:20px; box-shadow:0 0 3px 1px #ccc; overflow-y:scroll; padding:0 10px;
+    }
+        .box-scroll h3 {     margin-top: 0!important;
+    position: absolute;
+    top: 21px;
+    width: 278px;
+    left: 16px;
+    background: lightblue;
+    font-size: 19px;
+    padding: 5px;
+    z-index: 1000;
+        }
+    .mainformname {
+        margin-top:16px;
+    }
+
+    .control-group {
+  display: inline-block;
+  vertical-align: top;
+  background: #fff;
+  text-align: left;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  padding:0 10px;
+  width: 100%;
+  margin: 10px;
+}
+
+    .control-group h3 { margin-top:0!important; border-bottom:1px solid #ccc;
+    }
+.control {
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  font-size: 14px;
+  float:left;
+  margin-right:20px;
+  width:18%;
+}
+.control input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+.control__indicat
+or {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background: #e6e6e6;
+}
+.control--radio .control__indicator {
+  border-radius: 50%;
+}
+.control:hover input ~ .control__indicator,
+.control input:focus ~ .control__indicator {
+  background: #ccc;
+}
+.control input:checked ~ .control__indicator {
+  background: #2aa1c0;
+}
+.control:hover input:not([disabled]):checked ~ .control__indicator,
+.control input:checked:focus ~ .control__indicator {
+  background: #0e647d;
+}
+.control input:disabled ~ .control__indicator {
+  background: #e6e6e6;
+  opacity: 0.6;
+  pointer-events: none;
+}
+.control__indicator:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+.control input:checked ~ .control__indicator:after {
+  display: block;
+}
+.control--checkbox .control__indicator:after {
+  left: 8px;
+  top: 4px;
+  width: 3px;
+  height: 8px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+
+}
+.control--checkbox input:disabled ~ .control__indicator:after {
+  border-color: #7b7b7b;
+}
+.control--radio .control__indicator:after {
+  left: 7px;
+  top: 7px;
+  height: 6px;
+  width: 6px;
+  border-radius: 50%;
+  background: #fff;
+}
+.control--radio input:disabled ~ .control__indicator:after {
+  background: #7b7b7b;
+}
+.select {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 15px;
+  width: 100%;
+}
+.select select {
+  display: inline-block;
+  width: 100%;
+  cursor: pointer;
+  padding: 10px 15px;
+  outline: 0;
+  border: 0;
+  border-radius: 0;
+  background: #e6e6e6;
+  color: #7b7b7b;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+.select select::-ms-expand {
+  display: none;
+}
+.select select:hover,
+.select select:focus {
+  color: #000;
+  background: #ccc;
+}
+.select select:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.select__arrow {
+  position: absolute;
+  top: 16px;
+  right: 15px;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  border-style: solid;
+  border-width: 8px 5px 0 5px;
+  border-color: #7b7b7b transparent transparent transparent;
+}
+.select select:hover ~ .select__arrow,
+.select select:focus ~ .select__arrow {
+  border-top-color: #000;
+}
+.select select:disabled ~ .select__arrow {
+  border-top-color: #ccc;
+}
+
+</style>
+
+<div class="tab-pane active" id="tab_1">
+									<div class="portlet box blue">
+										<div class="portlet-title">
+											<div class="caption">
+												<i class="fa fa-gift"></i>Report Engine
+											</div>
+											<div class="tools">
+												<a href="javascript:;" class="collapse" data-original-title="" title="">
+												</a>
+												<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+												</a>
+												<a href="javascript:;" class="reload" data-original-title="" title="">
+												</a>
+												<a href="javascript:;" class="remove" data-original-title="" title="">
+												</a>
+											</div>
+										</div>
+										<div class="portlet-body form">
+											<!-- BEGIN FORM-->
+											<form action="form" onsubmit="saveRecords(); return false;" class="horizontal-form">
+												<div class="form-body">
+													<h3 class="form-section"> All Form</h3>
+
+                                                   <div>
+                                                     
+                                                       <input type="hidden" id="CompanyId" name="Eid" value="@Session["LOGGED_Company"]" />
+	
+													<div id="AllForms" class="bckeckgroup"></div>
+                                                        <div class="row">                                                                                                           
+                                                            <div id="FormFieldData"></div>
+                                                        </div>														 
+												   </div>
+
+		                                     </div>
+																						
+												<div class="form-actions right">
+													<button type="button" class="btn default">Cancel</button>
+													<button type="submit" id="btnSubmit" onclick="FormSubmit()" class="btn blue"><i class="fa fa-check"></i> Save</button>
+												</div>
+											</form>
+											<!-- END FORM-->
+										</div>
+									</div>
+									
+								</div>
+<div class="row">
+     <div class="form-group col-md-4" style="background-color:antiquewhite">
+                                                                <div class="caption caption-md">
+											
+											       <span class="caption-subject font-green-sharp bold uppercase">All Field </span>
+										                    </div>																
+																<div class="input-group">
+																	<div class="icheck-list">
+																	<div id="FormFields"></div>
+                                                      
+																	</div>
+                                                                     <div id="br"></div>
+															</div>
+                                                            </div>
+                                                            <div class="form-group col-md-3" style="background-color:aquamarine">
+                                                                <div class="caption caption-md">
+											
+											       <span class="caption-subject font-green-sharp bold uppercase">Join </span>
+										                    </div>																
+																<div class="input-group">
+																	<div class="icheck-list">
+																	<div id="JoinData">
+                                                                      
+																	</div>
+                                                                        <div id="KeyData" style="background-color:#aeaf5d">
+                                                                      
+																	</div>
+                                                                        <button type="button"   onclick="joinRecords();" class="btn green-haze">Create</button>
+																	</div>
+															</div>
+
+                                                            </div>
+</div>
+
+
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var CompanyId = document.getElementById("CompanyId").value;
+        $.ajax
+               ({
+                   type: "POST",
+                   url: "/Dynamic/AllFormList/?CompanyId=" + CompanyId,
+                   datatype: "JSON",
+                   success: function (data) {
+                       var item = '';
+                       var main = "<div class='control-group'>";
+                       var Mainend = "</div>";
+                       var FieldDiv = "";
+                       for (var j = 0; j < data.Response.length; j++) {
+
+                           //  var formName = data.Response[j].FormName;
+                           item += "<label class='control control--checkbox'><input type='checkbox' class='Childcheck MasterForm' value='" + data.Response[j].FormId + "'/>" + data.Response[j].FormName + "<div class='control__indicator'></div></label>";
+                           if (data.Response[j].RoleAssignment) {
+                               FieldDiv += "<div class='col-sm-3'><div class='mainformname'><div class='box-scroll'>'<h3 Class='formids' value='" + data.Response[j].FormId + "'>" + data.Response[j].FormName + "</h3>'<div id='" + data.Response[j].FormName + "'></div></div> </div></div>";
+                               GetData(data.Response[j].DocumentFormId, data.Response[j].DocumentFieldId, data.Response[j].FormName)
+                           }
+                       };
+                       $("#FormFieldData").html(FieldDiv);
+                       $("#AllForms").html(item);
+                   },
+               });
+    });
+
+    function saveRecords() {
+        debugger;
+        var ids = '';
+        $('.MasterForm:checked').each(function () {
+            ids += $(this).val() + ',';
+        });
+        var CompanyId = document.getElementById("CompanyId").value;
+        $.ajax({
+            type: "POST",
+            url: "/Dynamic/ReportFields/?formid=" + ids,
+            datatype: "JSON",
+            success: function (data) {
+                debugger;
+                var fieldData = '';
+                var joindata = '';
+                for (var j = 0; j < data.Response.length; j++) {
+                    var count = $('input.MasterForm:checked').length;
+
+                    if (count != 1) {
+                       
+                        fieldData += "" + data.Response[j].FormName + "= <label><input type='checkbox'  class='iChildcheck'  value='" + data.Response[j].Display_name + "/" + data.Response[j].FormId + "'>" + data.Response[j].Display_name + "</label></br>";
+                        if (data.Response[j].Field_type == 'Drop Down') {
+                            joindata += "" + data.Response[j].FormName + "= <label><input type='checkbox' class='actioncheck'  id='action1'    value='" + data.Response[j].Display_name + "/" + data.Response[j].FormId + "'>" + data.Response[j].Display_name + "</label></br>";
+
+                        }
+
+                    }
+                    else {
+
+                        fieldData += "" + data.Response[j].FormName + "= <label><input type='checkbox'   class='iChildcheck'  value='" + data.Response[j].Display_name + "'>" + data.Response[j].Display_name + "</label></br>";
+                        if (data.Response[j].Field_type == 'Drop Down') {
+                            joindata += "" + data.Response[j].FormName + "= <label><input type='checkbox'  class='actioncheck'  id='action1'   value='" + data.Response[j].Display_name + "/" + data.Response[j].FormId + "'>" + data.Response[j].Display_name + "</label></br>";
+
+                        }
+                    }
+                }
+                $("#FormFields").html(fieldData);
+                $("#JoinData").html(joindata);
+
+            },
+        });
+    }
+    function joinRecords() {
+        var ids = '';
+        $('.actioncheck:checked').each(function () {
+            ids += $(this).val() + ',';
+           
+        });
+        $.ajax({
+            type: "POST",
+            url: "/Report/joinQuery/?formid=" + ids,
+            datatype: "JSON",
+            success: function (data) {
+                var item = "";
+                for (var j = 0; j < data.Response.length; j++) {
+                    item += "" + data.Response[j].FormName + "= <label><input type='checkbox'  id= 'joinName' class='JoinQueryCheck'  value='" + data.Response[j].FormName + "/ " + data.Response[j].Display_name + "'> " + data.Response[j].Display_name + "</label></br>";
+                }
+                $("#KeyData").html(item);
+            },
+        });
+
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+

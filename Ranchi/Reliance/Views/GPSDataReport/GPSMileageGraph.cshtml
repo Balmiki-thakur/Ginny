@@ -1,0 +1,130 @@
+﻿@{
+    ViewBag.Title = "GPSMileageGraph";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+   @*<div class="mapCon" id="map">
+    </div>*@
+          <div id="map_canvas" style="width: 100%; height: 700px;"></div>
+      
+@*<div class="mapCon" id="map">
+</div>*@
+<!-- map ends -->
+</div><!-- row ends -->
+</div><!-- container fluid ends -->
+<!--  Scripts-->
+    
+ <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>  
+<script src="~/js/materialize.min.js"></script>
+<script src="~/js/materialize.js"></script>
+<script src="~/js/bootstrap.js"></script>
+      
+<script src="~/js/init.js"></script>
+ <script src="https://maps.googleapis.com/maps/api/js?key= AIzaSyAYfOhUF687Tn_DfRO1SJ5JoBtotnQF0AE" type="text/javascript"></script> 
+<script type="text/javascript"></script>
+ 
+<script type="text/javascript">
+    function initialize() {
+
+           infowindow = new google.maps.InfoWindow({
+            content: "loading..."
+        });
+        //var bikeLayer = new google.maps.BicyclingLayer();
+        //bikeLayer.setMap(map);
+    }
+    $.ajax({
+        url: "/GPSDataReport/GraphDataPlot",
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json;charset=utf-8",
+        traditional: true,
+        success: function (data) {       
+            var locations = $.parseJSON(JSON.stringify(data));
+            var centerMap = new google.maps.LatLng(locations.Response[0].lattitude, locations.Response[0].longitude);
+            var myOptions = {
+                zoom: 12,
+                center: centerMap,
+                mapTypeId: google.maps.MapTypeId.ROADMAP               
+            }
+            var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+            alert(locations.Response.length);
+            for (i = 0; i < locations.Response.length; i++)
+            {
+                
+            //    var Map = "";
+
+                
+                var siteLatLng = new google.maps.LatLng(locations.Response[i].lattitude, locations.Response[i].longitude);
+                var marker = new google.maps.Marker({
+                    position: siteLatLng,
+                    map: map,
+                   // icon: '/img/2.png',
+                    size: new google.maps.Size(1, 1),
+                   // title: gpsData.Response[i].IMIENO,
+                   // html: gpsData.Response[i].Vehicle_Name,
+                  //  speed: gpsData.Response[i].speed,
+                   // CTime: gpsData.Response[i].cTime,
+                    Lattitude: locations.Response[i].lattitude,
+                    Longitude: locations.Response[i].longitude,
+                    // animation:google.maps.Animation.BOUNCE
+
+                });
+                var ar = new Array();
+                // centerMap.push(new google.maps.LatLng(locations.Response[i][1], locations.Response[i][2]));
+                if (i > 0)
+                {
+                   
+                    ar.push(new google.maps.LatLng(locations.Response[i - 1].lattitude, locations.Response[i - 1].longitude));
+                    ar.push(new google.maps.LatLng(locations.Response[1].lattitude, locations.Response[1].longitude));
+                    var FrPath = new google.maps.Polyline({ path: ar,map: map, strokeColor: 'rgba(1,1,1,0.3)' });
+                    FrPath.setMap(map);
+                }
+
+            }
+           
+        }
+    });
+    var myMarkersArray = [];
+    debugger;
+
+    $(document).ready(function () {
+
+        Markers.initialize();
+        Markers.GetSites();
+    });
+
+
+    //$(document).ready(function ()
+    //{
+    //    var centerMap = new google.maps.LatLng(22.5454396, 88.3408238);
+    //    var myOptions = {
+    //        zoom: 5,
+    //        center: centerMap,
+    //        mapTypeId: google.maps.MapTypeId.ROADMAP
+    //    }
+    //    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    //    $.ajax({
+    //        url: "/GPSDataReport/GraphDataPlot",
+    //        type: "POST",
+    //        dataType: "json",
+    //        contentType: "application/json;charset=utf-8",
+    //        traditional: true,
+    //        success: function (data)
+    //        {
+    //            alert(data);
+    //            var locations = $.parseJSON(JSON.stringify(data));
+    //            //  var siteLatLng = new google.maps.LatLng(gpsData.Response[i].lattitude, gpsData.Response[i].longitude);
+    //            for (i = 0; i < locations.length; i++)
+    //            {      
+    //                lineCoordinates.push(new google.maps.LatLng(locations[i][1], locations[i][2]));
+    //                if (i > 0)
+    //                {
+    //                    ar.push(new google.maps.LatLng(locations[i - 1][1], locations[i - 1][2]));
+    //                    ar.push(new google.maps.LatLng(locations[i][1], locations[i][2]));
+    //                    var FrPath = new google.maps.Polyline({ path: ar, strokeColor: 'rgba(1,1,1,0.3)' });
+    //                    FrPath.setMap(map);
+    //                }
+    //            }
+    //        }
+    //    });
+    //});
+</script>

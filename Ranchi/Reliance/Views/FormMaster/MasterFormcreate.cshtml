@@ -1,0 +1,196 @@
+﻿@{
+    ViewBag.Title = "MasterFormcreate";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+<input type="hidden"   id="FormId"  name="FormId" value="@ViewBag.Id" />
+<input type="hidden"   id="RoleId"  name="FormId" value="@Session["LOGGED_ROLE"]"  />
+<input type="hidden"   id="UserId"  name="FormId" value="@Session["LOGGED_UserId"]" />
+<input type="hidden" id="CompanyId" name="Eid" value="@Session["LOGGED_Company"]" />
+
+<style>
+{margin:0px}
+#searchbox
+{
+width:250px;
+border:solid 1px #000;
+padding:3px;
+}
+#display
+{
+width:250px;
+display:none;
+float:right; margin-right:30px;
+border-left:solid 1px #dedede;
+border-right:solid 1px #dedede;
+border-bottom:solid 1px #dedede;
+overflow:hidden;
+}
+.display_box
+{
+padding:4px; 
+border-top:solid 1px #dedede; 
+font-size:12px; 
+height:30px;
+}
+.display_box:hover
+{
+background:#3b5998;
+color:#FFFFFF;
+}
+</style>
+<script src="~/Scripts/jquery-1.7.1.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script type="text/javascript">
+    function GetLooKUP(sel) {
+        var currentFieldId = $("#" + sel + "").attr("look");
+      
+        var Id = document.getElementById(sel).options[document.getElementById(sel).selectedIndex].value;
+           
+        $.ajax({
+            type: "POST",
+            url: "/FormMaster/LooKUpdataBind/?currentFieldId=" + currentFieldId + "&Id=" + Id,
+            // url: "/FormMaster/DropDownFunctionValue/?colloumType=" + DocumentName + "&formName=" + FormName + "&ColloumName=" + DocumentField + "&fieldtype=" + DataType + "&fieldName=" + Display_name,
+            datatype: "JSON",
+            contentType: "application/json;charset=utf-8",
+            traditional: true,
+            async: false,
+            success: function (data) {
+                //  var FormName = '';
+                for (var j = 0; j < data.Responses.length; j++) {
+                    var data = $.parseJSON(JSON.stringify(data));
+                    var lookdata = data.Responses[j].LookUpData;
+                    var lookKey = data.Responses[j].Id;
+                    var lookId = data.Responses[j].LookUpId;
+                    // var lookupId = lookId;
+                    $(".LookUpID-" + lookId).val(lookdata);
+                    //  $(".LookUpID-" + lookupId).name(lookKey);
+                    //  <input type='" + DataType + "' required class='form-control input-circle' placeholder='" + place + "' id='" + Display_name + "' name='" + Display_name + "'value=''/>
+                    //  $('#lookup1').val(lookdata);
+                }
+            }
+        });
+    }
+    function GetDDlFilter(sel)
+    {
+        var idAvaliable = $(".testClass").attr('color');
+        if (idAvaliable == '1') {
+            GetLooKUP(sel);
+        }
+        var currentFieldId = $("#"+ sel +"").attr("ddlfilter");
+       // var currentFieldId =document.getElementById(sel).attributes("ddlfilter").value;
+        var Id= document.getElementById(sel).options[document.getElementById(sel).selectedIndex].value;  
+        var htmlFilter = '';
+        $.ajax({
+            type: "POST",
+            url: "/FormMaster/DDLFilterUpdataBind/?currentFieldId=" + currentFieldId + "&Id=" + Id,
+            // url: "/FormMaster/DropDownFunctionValue/?colloumType=" + DocumentName + "&formName=" + FormName + "&ColloumName=" + DocumentField + "&fieldtype=" + DataType + "&fieldName=" + Display_name,
+            datatype: "JSON",
+            contentType: "application/json;charset=utf-8",
+            traditional: true,
+            async: false,
+            success: function (data)
+            {
+
+                var data = $.parseJSON(JSON.stringify(data));
+                htmlFilter += '<option value="0">Select</option>';
+                for (var i = 0; i < data.Responses.length; i++) {
+                    htmlFilter += "<option class=' " + data.Responses[i].FormName + "' value='" + data.Responses[i].Key + "'>" + data.Responses[i].Values + "</option>";
+                }
+               // $(".LookUpID-" + lookId).val(lookdata);
+                $(".ISDDLFIlterss").html(htmlFilter)
+            }
+        });
+    }
+    
+    $(document).on("change", ".testClass", function () {
+
+        var idAvaliable = $(this).attr('color');
+        var sel = $(this).attr('data-value');
+        if (idAvaliable == '1') {
+            GetLooKUP(sel);
+        }
+        var currentFieldId = $("#" + sel + "").attr("ddlfilter");
+        // var currentFieldId =document.getElementById(sel).attributes("ddlfilter").value;
+        var Id = document.getElementById(sel).options[document.getElementById(sel).selectedIndex].value;      
+        var htmlFilter = '';
+        $.ajax({
+            type: "POST",
+            url: "/FormMaster/DDLFilterUpdataBind/?currentFieldId=" + currentFieldId + "&Id=" + Id,
+            // url: "/FormMaster/DropDownFunctionValue/?colloumType=" + DocumentName + "&formName=" + FormName + "&ColloumName=" + DocumentField + "&fieldtype=" + DataType + "&fieldName=" + Display_name,
+            datatype: "JSON",
+            contentType: "application/json;charset=utf-8",
+            traditional: true,
+            async: false,
+            success: function (data) {
+
+                var data = $.parseJSON(JSON.stringify(data));
+                htmlFilter += '<option value="0">Select</option>';
+                for (var i = 0; i < data.Responses.length; i++) {
+                    htmlFilter += "<option class=' " + data.Responses[i].FormName + "' value='" + data.Responses[i].Key + "'>" + data.Responses[i].Values + "</option>";
+                }
+                // $(".LookUpID-" + lookId).val(lookdata);
+                $(".ISDDLFIlterss").html(htmlFilter)
+            }
+        });
+    });
+</script>  
+<script type="text/javascript">
+    $(document).on("keypress", "#txtName", function () {
+        $("#txtName").autocomplete({
+            source: function (request, response) {              
+                $.ajax({ 
+                    url: "/FormMaster/AutoCompleteCountry/",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term, Formid: request.Formid, FieldId: request.FieldId },
+                    success: function (data) {                     
+                        response($.map(data, function (item)
+                        {
+                           $("#display").html(item).show();                          
+                        }))
+                    }
+                }) 
+            },
+            messages: {
+                noResults: "",
+                results: function (count) {
+                    return count + (count > 1 ? ' results' : ' result ') + ' found';
+                }
+            }
+        }); 
+    })
+    //$("#calculate").click(function () {
+
+
+    //})
+   </script>
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/select2/select2.css" />
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css" />
+<!-- Modal -->
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/icheck/skins/all.css" />
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/icheck/skins/all.css" />
+@{ foreach(var menurole in ViewData["MenuROle"] as List<Reliance.Modals.MenuRoleDo>)
+ {
+  if(menurole.IsValid==true)
+  {
+      
+      @Html.Partial("CreateFormPratial");            
+      <script src="~/Scripts/MasterForm.js"></script>
+  }
+   if (menurole.IsEdit == true)
+    {
+    @Html.Partial("EditFormPartial");
+   <script src="~/Scripts/EditData.js"></script>   
+    }
+ }
+}
+
+<script src="~/Scripts/RuleEngin.js"></script>
+<div id="Rules" class="dsib"></div>
+@Html.Partial("ListFormPartial");
+<script type="text/javascript">
+    $(document).ready(function () {
+        var n = 2;
+        $("[class*='columnStyle'] div").children('.FormCounter').addClass('col-md-' + 12 / n + '');
+    });
+</script>

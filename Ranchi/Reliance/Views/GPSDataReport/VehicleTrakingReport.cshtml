@@ -1,0 +1,230 @@
+﻿@{
+    ViewBag.Title = "VehicleTrakingReport";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<div class="tab-pane active" id="tab_1">
+									<div class="portlet box blue">
+										<div class="portlet-title">
+											<div class="caption">
+												<i class="fa fa-gift"></i>Vehicle Traking Report
+											</div>
+											<div class="tools">
+												<a href="javascript:;" class="collapse" data-original-title="" title="">
+												</a>
+												<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+												</a>
+												<a href="javascript:;" class="reload" data-original-title="" title="">
+												</a>
+												<a href="javascript:;" class="remove" data-original-title="" title="">
+												</a>
+											</div>
+										</div>
+										<div class="portlet-body form">
+											<!-- BEGIN FORM-->
+											<form action="#" class="horizontal-form">
+												<div class="form-body">												
+													<div class="row">																																									
+												 <div class="col-md-3">
+															<div class="form-group">
+                                                                <input type="hidden" id="CompanyId" name="Eid" value="@Session["LOGGED_Company"]" />
+																<label>Select User<span style="color:#FF0000">*</span></label>
+																<select id="Vehicle" class="form-control">
+																</select>
+															</div>
+														</div>
+                                                <div class="col-md-8">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Start Date <span style="color:red">*</span><span id="start_date_error" style="color:red"></span><span id="start_date_formaterror" style="color:red"></span></label>
+                                                                        <input type="date" size="16" class="form-control hasDatepicker" name="start_date" id="start_date" placeholder="dd-mm-yyyy">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Start Time <span style="color:red">*</span><span id="start_date_error" style="color:red"></span><span id="start_time_formaterror" style="color:red"></span></label>
+                                                                        <input type="time" size="16" placeholder="00:00" value="00:00" class="form-control" name="start_time" maxlength="5" id="start_time">
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">End Date<span style="color:red">*</span><span id="start_date_error" style="color:red"></span><span id="start_date_formaterror" style="color:red"></span>
+                                                                        </label>
+                                                                        <input type="date" size="16" class="form-control hasDatepicker" name="end_date" id="end_date" placeholder="dd-mm-yyyy">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">End Time <span style="color:red">*</span><span id="end_date_error" style="color:red"></span><span id="end_time_formaterror" style="color:red"></span></label>
+                                                                        <input type="time" size="16" maxlength="5" placeholder="00:00" value="23:59" class="form-control" name="end_time" id="end_time" required="">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                 <div class="col-md-3">
+													<div class="form-group">
+                                                    <button type="button" class="btn default">Cancel</button>
+													<button type="submit" id="btnSubmit" onclick="FormSubmit()" class="btn blue"><i class="fa fa-check"></i> Save</button>
+				
+															</div>
+
+                                                           </div>
+												</div>	          
+											</div>																					
+											</form>
+											<!-- END FORM-->
+										</div>
+									</div>
+									
+								</div>
+<div class="row">
+					<div class="col-md-12">
+						<!-- BEGIN EXAMPLE TABLE PORTLET-->
+						<div class="portlet box blue">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-edit"></i>Vehicle Traking Report
+								</div>
+							
+							</div>
+							<div class="portlet-body">
+						
+								<table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+									<thead>
+								<tr role="row">
+                                    <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Username
+									: activate to sort column ascending" style="width: 165px;">
+										Data Time
+									</th>
+                                  
+                                    <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+									Vehicle No
+									</th>
+                                   <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+								Distance
+									</th>
+                                       <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+								Location
+									</th>
+									</tr>
+								</thead>
+                                     		<tbody>	
+                                 						
+								<tr role="row" class="odd">
+                                
+								<td>
+
+								</td>
+                                    <td>
+
+								</td>
+                                   
+                                    <td>
+
+								</td>
+                                     <td id="address">
+
+								</td>
+                                                    	
+                                    </tr>
+                                 
+                                                  		
+								</tbody>
+								</table>
+								
+							</div>
+						</div>
+						<!-- END EXAMPLE TABLE PORTLET-->
+					</div>
+				</div>
+
+ <script src="https://maps.googleapis.com/maps/api/js?key= AIzaSyAYfOhUF687Tn_DfRO1SJ5JoBtotnQF0AE" type="text/javascript"></script> 
+<script type ="text/javascript" src="http://www.geocodezip.com/scripts/v3_epoly.js"></script>
+<script type="text/javascript">
+    //$(".hasDatepicker").datepicker({ format: 'dd-mm-yyyy' });
+    var dropid = "16";
+    var FieldId = "49";
+    var htmlvalue = '';
+    $.ajax({
+        type: "POST",
+        url: "/GPSDataReport/GPSVehicle/?FormId=" + dropid + "&FieldId=" + FieldId,
+        datatype: "JSON",
+        contentType: "application/json;charset=utf-8",
+        traditional: true,
+        async: false,
+        success: function (data) {
+            var data = $.parseJSON(JSON.stringify(data));
+            htmlvalue += '<option value="0">Select</option>';
+            for (var i = 0; i < data.Response.length; i++)
+            {
+                htmlvalue += "<option class=' " + data.Response[i].FormName + "' value='" + data.Response[i].Values + "'>" + data.Response[i].Values + "</option>";
+            }
+            $("#Vehicle").html(htmlvalue)
+           // $("#imei_number3").html(htmlvalue)
+        }
+
+    });
+  
+        
+        function FormSubmit()
+        {
+           
+            var Imeino =document.getElementById('Vehicle').options[document.getElementById('Vehicle').selectedIndex].value;
+            var DateTime = document.getElementById('start_date').value;
+            var EndDate = document.getElementById('end_date').value;
+            var StartTime = document.getElementById('start_time').value;
+            var EndTime = document.getElementById('end_time').value;
+            var StartDataTime = DateTime +" "+ StartTime;
+            var EndDateTime = EndDate +" "+ EndTime;
+            var geocoder = new google.maps.Geocoder();  
+            $.ajax({
+                url: "/GPSDataReport/VehicleTraking?Imeino=" + Imeino + "&StartDataTime=" + StartDataTime + "&EndDateTime=" + EndDateTime,
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json;charset=utf-8",
+                traditional: true,
+                success: function (data) {
+                    var data = $.parseJSON(JSON.stringify(data));
+                    for (var i = 0; i < data.Response.length; i++)
+                    {
+                        var latitude = data.Response[i].Latitude;
+                        var longitude = data.Response[i].Longitude;
+                        alert(latitude+","+longitude)
+                        var latLng = new google.maps.LatLng(latitude,longitude);
+                        debugger;
+                        geocoder.geocode({
+                            latLng: latLng
+                        },
+                                function (responses) {
+                                    debugger;
+                                    if (responses && responses.length > 0) {
+                                        alert(responses[0].formatted_address);
+                                       
+                                        $("#address").html( responses[0].formatted_address);
+                                    }
+                                    else {
+                                        alert('Not getting Any address for given latitude and longitude.');
+                                    }
+                                }
+                        );
+                    }
+                }
+            });
+        }
+</script>
+
+
+
+
+
+ 

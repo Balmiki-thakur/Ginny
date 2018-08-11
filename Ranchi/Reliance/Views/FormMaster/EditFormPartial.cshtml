@@ -1,0 +1,61 @@
+﻿<div id="myformGridEdit" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div>             
+                  @using (Ajax.BeginForm("UpdateFields", "FormMaster", new AjaxOptions() { HttpMethod = "Post", OnSuccess = "success" }))
+                  {                   
+                  <div class="portlet box" style="background-color: #8a6d3b">
+                        <div class="portlet-title">
+                            <div class="caption">
+
+                                <i class="fa fa-gift"></i><span name="formNameId" id="formNameId1"></span>
+                                
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse" data-original-title="" title=""></a>
+                                <a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title=""></a>
+                                <a href="javascript:;" class="reload" data-original-title="" title=""></a>
+                                @*<a href="javascript:;" class="remove" data-original-title="" title="">
+												</a>*@
+                            </div>
+                        </div>
+                        <div class="portlet-body form">
+                            <!-- BEGIN FORM-->
+                            <form action="#" class="form-horizontal">
+                                <input type="hidden" id="formNameId11" name="formName" />
+                                <input type="hidden" id="id" name="id" value=""/>
+                                
+                                <div class="form-body 2columnStyle removeEdit">
+                                    <div>
+                                        <div id="contentEdit" class="dsib "></div>
+                                        <div id="dropdowEdit" class="dsib "></div>
+                                        <div id="LookUpEdit" class="dsib "></div>
+                                        <div id="htmlCheckBoxEdit" class="dsib "></div>
+                                        <div id="htmlCheckBoxslistEdit"  class="col-md-4 CheckRadioList dsib"></div>
+                                        <div id="htmlRadioLableEdit" class="dsib "></div>
+                                        <div id="htmlCheckRadioListEdit" class="col-md-4 CheckRadioList dsib"></div>
+                                </div>
+                                    </div>
+
+
+                              
+                                <div class="form-actions">
+                                    <div class="row">
+                                        <div class="col-md-offset-3 col-md-9">
+
+                                            <input type="submit" id="btnSaves" value="Save" class="btn btn-circle green" />
+                                           
+                                            <button type="button" id="cancles" data-dismiss="modal" class="btn btn-circle default">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- END FORM-->
+                        </div>
+                    </div>         
+                  }            
+            </div>
+        </div>
+    </div>
+</div>

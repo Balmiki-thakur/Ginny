@@ -1,0 +1,25 @@
+﻿      @using (Html.BeginForm("MasterFormcreates", "FormMaster", FormMethod.Post, new { enctype = "multipart/form-data", }))
+      {                                  
+                  <input type="hidden" id="CompanyId" name="Eid" value="@Session["LOGGED_Company"]" />
+                @{ RelianceController.AllFieldandPropertyController allFieldandPropertyController = new RelianceController.AllFieldandPropertyController();
+                    Reliance.Modals.AllFieldProPertyList formlists = allFieldandPropertyController.FieldByFormId("13", Convert.ToString(@Session["LOGGED_Company"]));
+
+                  foreach (var formlist in formlists)
+                  {
+                      if (formlist.Field_type == "Text Box")
+                      {
+                          if (formlist.Field_type == "date")
+                          { 
+                          <div class="form-group">
+                            @Html.LabelFor(model => formlist.UFieldName, htmlAttributes: new { @class = "control-label" })
+                            <br />
+                            <div>
+                                @Html.EditorFor(model => formlist.FormName, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>                  
+                          }
+                      }
+                    }
+                }
+      }
+

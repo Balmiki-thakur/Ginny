@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="Reliance_Service.test" CodeBehind="test.svc.cs" %>

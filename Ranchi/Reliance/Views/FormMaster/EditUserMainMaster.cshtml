@@ -1,0 +1,400 @@
+﻿@{
+    ViewBag.Title = "EditUserMainMaster";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<input type="hidden"   id="FormId"  name="FormId" value="@ViewBag.Id" />
+<input type="hidden"   id="RoleId"  name="FormId" value="@Session["LOGGED_ROLE"]"  />
+<input type="hidden"   id="UserId"  name="FormId" value="@Session["LOGGED_UserId"]" />
+<script src="~/Scripts/jquery-1.7.1.js">
+
+</script>
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script type="text/javascript">
+
+    function GetLooKUP(sel) {
+        var currentFieldId = $(sel).attr("look");
+        var Id = $('option:selected', sel).val();
+       
+        $.ajax({
+            type: "POST",
+            url: "/FormMaster/LooKUpdataBind/?currentFieldId=" + currentFieldId + "&Id=" + Id,
+            // url: "/FormMaster/DropDownFunctionValue/?colloumType=" + DocumentName + "&formName=" + FormName + "&ColloumName=" + DocumentField + "&fieldtype=" + DataType + "&fieldName=" + Display_name,
+            datatype: "JSON",
+            contentType: "application/json;charset=utf-8",
+            traditional: true,
+            async: false,
+            success: function (data) {
+                //  var FormName = '';
+                for (var j = 0; j < data.Responses.length; j++) {
+                    var data = $.parseJSON(JSON.stringify(data));
+                    var lookdata = data.Responses[j].LookUpData;
+                    var lookKey = data.Responses[j].Id;
+                    var lookId = data.Responses[j].LookUpId;
+                    // var lookupId = lookId;
+                    $(".LookUpID-" + lookId).val(lookdata);
+                    //  $(".LookUpID-" + lookupId).name(lookKey);
+                    //  <input type='" + DataType + "' required class='form-control input-circle' placeholder='" + place + "' id='" + Display_name + "' name='" + Display_name + "'value=''/>
+                    //  $('#lookup1').val(lookdata);
+
+
+                }
+            }
+        });
+    }
+
+
+    function GetDDlFilter(sel)
+    {
+        
+        var currentFieldId = $(sel).attr("DDlFilter");
+        var Id = $('option:selected', sel).val();
+        var htmlFilter = '';
+        $.ajax({
+            type: "POST",
+            url: "/FormMaster/DDLFilterUpdataBind/?currentFieldId=" + currentFieldId + "&Id=" + Id,
+            // url: "/FormMaster/DropDownFunctionValue/?colloumType=" + DocumentName + "&formName=" + FormName + "&ColloumName=" + DocumentField + "&fieldtype=" + DataType + "&fieldName=" + Display_name,
+            datatype: "JSON",
+            contentType: "application/json;charset=utf-8",
+            traditional: true,
+            async: false,
+            success: function (data)
+            {
+
+                var data = $.parseJSON(JSON.stringify(data));
+                htmlFilter += '<option value="0">Select</option>';
+                for (var i = 0; i < data.Responses.length; i++) {
+                    htmlFilter += "<option class=' " + data.Responses[i].FormName + "' value='" + data.Responses[i].Key + "'>" + data.Responses[i].Values + "</option>";
+                }
+               // $(".LookUpID-" + lookId).val(lookdata);
+                $(".ISDDLFIlterss").html(htmlFilter)
+            }
+        });
+    }
+    $(document).ready(function () {
+        $("#txtAutoComplete").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/FormMaster/AutoCompleteCountry",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                    
+                        response($.map(data, function (item, idx) {
+                            //   alert(item);
+                            //   alert(idx);
+                            return {
+                                label: item.Value,
+                                value: item.Key
+                            };
+                        }));
+                    }
+                })
+            },
+            messages: {
+                noResults: "", results: ""
+            }
+        });
+    })
+    var data = [{ id: 108, name: "Jamaica" }, { id: 110, name: "Japan" }, { id: 110, name: "Japan7" }, { id: 111, name: "Japan1" }, { id: 112, name: "Japan2" }, { id: 113, name: "Japan3" }, { id: 114, name: "Japan4" }];
+    $(document).ready(function () {
+
+        $('#CountryName').autocomplete({
+            source: function (request, response) {
+                response($.map(data, function (item) {
+                    return {
+                        label: item.name,
+                        value: item.id
+                    }
+                }));
+            },
+            select: function (e, ui) {
+                e.preventDefault();
+                $(this).val(ui.item.label);
+                $('#CountryID').html(ui.item.value);
+            }
+        });
+    });
+</script>
+
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/select2/select2.css" />
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css" />
+<!-- Modal -->
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/icheck/skins/all.css" />
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/icheck/skins/all.css" />
+
+       @{RelianceController.FormFieldController formFieldController = new RelianceController.FormFieldController();
+         Reliance.Modals.EditDynamicDataList editDynamicDataList = formFieldController.EditDynamicData("12", "1");
+
+         for (int i = 0; i < editDynamicDataList.Count; i++)
+                    {
+                        @:<div>
+                            @:<div>
+                                        if (editDynamicDataList[i].FieldType == "Text Box")
+                                        {
+                                            if (editDynamicDataList[i].FieldType == "date")
+                                            {
+                                                                        <div class="FormCounter">
+                                                                    <label>@editDynamicDataList[i].FieldName </label>
+                                                                <input type="@editDynamicDataList[i].DataType"  class='form-control input-circle datepicker' id="@editDynamicDataList[i].FieldName" name="@editDynamicDataList[i].FieldName" value="@editDynamicDataList[i].FieldValue"/>        
+                                                                    @Html.ValidationMessage("Fill");
+                                                                            </div>
+                                            }
+                                            else if (editDynamicDataList[i].FieldType == "TextArea")
+                                            {
+                                                                        <div class="FormCounter">
+                                                                            <span class="form-group">@editDynamicDataList[i].FieldName:</span>
+                                                                            <textarea name="@editDynamicDataList[i].DataType" rows="4" class="form-control input-circle"   id="@editDynamicDataList[i].FieldName"  name="@editDynamicDataList[i].FieldName" aria-valuemax="@editDynamicDataList[i].FieldValue">
+                                                                            </textarea>
+                                                                            </div>
+                                            }
+                                            else
+                                            {
+                                                                        <div class="FormCounter">
+                                                                <label>@editDynamicDataList[i].FieldName</label>
+                                                                <input type="@editDynamicDataList[i].DataType"  class='form-control input-circle datepicker'  id="@editDynamicDataList[i].FieldName" name="@editDynamicDataList[i].FieldName"value="@editDynamicDataList[i].FieldValue"/>                   
+                                                                        </div>
+                                            }
+                                        }
+                                            @:</div>
+                            @:<div>
+                                        if (editDynamicDataList[i].FieldType == "RadioCheck")
+                                        {   
+                                                <div class="FormCounter">
+                                            <label>@editDynamicDataList[i].FieldName</label>
+                                                    @{Reliance.Modals.DropDownValueDoList dropDownValueDoList = RelianceController.FormFieldController.DropDownvaluebind(Convert.ToString(@editDynamicDataList[i].FormId), Convert.ToString(@editDynamicDataList[i].FieldId));
+                                                    for (int j = 0; j < dropDownValueDoList.Count; j++)
+                                                    {
+                                                    <input type="radio" name="@editDynamicDataList[i].FieldName" value="@dropDownValueDoList[j].Key + " /><label>@dropDownValueDoList[j].Values</label>
+                                                    }        
+                                                }
+                                            </div>
+                                        }
+                                            @:</div>
+                            @:<div>
+                                        if (editDynamicDataList[i].FieldType == "AutoComplete")
+                                        { 
+                                                                        <div class="FormCounter">
+                                                <label>@editDynamicDataList[i].FieldName +</label>
+                                            <input type="@editDynamicDataList[i].DataType"  class='form-control input-circle autocomplet '  id='txtAutoComplete'  name="@editDynamicDataList[i].FieldName" value="@editDynamicDataList[i].FieldValue"/>       
+                                            </div>               
+                                        }
+                            @:</div>
+                            @:<div>
+                                if (editDynamicDataList[i].FieldType == "Drop Down")
+                                {
+                                    if (editDynamicDataList[i].IsRoleAssignment == "1")
+                                    {
+                                        RelianceController.IsRoleAssignmentController isRoleAssignmentController = new RelianceController.IsRoleAssignmentController();
+                                        Reliance.Modals.IsROleAssignmentDo IsROleAssignmentDo = isRoleAssignmentController.IsROleAssignment(Convert.ToString(@editDynamicDataList[i].FormId), Convert.ToString(@editDynamicDataList[i].FieldId), Convert.ToString(Session["LOGGED_UserId"]), Convert.ToString(Session["LOGGED_ROLE"]), "");
+                                        if (IsROleAssignmentDo.DocumentDataid == "")
+                                        {
+                                            if (editDynamicDataList[i].IsLooKup == "1")
+                                            {
+                                                    <div>
+                                                    <label>@editDynamicDataList[i].FieldName </label>
+                                                    <select onchange="GetLooKUP(@editDynamicDataList[i].FieldName)" class="form-control" look="@editDynamicDataList[i].FieldId" id="@editDynamicDataList[i].FieldName" name="@editDynamicDataList[i].FieldName" required="" class='form-control input-lg dspn'>          
+                                                @{RelianceController.FormFieldController  formFieldControllers= new RelianceController.FormFieldController();
+                                                  Reliance.Modals.DropDownValueDoList dropDownValueDoList = formFieldControllers.DropDownvaluebind(Convert.ToString(@editDynamicDataList[i].FormId), Convert.ToString(@editDynamicDataList[i].FieldId));     
+                                                    <option value="0">Select</option>
+                                                    for (int k = 0; k < dropDownValueDoList.Count; k++)
+                                                    { 
+                                                    <option class="@editDynamicDataList[i].FormName" value="@dropDownValueDoList[k].Key">@dropDownValueDoList[k].Values</option>;
+                                                    } 
+                                                    }
+                                                    </select>
+                                                </div>
+                                            }
+                                            else if (editDynamicDataList[i].IsLooKup == "0")
+                                            {
+                                                    <div>
+                                                    <select onchange="GetDDlFilter(@editDynamicDataList[i].FieldName)" class="form-control" DDlFilter="@editDynamicDataList[i].FieldId" id="@editDynamicDataList[i].FieldName" name="@editDynamicDataList[i].FieldName" required="" class="form-control input-lg dspn">
+                                                    @{RelianceController.FormFieldController formFieldControllers= new RelianceController.FormFieldController();
+                                                      Reliance.Modals.DropDownValueDoList dropDownValueDoList = formFieldController.DropDownvaluebind(Convert.ToString(@editDynamicDataList[i].FormId), Convert.ToString(@editDynamicDataList[i].FieldId));     
+                                                    <option value="0">Select</option>
+                                                        for (int k = 0; k < dropDownValueDoList.Count; k++)
+                                                        { 
+                                                        <option class="@editDynamicDataList[i].FormName" value="@dropDownValueDoList[k].Key">@dropDownValueDoList[k].Values</option>;
+                                                        } 
+                                                    }  
+                                                </select>  
+                                                </div>                
+                                            }
+                                            else
+                                            {
+                                                    <div>
+                                                    <label>@editDynamicDataList[i].FieldName </label>
+                                                    <select  class="form-control" look="@editDynamicDataList[i].FieldId" id="@editDynamicDataList[i].FieldName" name="@editDynamicDataList[i].FieldName" required="" class='form-control input-lg dspn' >
+                                                    @{RelianceController.FormFieldController formFieldControllers= new RelianceController.FormFieldController();
+                                                      Reliance.Modals.DropDownValueDoList dropDownValueDoList = formFieldControllers.DropDownvaluebind(Convert.ToString(@editDynamicDataList[i].FormId), Convert.ToString(@editDynamicDataList[i].FieldId));     
+                                                    <option value="0">Select</option>
+                                                        for (int k = 0; k < dropDownValueDoList.Count; k++)
+                                                        { 
+                                                        <option class="@editDynamicDataList[i].FormName" value="@dropDownValueDoList[k].Key">@dropDownValueDoList[k].Values</option>;
+                                                        } 
+                                                    } 
+                                                </select>
+                                                        </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (editDynamicDataList[i].IsLooKup == "1")
+                                            {
+                                                    <div>
+                                                    <label>@editDynamicDataList[i].FieldName </label>
+                                                    <select onchange="GetLooKUP(@editDynamicDataList[i].FieldName)" class="form-control" look="@editDynamicDataList[i].FieldId" id="@editDynamicDataList[i].FieldName" name="@editDynamicDataList[i].FieldName" required="" class='form-control input-lg dspn'>          
+                                                @{RelianceController.FormFieldController formFieldControllers = new RelianceController.FormFieldController();
+                                                  Reliance.Modals.DropDownValueDoList dropDownValueDoListrole = formFieldController.DropDownvaluewithRole(Convert.ToString(editDynamicDataList[i].FormId), Convert.ToString(editDynamicDataList[i].FieldId), Convert.ToString(IsROleAssignmentDo.DocumentDataid));      
+                                                    <option value="0">Select</option>
+                                                    for (int k = 0; k < dropDownValueDoListrole.Count; k++)
+                                                    { 
+                                                    <option class="@editDynamicDataList[i].FormName" value="@dropDownValueDoListrole[k].Key">@dropDownValueDoListrole[k].Values</option>;
+                                                    } 
+                                                    }
+                                                    </select>
+                                                    </div>
+                                            }
+                                            else if (editDynamicDataList[i].IsLooKup == "1")
+                                            {
+                                                    <div>
+                                                    <label>@editDynamicDataList[i].FieldName </label>
+                                                    <select onchange="GetLooKUP(@editDynamicDataList[i].FieldName)" class="form-control" look="@editDynamicDataList[i].FieldId" id="@editDynamicDataList[i].FieldName" name="@editDynamicDataList[i].FieldName" required="" class="form-control input-lg dspn">          
+                                                @{RelianceController.FormFieldController formFieldControllers = new RelianceController.FormFieldController();
+                                                  Reliance.Modals.DropDownValueDoList dropDownValueDoListrole = formFieldControllers.DropDownvaluewithRole(Convert.ToString(@editDynamicDataList[i].FormId), Convert.ToString(editDynamicDataList[i].FieldId), Convert.ToString(IsROleAssignmentDo.DocumentDataid));     
+                                                    <option value="0">Select</option>
+                                                    for (int k = 0; k < dropDownValueDoListrole.Count; k++)
+                                                    { 
+                                                    <option class="@editDynamicDataList[i].FormName" value="@dropDownValueDoListrole[k].Key">@dropDownValueDoListrole[k].Values</option>;
+                                                    } 
+                                                    }
+                                                    </select>
+                                                    </div>             
+                                            }
+                                            else
+                                            {
+                                                    <div>
+                                                    <label>@editDynamicDataList[i].FieldName </label>
+                                                    <select  class="form-control" look="@editDynamicDataList[i].FieldId" id="@editDynamicDataList[i].FieldName" name="@editDynamicDataList[i].FieldName" required="" class="form-control input-lg dspn">
+                                                    @{RelianceController.FormFieldController formFieldControllers = new RelianceController.FormFieldController();
+                                                      Reliance.Modals.DropDownValueDoList dropDownValueDoList = formFieldControllers.DropDownvaluebind(Convert.ToString(@editDynamicDataList[i].FormId), Convert.ToString(@editDynamicDataList[i].FieldId));     
+                                                    <option value="0">Select</option>
+                                                        for (int k = 0; k < dropDownValueDoList.Count; k++)
+                                                        { 
+                                                        <option class="@editDynamicDataList[i].FormName" value="@dropDownValueDoList[k].Key">@dropDownValueDoList[k].Values</option>;
+                                                        } 
+                                                    } 
+                                                </select>
+                                                        </div>
+                                            }
+                                        }
+
+                                    }
+
+
+                                    else
+                                    {
+                                        if (editDynamicDataList[i].IsLooKup == "1")
+                                        {
+                                                    <div>
+                                                    <label>@editDynamicDataList[i].FieldName </label>
+                                                    <select onchange="GetLooKUP(@editDynamicDataList[i].FieldName)" class="form-control" look="@editDynamicDataList[i].FieldId" id="@editDynamicDataList[i].FieldName" name="@editDynamicDataList[i].FieldName" required="" class="form-control input-lg dspn">          
+                                                @{{RelianceController.FormFieldController formFieldControllers = new RelianceController.FormFieldController();
+                                                    Reliance.Modals.DropDownValueDoList dropDownValueDoList = formFieldControllers.DropDownvaluebind(Convert.ToString(@editDynamicDataList[i].FormId), Convert.ToString(@editDynamicDataList[i].FieldId));     
+                                                    <option value="0">Select</option>
+                                                    for (int k = 0; k < dropDownValueDoList.Count; k++)
+                                                    { 
+                                                    <option class="@editDynamicDataList[i].FormName" value="@dropDownValueDoList[k].Key">@dropDownValueDoList[k].Values</option>;
+                                                    } 
+                                                    }
+                                                    </select>
+                                                </div>
+                                        }
+                                        else if (editDynamicDataList[i].IsLooKup == "1")
+                                        {
+                                                    <div>
+                                                    <select onchange="GetDDlFilter(@editDynamicDataList[i].FieldName)" class="form-control" DDlFilter="@editDynamicDataList[i].FieldId" id="@editDynamicDataList[i].FieldName" name="@editDynamicDataList[i].FieldName" required="" class="form-control input-lg dspn">
+                                                    @{RelianceController.FormFieldController formFieldControllerss = new RelianceController.FormFieldController();
+                                                        Reliance.Modals.DropDownValueDoList dropDownValueDoLists = formFieldControllerss.DropDownvaluebind(Convert.ToString(@editDynamicDataList[i].FormId), Convert.ToString(@editDynamicDataList[i].FieldId));     
+                                                    <option value="0">Select</option>
+                                                        for (int k = 0; k < dropDownValueDoLists.Count; k++)
+                                                        { 
+                                                        <option class="@editDynamicDataList[i].FormName" value="@dropDownValueDoLists[k].Key">@dropDownValueDoLists[k].Values</option>;
+                                                        } 
+                                                    }  
+                                                </select>  
+                                                </div>                
+                                        }
+                                        else
+                                        {
+                                                    <div>
+                                                    <label>@editDynamicDataList[i].FieldName </label>
+                                                    <select  class="form-control" look="@editDynamicDataList[i].FieldId" id="@editDynamicDataList[i].FieldName" name="@editDynamicDataList[i].FieldName" required="" class='form-control input-lg dspn'>
+                                                    @{RelianceController.FormFieldController formFieldControllersss= new RelianceController.FormFieldController();
+                                                        Reliance.Modals.DropDownValueDoList dropDownValueDoListss = formFieldControllersss.DropDownvaluebind(Convert.ToString(@editDynamicDataList[i].FormId), Convert.ToString(@editDynamicDataList[i].FieldId));     
+                                                    <option value="0">Select</option>
+                                                        for (int k = 0; k < dropDownValueDoListss.Count; k++)
+                                                        { 
+                                                        <option class="@editDynamicDataList[i].FormName" value="@dropDownValueDoListss[k].Key">@dropDownValueDoListss[k].Values</option>;
+                                                        } 
+                                                    } 
+                                                </select>
+                                                        </div>
+                                        }
+
+                                    }
+
+                                }
+
+                            </div>
+                            @:<div>
+        if (editDynamicDataList[i].FieldType == "FilterDDL")
+        {
+            if (editDynamicDataList[i].IsLooKup == "1")
+            {  
+                    <div class="FormCounter">
+                        <span class="form-group">@editDynamicDataList[i].FieldName</span>
+                        <select onchange="GetDDlFilter(@editDynamicDataList[i].FieldName)" class="form-control input-circle  ISDDLFIlterss" DDlFilter="@editDynamicDataList[i].FieldId" id="@editDynamicDataList[i].FieldName" name="@editDynamicDataList[i].FieldName" value=""></select>
+                        </div>
+            }
+            else
+            {
+                    <div class="FormCounter">
+                        <span class="form-group">@editDynamicDataList[i].FieldName</span>
+                        <select   class="form-control input-circle  ISDDLFIlterss" DDlFilter="@editDynamicDataList[i].FieldId"  id="@editDynamicDataList[i].FieldName" name="@editDynamicDataList[i].FieldName" value="@editDynamicDataList[i].FieldValue">
+                        </select>
+                        </div>
+            }
+        }
+        @:</div>
+                            @:<div>
+    if (editDynamicDataList[i].FieldType == "CheckBoxList")
+    {
+            <div class="FormCounter">
+            <label class='col-md-3 control-label'>@editDynamicDataList[i].FieldName</label>
+            @{RelianceController.FormFieldController formFieldControllers= new RelianceController.FormFieldController();
+                Reliance.Modals.DropDownValueDoList CheckBoxList = formFieldControllers.DropDownvaluebind(Convert.ToString(@editDynamicDataList[i].FormId), Convert.ToString(@editDynamicDataList[i].FieldId));
+
+                for (int l = 0; l < CheckBoxList.Count; l++)
+                { 
+                    <span><input type='checkbox' name="@editDynamicDataList[i].FieldName"+"[]" value="@CheckBoxList[l].Key" /><label>"@CheckBoxList[l].Values</label></span>
+                }
+
+            }
+                </div>
+    }
+@:</div>
+                            @:<div>
+    if (editDynamicDataList[i].FieldType == "Lookup")
+    {
+        <div class="FormCounter">
+            <span class="form-group">@editDynamicDataList[i].FieldName</span>
+            <input type="@editDynamicDataList[i].DataType"  required readonly='readonly' class="form-control input-circle LookUpID-@editDynamicDataList[i].FieldId"  id="@editDynamicDataList[i].FieldName" name="@editDynamicDataList[i].FieldName" value="@editDynamicDataList[i].FieldValue"/>
+            </div>
+    }
+@:</div>
+                            @:</div>
+                    }
+     }
+  

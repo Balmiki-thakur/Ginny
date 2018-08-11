@@ -1,0 +1,81 @@
+﻿@*<script>
+    function ShowMessage() {
+        var result = confirm("Do your want to submit ?");
+        if (result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+        </script>*@
+<div id="myformGridModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div>
+                 <input type="hidden" id="formuladata" value="" />
+               @using (Html.BeginForm("MasterFormcreates", "FormMaster", FormMethod.Post, new { enctype = "multipart/form-data"}))
+               {                 
+               @*  @using (Ajax.BeginForm("MasterFormcreates", "FormMaster", new AjaxOptions() { HttpMethod = "Post", OnSuccess = "success", enctype = "multipart/form-data", onsubmit = "validateForm()" }))
+                {
+                    *@<div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-gift"></i><span name="formNameId" id="formNameId"></span>
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse" data-original-title="" title=""></a>
+                                <a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title=""></a>
+                                <a href="javascript:;" class="reload" data-original-title="" title=""></a>
+                                @*<a href="javascript:;" class="remove" data-original-title="" title="">
+									</a>*@
+                            </div>
+                        </div>
+                        <div class="portlet-body form">
+                            <!-- BEGIN FORM-->
+                            <form action="#" class="form-horizontal formOrder">
+                                <input type="hidden" id="formName" name="formName" />
+                                 <input type="hidden" id="FormWorkFlow_1" name="FormWorkFlow_1" />                                     
+                                   <div class="form-body 2columnStyle">
+                                   <div id='content' class='dsib'></div>
+                                    <div id="RadioCheck" class="dsib"></div>
+                                    <div id="dropdow" class="dsib"></div>
+                                    <div id="formulField" class="dsib"></div>
+                                    <div id="autoComplet" class="dsib"></div>
+                                    <div id="LookUp" class="dsib"></div>
+                                    <div id="IsDDLFilter" class="dsib"></div>
+                                    <div id="htmlCheckBox" class="dsib"></div>
+                                    <div id="htmlCheckBoxslist" class="col-md-4 Checkboxlist dsib"></div>
+                                    <div id="htmlRadioLable" class="dsib"></div>
+                                    <div id="htmlCheckRadioList" class="col-md-4 CheckRadioList dsib"></div>
+
+                                      
+                                       @*<ol>
+                    <li>
+                        <label for="time_employeeName">Employee Name <em>*</em></label>                  
+                              <input class="ac_input validation-error" id="employee" type="text" name="time[employeeName]" value="Type for hints..." autocomplete="off"><span for="employee" generated="true" class="validation-error">Invalid</span>                                            </li>
+                    <li class="required">
+                        <em>*</em> Required field                    </li>
+                </ol>*@
+                                </div>
+                                   <div class="form-actions">
+                                    <div class="row">
+                                        <div class="col-md-offset-3 col-md-9">
+                                             <div id="contentdiv"></div>
+                                            @* <input type="button" id="Calculater" value="Calculater" class="btn btn-circle green" />*@
+                                            <input type="submit" id="btnSave" value="Save" class="btn btn-circle green" /> @*onclick="javascript:return ShowMessage();"*@
+                                            <button type="button" id="cancle" data-dismiss="modal" class="btn btn-circle default">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- END FORM-->
+                        </div>
+                    </div>                 
+               }
+            </div>
+        </div>
+    </div>
+</div>
+
+

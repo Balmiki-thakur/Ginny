@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+@*<html ng-app="AwesomeAngularMVCApp" ng-controller="LandingPageController">
+<head>
+    <title ng-bind="models.helloAngular"></title>
+</head>
+<body>
+    <h1>{{models.helloAngular}}</h1>
+    <ul>
+        <li><a href="/#/routeOne">Route One</a></li>
+        <li><a href="/#/routeTwo">Route Two</a></li>
+        <li><a href="/#/routeThree">Route Three</a></li>
+    </ul>
+    <div ng-view></div>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-route.min.js"></script>
+    @Scripts.Render("~/bundles/angular")
+    </body>
+</html>*@
+
+<style>#origin
+{
+  background-color: lightgreen;
+}
+
+#origin img, #drop img {
+  margin-top: 3px;
+  margin-left: 5px;
+}
+
+#drop
+{
+  background-color: red;
+  min-height: 120px;
+}
+.over {
+  border: solid 5px purple;
+}
+.draggable
+{
+  border: solid 2px gray;
+}</style>
+<div id="wrapper">
+	<div id="origin" class="fbox">
+		<img src="http://placehold.it/140x100" id="one" title="one" class="draggable" />
+		<img src="http://placehold.it/150x100" id="two" title="two" class="draggable" />
+		<img src="http://placehold.it/160x100" id="three" title="three" />
+	</div>
+  <p>test</p>
+	<div id="drop" class="fbox">
+   
+	</div>
+</div>
+<script src="~/Scripts/jquery-1.7.1.js"></script>
+<script type="text/javascript">
+    //$(document).ready(function () {
+    //    $(".draggable").draggable({ cursor: "crosshair", revert: "invalid" });
+    //    $("#drop").droppable({
+    //        accept: ".draggable",
+    //        drop: function (event, ui) {
+    //            console.log("drop");
+    //            $(this).removeClass("border").removeClass("over");
+    //            var dropped = ui.draggable;
+    //            var droppedOn = $(this);
+    //            $(dropped).detach().css({ top: 0, left: 0 }).appendTo(droppedOn);
+
+
+    //        },
+    //        over: function (event, elem) {
+    //            $(this).addClass("over");
+    //            console.log("over");
+    //        }
+    //                    ,
+    //        out: function (event, elem) {
+    //            $(this).removeClass("over");
+    //        }
+    //    });
+    //    $("#drop").sortable();
+
+    //    $("#origin").droppable({
+    //        accept: ".draggable", drop: function (event, ui) {
+    //            console.log("drop");
+    //            $(this).removeClass("border").removeClass("over");
+    //            var dropped = ui.draggable;
+    //            var droppedOn = $(this);
+    //            $(dropped).detach().css({ top: 0, left: 0 }).appendTo(droppedOn);
+
+
+    //        }
+    //    });
+    //});
+
+
+    </script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
+
+ <body ng-app>  
+    <hr />  
+    <h3>Send Objects of Objects Using AngularJS   
+    </h3>  
+    <hr />  
+    <div ng-controller="TestCtrl">  
+        <hr />  
+        <div>  
+            First Name:  
+            <input type="text" placeholder="Enter your name" ng-model="details.firstName">  
+            Last Name:  
+            <input type="text" placeholder="Enter your last name" ng-model="details.lastName">  
+        </div>  
+        <hr />  
+        <div>  
+            Mobile Number:              
+            <input type="text" placeholder="Enter your mobile number" ng-model="details.mobile">  
+            EmailId:  
+            <input type="text" placeholder="Enter your email id" ng-model="details.email">  
+        </div>  
+        <input type="button" ng-click="SendData(details)" value="Submit" />  
+        <hr />  
+        <h4 style="color:blueviolet">{{value}}</h4>  
+    </div>  
+    <hr />  
+</body>  
+<script type="text/javascript">
+   
+    </script>
+<script src="~/Scripts/home.js"></script>

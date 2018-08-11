@@ -1,0 +1,431 @@
+﻿@{
+    ViewBag.Title = "DynamicWorkFlow";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/select2/select2.css"/>
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css"/>
+<!-- Modal -->
+ <style>
+     .btn-add { padding:7px 5px!important;
+     }
+     .control {width:100%!important;
+     }
+      .box-scroll { height:200px; border:1px solid #ccc; margin-top:20px; box-shadow:0 0 3px 1px #ccc; overflow-y:scroll; padding:0 10px;
+    }
+        .box-scroll h3 {     margin-top: 0!important;
+    position: absolute;
+    top: 21px;
+    width: 461px;InvoiceTicket
+    left: 16px;
+    background: lightblue;
+    font-size: 19px;
+    padding: 5px;
+    z-index: 1000;
+        }
+    .mainformname {
+        margin-top:16px;
+    }
+     .box-scroll .control { margin-top:13px;
+     }
+
+
+ </style>
+
+<div id="mySubMenuModal" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="width:1060px;">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-body">
+       <div class="portlet box red">
+							<div class="portlet-title" style="background-color:#255fbd">
+								<div class="caption">
+									<i class="fa fa-gift"></i> Add WorkFlow
+								</div>
+								<div class="tools">
+									<a href="" class="collapse" data-original-title="" title="">
+									</a>
+									<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+									</a>
+									<a href="" class="reload" data-original-title="" title="">
+									</a>
+									<a href="" class="remove" data-original-title="" title="">
+									</a>
+								</div>
+							</div>
+							<div class="portlet-body form">
+                                 @using (Html.BeginForm("AddDymanicworkflow", "DynamicWorkFlow", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "validateForm()" }))
+                                 {
+								<form role="form">
+									<div class="form-body col-md-12">
+                                           <div class="col-md-4">
+                                        <div class="form-group">
+                                                               
+																<label>Doc Nature<span style="color:#FF0000">*</span></label>
+																 <select class="form-control" id="docNature" name="docNature"  required="" class="form-control input-lg dspn" placeholder="Please Select Document Type">
+                                                                      <option  value="NULL">Select</option>
+                                                                      <option  value="Create">Create</option>
+                                                                      <option  value="Modify">Modify</option>
+                                                                      <option  value="Cancle">Cancle</option>
+							                                 </select>
+															</div>
+                                            </div>
+                                        <div class="col-md-4">
+                                        <div class="form-group">
+                                                               
+																<label>Select Document<span style="color:#FF0000">*</span></label>
+																 <select class="form-control" id="DocumentName" name="Formid"  required="" class="form-control input-lg dspn" placeholder="Please Select Document Type">
+                                                                       <option  value="NULL">Select</option>
+							                                 </select>
+															</div>
+                                            </div>
+                                        <div class="col-md-4">
+                                        <div class="form-group">
+																<label>Role<span style="color:#FF0000">*</span></label>
+															  <input type="hidden" id="CompanyId" name="Eid" value="@Session["LOGGED_Company"]" />
+                                                   <select class="form-control" id="selectItems" name="RoleId">
+                                                  @{RelianceController.RoleMasterController roleMasterController=new RelianceController.RoleMasterController();
+                                                    Reliance.Modals.RoleMasterDoList roleModal = roleMasterController.AllRole(Convert.ToInt32(@Session["LOGGED_Company"]));
+                                                         <option value="0">Select</option>
+                                                    for (int i = 0; i < roleModal.Count; i++)
+                                                    {	               
+												                   <option value="@roleModal[i].RoleId">@roleModal[i].RoleName</option>
+                                                    }
+                                                                  }
+											                 </select>  
+															</div>
+                                            </div>
+                                            <div class="col-md-4">
+										<div class="form-group">
+                                                               
+																<label>Select User<span style="color:#FF0000">*</span></label>
+					
+                                                           <select class="form-control " id="User" name="UserId">
+                                                              @{RelianceController.RegistationController registationController = new RelianceController.RegistationController();
+                                                                Reliance.Modals.RegistationDoList relienceModal = registationController.AllUser();
+                                                                 <option value="0">Select</option>                                                      
+                                                                for (int i = 0; i < relienceModal.Count; i++)
+                                                                {	
+                                                   <option value="@relienceModal[i].Userid">@relienceModal[i].UserName</option>
+            
+                                                                }
+                                                              }
+                                                        </select>
+                                                                </div>	
+                                                </div>
+                                                <div class="col-md-4">  
+										<div class="form-group">
+											<label>Order</label>
+											 <input type="text" class="form-control" required="" id="order" name="order" data-error="This field is required">
+										</div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>WorkFLow Satuss</label>
+                                             <select  class="form-control status" id="Status" name="Status"  required=""  placeholder="Please Select Document Fields">
+                                                   <option  value="NULL">Select</option>
+							                   </select>
+                                        </div>
+                                                        </div>
+                                         <div class="col-md-4">  
+										<div class="form-group">
+											<label>SLA</label>
+											 <input type="text" class="form-control"  id="sla" name="sla" data-error="This field is required">
+										</div>
+                                                    </div>
+                                        <div class="col-sm-12">
+
+                                            <div class="row">                                                                                                        
+                                                            <div id="FormFieldData"></div>
+                                                </div>   
+                                                        </div>
+									</div>
+									<div class="form-actions right">
+										<button type="button"data-dismiss="modal" class="btn default">Cancel</button>
+										   <button type="submit" id="btnSubSubmit" name="btnSubSubmit"  class="btn btn-primary">Submit</button>
+									</div>
+								</form>
+                                 }
+							</div>
+						</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tab-pane active" id="tab_1">
+									<div class="portlet box blue">
+										<div class="portlet-title">
+											<div class="caption">
+												<i class="fa fa-gift"></i> Dynamic WorkFlow
+                                            
+											</div>
+                                             <div style="float: right;">     <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#mySubMenuModal"  style="background-color:#48dcd8">Add Workflow</button></div>
+                                            	</div>
+											
+                                        </div>
+                                             
+									
+                                       
+										<div class="portlet-body form">
+											<!-- BEGIN FORM-->
+                                            
+													<div class="row">														
+														<div class="col-md-3">														
+																<div class="form-group">
+																<label>Role<span style="color:#FF0000">*</span></label>
+															 
+                                                   <select class="form-control" id="selectItems1" name="RoleId">
+                                                  @{RelianceController.RoleMasterController roleMasterControllers= new RelianceController.RoleMasterController();
+                                                    Reliance.Modals.RoleMasterDoList roleModal1 = roleMasterControllers.AllRole(Convert.ToInt32(@Session["LOGGED_Company"]));
+                                                         <option value="0">Select</option>
+                                                      for (int i = 0; i < roleModal1.Count; i++)
+                                                    {	               
+												                   <option value="@roleModal1[i].RoleId">@roleModal1[i].RoleName</option>
+                                                    }
+                                                                  }
+											                 </select>  
+															</div>																											
+														</div>	
+                                                        <div class="col-md-3">
+															<div class="form-group">
+                                                               
+																<label>Select User<span style="color:#FF0000">*</span></label>
+					
+                                                           <select class="form-control " id="User1" name="UserId">
+                                                              @{RelianceController.RegistationController registationControllers= new RelianceController.RegistationController();
+                                                                Reliance.Modals.RegistationDoList relienceModal1 = registationControllers.AllUser();
+                                                                 <option value="0">Select</option>                                                      
+                                                                  for (int i = 0; i < relienceModal1.Count; i++)
+                                                                {	
+                                                   <option value="@relienceModal1[i].Userid">@relienceModal1[i].UserName</option>
+            
+                                                                }
+                                                              }
+                                                        </select>
+                                                                </div></div>													
+														<div class="col-md-3">
+															<div class="form-group">
+                                                               
+																<label>Select Document<span style="color:#FF0000">*</span></label>
+																 <select class="form-control" id="DocumentName1" name="Formid"  required="" class="form-control input-lg dspn" placeholder="Please Select Document Type">
+                                                                       <option  value="NULL">Select</option>
+							                                 </select>
+															</div>
+														</div>
+                                                        <div class="col-md-3">
+															<div class="form-group">
+																<label class="control-label">Status</label>
+																  <select  class="form-control status" id="Status1" name="Status1"  required=""  placeholder="Please Select Document Fields">
+                                                                            <option  value="NULL">Select</option>
+							                                            </select>
+                                               
+															</div>
+														</div>                                                
+												</div>
+                                                          </div>
+                                    
+												<div class="form-actions right">
+												
+													<button type="submit" id="btnsearch" class="btn" style="background-color:#bd9d43">Search</button>
+												</div>
+										
+										</div>
+<div class="row">
+					<div class="col-md-12">
+						<!-- BEGIN EXAMPLE TABLE PORTLET-->
+						<div class="portlet box blue">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-edit"></i>Dynamic WorkFlow
+								</div>
+							
+							</div>
+							<div class="portlet-body">						
+								<table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+									<thead>
+								<tr role="row"><th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Username
+									: activate to sort column ascending" style="width: 165px;">
+										User Name
+									</th><th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Full Name
+									: activate to sort column ascending" style="width: 208px;">
+										Docunemt Name
+									</th><th class="sorting_desc" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Points
+									: activate to sort column ascending" style="width: 111px;" aria-sort="descending">
+									Order
+									</th>
+                                     <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+									 Status
+									</th>
+                                    <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+									Role
+									</th> 
+                                    <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+									DocNature
+									</th>    
+									</tr>
+								</thead>
+                                 <tbody id="myTable">	
+                                 
+								
+                                
+                                                  		
+								</tbody>
+								</table>
+								
+							</div></div></div></div>
+
+														
+<script type="text/javascript">
+    $(document).ready(function () {
+        var CompanyId = document.getElementById("CompanyId").value;    
+        $.ajax
+                ({
+                    type: "POST",
+                    url: "/Dynamic/AllWorkFlowForm/?CompanyId=" + CompanyId,
+                    datatype: "JSON",
+                    success: function (data) {
+                        var item = '<option value="0">Select</option>'
+                        for (var j = 0; j < data.Response.length; j++) {
+                            var formName = data.Response[j].FormName;
+                            item += "<option value='" + data.Response[j].Id + "'>" + data.Response[j].FormName + "</option>";
+                        };
+                        $("#DocumentName").html(item);
+                        $("#DocumentName1").html(item);
+                    },
+                });
+        $("#DocumentName").change(function () {
+            var formId = document.getElementById("DocumentName").value;
+            $.ajax
+            ({
+                type: "POST",
+                url: "/DynamicWorkFlow/Dymanicworkflowfield/?formid=" + formId,
+                success: function (data) {
+                    
+                    var fieldData = '<option value="0">Select</option>'
+                    var item = '';
+                    var main = "<div class='control-group'>";
+                    var Mainend = "</div>";
+                    var FieldDiv = "";
+                    for (var j = 0; j < data.Response.length; j++)
+                    {
+                        if (data.Response[j].WORKFLOW != false)
+                        {
+                            FieldDiv += "<div class='col-sm-6'><div class='mainformname'><div class='box-scroll'><h3 Class='formids' value='" + data.Response[j].FieldId + "'> \</h3><div id='" + data.Response[j].FieldId + "'></div></div> </div></div>";
+                            GetData(data.Response[j].FormId, data.Response[j].FieldId, data.Response[j].FieldId)
+                        }
+                    }
+                    $("#FormFieldData").html(FieldDiv);
+                },
+            });           
+        });
+        $("#DocumentName").change(function () {
+            var formId = document.getElementById("DocumentName").value;
+            $.ajax
+                ({
+                    type: "POST",
+                    url: "/WorkFlowStatus/WorkFlowStatusbyformid/?formid=" + formId,
+                    success: function (data) {
+                        var fieldData = '<option value="0">Select</option>'
+                        for (var j = 0; j < data.Response.length; j++) {
+                            fieldData += "<option value='" + data.Response[j].workflowStatusId + "'>" + data.Response[j].StatusName + "</option>";
+                        }
+                        $('.status').each(function () {
+                            $(this).html(fieldData)
+                        })
+                    },
+                });
+        });
+        $("#DocumentName1").change(function () {
+            var fieldData = "";
+            var formId = document.getElementById("DocumentName1").value;
+            $.ajax
+             ({
+                 type: "POST",
+                 url: "/WorkFlowStatus/WorkFlowStatusbyformid/?formid=" + formId,
+                 success: function (data)
+                 {
+                      fieldData = '<option value="0">Select</option>'
+                      for (var j = 0; j < data.Response.length; j++) {                       
+                         fieldData += "<option value='" + data.Response[j].workflowStatusId + "'>" + data.Response[j].StatusName + "</option>";
+                     }
+                     $("#Status1").html(fieldData);
+                 },
+             });
+        });
+        function GetData(Formid, FieldId, divFieldId) {
+            var formId = Formid;
+            var FieldId = FieldId;
+           
+            $.ajax
+           ({
+               type: "POST",
+               url: "/FormMaster/DropDownData/?FormId=" + formId + "&FieldId=" + FieldId,
+               success: function (data) {
+                   var item = '';
+                   var main = "<div class='control-group'>";
+                   var Mainend = "</div>";
+                   for (var j = 0; j < data.Responses.length; j++) {
+
+                       //  var formName = data.Response[j].FormName;
+                       item += "<label class='control control--checkbox'><input type='checkbox' class='iChildcheck FormFeidData" + FieldId + "' value='" + data.Responses[j].Key + "'/>" + data.Responses[j].Values + "<div class='control__indicator'></div></label>";
+                       //"<option value='" + data.Response[j].Id + "'>" + data.Response[j].FormName + "</option>";
+                   };
+                   $("#"+divFieldId).append(item);
+               },
+           });
+        }
+        $("#btnsearch").click(function () {
+
+            var FormId = document.getElementById("DocumentName1").options[document.getElementById("DocumentName1").selectedIndex].value;
+            
+            $.ajax({
+                type: "POST",
+                url: "/DynamicWorkFlow/DynamicWorkFlowformid/?formid=" + FormId,
+                success: function (data) {
+                    var data = $.parseJSON(JSON.stringify(data));
+
+                    var html = '';
+                    var htmlhidden = '';
+                    for (var j = 0; j < data.Response.length; j++)
+                    {
+                        html += '<tr role="row" class="odd"><td  class=""> ' + data.Response[j].UserName + '</td><td class="center">' + data.Response[j].FormName + '</td><td class="sorting_1">' + data.Response[j].Order + '</td><td class="sorting_1">' + data.Response[j].Status + '</td><td class="center" >' + data.Response[j].Rolename + '</td><td class="center">' + data.Response[j].DocNature + '</td>'
+                       
+                    }
+             
+                    $('#myTable').html(html);
+                   
+                },
+
+
+            });
+                
+        });
+    });
+
+    $("#selectItems").change(function () {
+        var formId = document.getElementById("selectItems").value;
+        $.ajax({
+            type: "Post",
+            url: "/RoleAssignment/RoleByUser/?RoleId=" + formId,
+            success: function (data) {
+                var fieldData = '<option value="0">Select</option>'
+                for (var j = 0; j < data.Responses.length; j++) {
+                    fieldData += "<option value='" + data.Responses[j].Userid + "'>" + data.Responses[j].UserName + ":--  (" + data.Responses[j].Email + ")  </option>";
+                }
+                $("#User").html(fieldData);
+            },
+        });
+    });
+</script>
+
+

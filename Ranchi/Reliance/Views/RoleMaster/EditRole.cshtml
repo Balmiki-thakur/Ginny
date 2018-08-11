@@ -1,0 +1,55 @@
+﻿@model Reliance.Modals.RoleMasterDo
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<script src="~/Scripts/jquery-1.7.1.js"></script>
+@{
+    ViewBag.Title = "EditUsers";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>RoleMasterDo</legend>
+
+       
+        <div class="editor-label">
+            @Html.LabelFor(model => model.RoleName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.RoleName)
+            @Html.ValidationMessageFor(model => model.RoleName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.RoleDescription)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.RoleDescription)
+            @Html.ValidationMessageFor(model => model.RoleDescription)
+        </div>
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+
+    @Html.ActionLink("Back to List", "Index")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

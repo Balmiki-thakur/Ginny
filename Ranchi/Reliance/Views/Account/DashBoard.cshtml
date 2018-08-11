@@ -1,0 +1,304 @@
+﻿l@{
+    ViewBag.Title = "DashBoard";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <title>Starter Template - Materialize</title>
+    <!-- CSS  -->
+    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+    <link href="~/Content/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="~/Content/bootstrap.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <!-- <link href="css/bootstrap-theme.css" type="text/css" rel="stylesheet" media="screen,projection"/> -->
+    <link href="~/Content/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container-fluid ofh" style="overflow:hidden;position:relative;margin-top: -25px;
+    margin-left: -20px;
+    margin-right: -20px;
+">
+      <div class="row" style="margin-bottom:0">
+   
+<!-- filter starts -->
+<div class="filterSec purple-bg clearfix inShadow" id="">
+   <div class="search-icon col-xs-1 cus-xs-1 cont"></div>
+   <ul class="filterCon col-md-11 m-0">
+     <!-- <li class="input-field m-0 arrow cont">
+            
+          <input id="filter" type="text" class="validate m-0 white-text " onfocus="this.value = '';" value="">
+          <label for="filter" class="white-text" >Select Vehical Data</label>
+
+      <span class="valCon white"></span>
+    </li> -->
+
+   </ul>
+</div>
+<div class="legendCon col-md-1 z-depth-1 white center-align">
+  <ul class="m-0">
+    <li class="chartLeg" data-legend="chart"><img src="~/img/chart-icon.png" alt=""></li>
+    <li id="24Hours" data-legend="Vehicle data not received for more than 24 Hrs."><span >R</span></li>
+    <li id="10min" data-legend="Green"><span >G</span></li>
+    <li id="4hours" data-legend="Blue"><span >B</span></li>
+  </ul> 
+</div>
+<div class="button-collapse arrow cont col-md-offset-8 col-md-1 z-depth-1"></div>
+<div class="resultSec resultColap clearfix white col-md-3 right purple-bg lighter p-0 z-depth-2" id="">
+
+  <div class="input-field search-icon cont m-0 col-md-12">
+    <input id="filter" type="text" class="validate m-0 white-text white-shadow" onfocus="this.value = '';" value="">
+          <label for="filter" class="white-text cust" >Select Vehical Data</label>
+    </div>
+  <div class="resultSecCon clearfix">  
+  <ul class="results z-depth-1 dsib m-0 right pb-10 pt-10 col-md-12">
+    <li><img src="~/img/bus.png" alt=""></li>
+    <li id="DashboardField"  onclick="filterData('DashboardField','356173064701225');">Vehical 1</li>
+    <li>DL 75 BG 3056</li>
+    <li>#56</li>
+  </ul>
+</div>
+
+  <div class="resultSecCon1 clearfix">  
+  <ul class="results z-depth-1 dsib m-0 right pb-10 pt-10 col-md-12 purple-bg white-text">
+    <li style="    font-size: 16px;">Results</li>
+  </ul>
+  <ul class="results z-depth-1 dsib m-0 right pb-10 pt-10 col-md-12 dsb">
+    <li><span><img src="~/img/bus.png" alt=""></span><span>Vehical 1</span><span>DL 75 BG 3056</span><span>#56</span></li>
+    <li><span><img src="~/img/driver.png" alt=""></span><span>Driver</span></li>
+    <li><span><img src="~/img/pin.png" alt=""></span><span>Location</span></li>
+  </ul>
+   <ul class="results z-depth-1 dsib m-0 right pb-10 pt-10 col-md-12 dsb">
+    <li><span><img src="~/img/bus.png" alt=""></span><span>Vehical 1</span><span>DL 75 BG 3056</span><span>#56</span></li>
+    <li><span><img src="~/img/driver.png" alt=""></span><span>Driver</span></li>
+    <li><span><img src="~/img/pin.png" alt=""></span><span>Location</span></li>
+  </ul>
+</div>
+
+</div>
+<div class="resultSec chartCon clearfix white col-md-3 right p-0 z-depth-1" id="">
+<ul class="collapsible m-0" data-collapsible="accordion">
+    
+    <li>
+      <div class="collapsible-header active arrow cont">Chart</div>
+      <div class="collapsible-body center-align">
+        <img src="~/img/chart.png" alt="">
+        <ul class="legendDes left-align">
+          <li class="cont">Legend 1</li>
+          <li class="cont">Legend 2</li>
+          <li class="cont">Legend 3</li>
+        </ul>
+      </div>
+    </li>
+    <li>
+      <div class="collapsible-header arrow cont">Chart</div>
+      <div class="collapsible-body center-align">
+        <img src="~/img/chart.png" alt="">
+        <ul class="legendDes left-align">
+          <li class="cont">Legend 1</li>
+          <li class="cont">Legend 2</li>
+          <li class="cont">Legend 3</li>
+        </ul>
+      </div>
+    </li>
+    <li>
+      <div class="collapsible-header arrow cont">Chart</div>
+      <div class="collapsible-body center-align">
+        <img src="~/img/chart.png" alt="">
+        <ul class="legendDes left-align">
+          <li class="cont">Legend 1</li>
+          <li class="cont">Legend 2</li>
+          <li class="cont">Legend 3</li>
+        </ul>
+      </div>
+    </li>
+    <li>
+      <div class="collapsible-header arrow cont">Chart</div>
+      <div class="collapsible-body center-align">
+        <img src="~/img/chart.png" alt="">
+        <ul class="legendDes left-align">
+          <li class="cont">Legend 1</li>
+          <li class="cont">Legend 2</li>
+          <li class="cont">Legend 3</li>
+        </ul>
+      </div>
+    </li>
+  </ul></div>
+<!-- filter ends -->
+<!-- map starts -->
+    @*<div class="mapCon" id="map">
+    </div>*@
+          <div id="map_canvas" style="width: 100%; height: 700px;"></div>
+      
+@*<div class="mapCon" id="map">
+</div>*@
+<!-- map ends -->
+</div><!-- row ends -->
+</div><!-- container fluid ends -->
+<!--  Scripts-->
+    
+ <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>  
+<script src="~/js/materialize.min.js"></script>
+<script src="~/js/materialize.js"></script>
+<script src="~/js/bootstrap.js"></script>
+      
+<script src="~/js/init.js"></script>
+ <script src="https://maps.googleapis.com/maps/api/js?key= AIzaSyAYfOhUF687Tn_DfRO1SJ5JoBtotnQF0AE" type="text/javascript"></script>  
+     
+     
+    <script type="text/javascript"> 
+        var infowindow = null;
+        $(document).ready(function () { initialize(); });       
+        function initialize()
+        {
+            
+            var centerMap = new google.maps.LatLng(22.5454396, 88.3408238);
+            var myOptions = {
+                zoom: 5,
+                center: centerMap,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            }
+            var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+            setMarkers(map);
+            infowindow = new google.maps.InfoWindow({
+                content: "loading..."
+            });
+            //var bikeLayer = new google.maps.BicyclingLayer();
+            //bikeLayer.setMap(map);
+        }  
+        function setMarkers(map) {
+          
+            $.ajax({
+                url: "/Dashboard/MapData",
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json;charset=utf-8",
+                traditional: true,
+                success: function (data)
+                {
+                    var htmlvalue = '';
+                    htmlvalue += '<option value="0">Select</option>';
+                    var gpsData = $.parseJSON(JSON.stringify(data));
+                    
+                    debugger;
+                    for (var i = 0; i < gpsData.Response.length; i++)
+                    {
+                        htmlvalue += "<option value='" + gpsData.Response[i].IMIENO + "'>" + gpsData.Response[i].Vehicle_Name + "</option>";
+                        $("#DashboardField").html(htmlvalue);
+                        // var sites = gpsData[i];//.IMIENO;
+                        if (gpsData.Response[i].Diffrencetime <= 240 &&  gpsData.Response[i].Diffrencetime >= 10)
+                        {
+                            var siteLatLng = new google.maps.LatLng(gpsData.Response[i].lattitude, gpsData.Response[i].longitude);
+                            var marker = new google.maps.Marker({
+                                position: siteLatLng,
+                                map: map,
+                                icon: '/img/2.png',
+                                title: gpsData.Response[i].IMIENO,
+                                html: gpsData.Response[i].Vehicle_Name,
+                                speed: gpsData.Response[i].speed,
+                                CTime: gpsData.Response[i].cTime,
+                                Lattitude: gpsData.Response[i].lattitude,
+                                Longitude: gpsData.Response[i].longitude,
+                               // animation:google.maps.Animation.BOUNCE
+
+                            });
+                        }
+                        if (gpsData.Response[i].Diffrencetime < 1000) {
+                            var siteLatLng = new google.maps.LatLng(gpsData.Response[i].lattitude, gpsData.Response[i].longitude);
+                            var marker = new google.maps.Marker({
+                                position: siteLatLng,
+                                map: map,
+                                icon:'/img/3.png' ,
+                                title: gpsData.Response[i].IMIENO,
+                                html: gpsData.Response[i].Vehicle_Name,
+                                speed: gpsData.Response[i].speed,
+                                CTime: gpsData.Response[i].cTime,
+                                // animation:google.maps.Animation.BOUNCE,
+                                Lattitude: gpsData.Response[i].lattitude,
+                                Longitude: gpsData.Response[i].longitude
+                            });
+                        }
+                        if (gpsData.Response[i].Diffrencetime > 1400 && gpsData.Response[i].Diffrencetime < 24571) {
+                            var siteLatLng = new google.maps.LatLng(gpsData.Response[i].lattitude, gpsData.Response[i].longitude);
+                            var marker = new google.maps.Marker({
+                                position: siteLatLng,
+                                map: map,
+                                icon: '/img/4.png',
+                                title: gpsData.Response[i].IMIENO,
+                                html: gpsData.Response[i].Vehicle_Name,
+                                speed: gpsData.Response[i].speed,
+                                CTime: gpsData.Response[i].cTime,
+                                // animation:google.maps.Animation.BOUNCE,
+                                Lattitude: gpsData.Response[i].lattitude,
+                                Longitude: gpsData.Response[i].longitude
+                            });
+                        }
+                        if (gpsData.Response[i].Diffrencetime > 24571) {       
+                            var siteLatLng = new google.maps.LatLng(gpsData.Response[i].lattitude, gpsData.Response[i].longitude);
+                         
+                            var marker = new google.maps.Marker({
+                                position: siteLatLng,
+                                map: map,
+                                icon: '/img/1.png',
+                                title: gpsData.Response[i].IMIENO,
+                                html: gpsData.Response[i].Vehicle_Name,
+                                speed: gpsData.Response[i].speed,
+                                CTime: gpsData.Response[i].cTime,
+                                Lattitude: gpsData.Response[i].lattitude,
+                                Longitude: gpsData.Response[i].Longitude
+                                // animation:google.maps.Animation.BOUNCE
+                            });
+                        }
+                        google.maps.event.addListener(marker, 'click', function ()
+                        {
+                       
+                            infowindow.setContent('<div><span class="skunal"> Vehicle No: </span><span>' + this.html + '</span></div> <div><span class="skunal"> CTime: </span><span>' + this.CTime + '</span></div><div><span class="skunal"> Speed: </span><span>' + this.speed + ' KM/h </span></div><div><span  class="skunal">IMEINO :</span><span>' + this.title + '</span></div><div><span  class="skunal">Lattitude :</span><span>' + this.Lattitude + '</span></div><div><span  class="skunal">Longitude :</span><span>' + this.Longitude + '</span></div>');
+                            infowindow.open(map, this);
+                            
+                        });
+                    }      
+                }
+            });
+        }
+
+    </script>  
+    <script type="text/javascript">
+        
+                 //filterData('DashboardField', '356173064701225');
+                 
+        function filterData(id, value) {
+                 var ret = undefined;
+                 
+                 if (document.getElementById(id) != undefined) {
+                     var options = document.getElementById(id).childNodes;
+                     debugger;
+                     for (i = 0; i < options.length; i++) {
+                         if (options[i].value == value) {
+                             var marker = new google.maps.Marker({
+                                 position: siteLatLng,
+                                 map: map,
+                                 icon: '/img/2.png',
+                                 title: gpsData.Response[i].IMIENO,
+                                 html: gpsData.Response[i].Vehicle_Name,
+                                 speed: gpsData.Response[i].Speed,
+                                 CTime: gpsData.Response[i].CTime,
+                                 Lattitude: gpsData.Response[i].Lattitude,
+                                 Longitude: gpsData.Response[i].Longitude,
+                                 // animation:google.maps.Animation.BOUNCE
+
+                             });
+                             break;
+                         }
+                     }
+                 }
+
+                 return ret;
+             }
+           
+        
+      </script>
+</body>
+</html>
+

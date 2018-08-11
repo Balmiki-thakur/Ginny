@@ -1,0 +1,364 @@
+﻿@{
+    ViewBag.Title = "Rule";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+<style>#origin
+{
+  background-color: lightgreen;
+}
+#origin img, #drop img {
+  margin-top: 3px;
+  margin-left: 5px;
+}
+#drop
+{
+  background-color: #cbe2e0;
+  min-height: 120px;
+}
+.over {
+  border: solid 5px purple;
+}
+.draggable
+{
+  border: solid 2px gray;
+}
+    .chbk-list { width:200px; float:left;
+    }
+</style>
+
+ @using (Html.BeginForm("RuleInsert", "RuleEngin", FormMethod.Post, new { enctype = "multipart/form-data", onsubmit = "validateForm()" }))
+               {
+                  <input type="hidden" id="CompanyId" name="Eid" value="@Session["LOGGED_Company"]" />
+<div class="row">
+      
+      <div class="form-group">
+		<label> Rule Name</label>
+		<input type="text" id="ruleName" name="RuleName" required="" class="form-control  col-md-3" placeholder="Please Insert Rule Name">
+		</div>
+      <div class="form-group">
+		<label> Rule Error Message</label>
+		<input type="text" id="errorMessage" name="ErrorMessage" required="" class="form-control  col-md-3" placeholder="Please Insert Error Message">
+		</div>
+</div>
+<div class="row">
+        <div class="rule-filter-container col-md-3">
+            Form Name
+                   <select class="form-control" id="FormName" name="FormName">    
+                            
+                      </select></div>
+      <div class="rule-filter-container col-md-3">
+            Conditon Field
+                   <select class="form-control" id="ConditionField" name="ConditionField">    
+                            
+                      </select>
+
+            </div>
+          
+        <div class="rule-filter-container col-md-3">
+            Conditon Form
+                   <select class="form-control" id="ConditionFormName" name="ConditionFormName">    
+                            
+                      </select>
+
+            </div>
+          
+            </div>@*
+        
+	
+<button type="button" id="FormId" class="btn green-haze">Compair</button> 
+ <a href="#" id="insert-more"> Add New Row </a>
+    @Html.ActionLink("RuleEngin","FormulaRule", "RuleEngin")
+
+    *@<br>
+<table id="mytable">
+    
+    <tbody>
+        <tr>
+            <td>
+              
+                <div class="rule-filter-container">
+                   
+                   <select class="form-control" id="FieldName" name="FieldName">    
+                            
+                      </select></div>
+            </td>
+             <td>
+               <div class="rule-filter-container">
+                   <select id="Conditon" class="form-control" name="MainConditon">    
+                      <option value="-1">------</option>             
+                      <option value="name">Name</option>          
+                      <option value="category">Category</option>  
+                      <option value="in_stock">In stock</option>   
+                      <option value="price">Price</option>             
+                       <option value="id">Identifier</option>      
+                      </select></div>
+
+            </td>
+           
+             <td>
+               <div class="rule-operator-container">
+                   <select id="equelfield" name="Equelfield" class="form-control " name="builder-basic_rule_0_operator"> 
+                        <option value="select">select</option>           
+                        <option value="equal">equal</option>
+                                    <option value="not_equal">not equal</option> 
+                                   <option value="in">in</option>    
+                                <option value="not_in">not in</option>  
+                                  <option value="begins_with">begins with</option>   
+                                 <option value="not_begins_with">doesn't begin with</option>
+                                    <option value="contains">contains</option>   
+                                 <option value="not_contains">doesn't contain</option> 
+                                   <option value="ends_with">ends with</option> 
+                                   <option value="not_ends_with">doesn't end with</option>   
+                                 <option class="Textbox" value="is_empty">is empty</option>         
+                           <option  class="Textbox" value="is_not_empty">is not empty</option>     
+                               <option class="Textbox" value="is_null">is null</option>       
+                             <option class="Textbox" value="is_not_null">is not null</option> 
+                                  </select></div>
+               <div id="catgorieCondition" name="CatgorieCondition" class="rule-operator-container dspn">
+                 <select  class="form-control " name="builder-basic_rule_0_operator">  
+                       <option value="select">select</option>                                 
+                      <option value="equal">equal</option>        
+                          <option value="not_equal">not equal</option>  
+                           <option value="in">in</option>      
+                           <option value="not_in">not in</option> 
+                            <option value="is_null">is null</option>           
+                       <option value="is_not_null">is not null</option>
+                 </select></div>
+               <div id="PriceCondition"  class="rule-operator-container dspn">
+                 <select class="form-control" id="PriceConditionrule" name="PriceConditionrule" name="builder-basic_rule_0_operator">
+                      <option value="select">select</option>        
+                      <option value="equal">equal</option>     
+                             <option value="not_equal">not equal</option>  
+                                <option value="in">in</option>          
+                        <option value="not_in">not in</option>
+                     <option value="less">less</option>   
+                               <option value="less_or_equal">less or equal</option>
+                                  <option value="greater">greater</option>     
+                             <option value="greater_or_equal">greater or equal</option>   
+                               <option value="between">between</option>         
+                         <option value="not_between">not between</option>     
+                             <option value="is_null">is null</option>        
+                          <option value="is_not_null">is not null</option>    
+
+                 </select>
+               </div>
+            </td>
+            <td>
+             <div class="rule-value-container">
+                 <input class="form-control" type="text" id="fieldvalue"  name="Fieldvalue"></div>
+            </td>
+           
+            <td>
+                  
+                <div class="rule-filter-container">
+                  
+                   <select class="form-control" id="CompairFieldName" name="CompairFieldName">    
+                            
+                      </select></div>
+                </td>
+            <td><a href="#">edit</a>
+            </td>
+        </tr>
+    </tbody>
+    
+</table>
+<div colspan="5" style="width: 99%; height: 130px;">
+ <span>Condtion :</span>
+ <textarea name="Condition" rows="2" cols="20" id="condition" onclick="storeCaret(this);" onselect="storeCaret(this);" onkeyup="storeCaret(this);" style="height:80%;width:98%;border: 1px dashed  #54c618;"></textarea>
+                                   
+                            
+ <span>Client Condtion :</span>
+ <textarea name="Clientcondition" rows="2" cols="20" id="clientcondition" onclick="storeCaret(this);" onselect="storeCaret(this);" onkeyup="storeCaret(this);" style="height:80%;width:98%;border: 1px dashed  #54c618;"></textarea>
+                                   </div>
+<div colspan="5" style="width: 99%; height: 130px;">
+                             </div>
+
+<button type="submit" id="InsertRule" class="btn green-haze">Submit</button> 
+ }
+<script type="text/javascript">
+    $(document).ready(function ()
+    {
+        var CompanyId = document.getElementById("CompanyId").value;
+        $.ajax
+               ({
+                   type: "POST",
+                   url: "/Dynamic/AllFormList/?CompanyId=" + CompanyId,
+                   datatype: "JSON",
+                   success: function (data) {
+                       var item = '';
+                       var condition = '';
+                       for (var j = 0; j < data.Response.length; j++)
+                       {                          
+                           var formName = data.Response[j].FormName;                        
+                           item += "<option value='" + data.Response[j].Id + "'>" + data.Response[j].FormName + "</option>";                        
+                       };
+                       $("#FormName").html(item);            
+                   },
+               });
+        $("#FormName").change(function ()
+        {
+            var formId = document.getElementById("FormName").value;
+            var CompanyId = document.getElementById("CompanyId").value;
+            $.ajax
+             ({
+                 type: "POST",
+                 url: "/Dynamic/MultiFields/?formid=" + formId + "&CompanyId=" + CompanyId,
+                 success: function (data) {
+                     var fieldData = '<option value="0">Select</option>'
+                     var conditiondata = '<option value="0">Select</option>'
+                     var conditionfield='<option value="0">Select</option>'
+                     for (var j = 0; j < data.Response.length; j++)
+                     {                       
+                             fieldData += "<option value='" + data.Response[j].FieldId + "'>" + data.Response[j].Display_name + "</option>";
+                             if (data.Response[j].Field_type != "Text Box")
+                             {
+                                 conditiondata += "<option class=DocumentName=" + data.Response[j].DocumentName + " DocumentField='" + data.Response[j].DocumentField + "' value='" + data.Response[j].DocumentName + "'>" + data.Response[j].Display_name + "</option>";
+                                 conditionfield += "<option  value='" + data.Response[j].FieldId + "'>" + data.Response[j].Display_name + "</option>";
+                             }
+                     }
+                     $("#FieldName").html(fieldData);
+                     $("#ConditionFormName").html(conditiondata);
+                     $("#ConditionField").html(conditionfield);
+                 },
+             });
+        });     
+        $("#ConditionFormName").change(function () {
+
+            var formId = document.getElementById("ConditionFormName").value;
+            var CompanyId = document.getElementById("CompanyId").value;
+            $.ajax
+             ({
+                 type: "POST",
+                 url: "/Dynamic/MultiFields/?formid=" + formId + "&CompanyId=" + CompanyId,
+                 success: function (data) {
+                     var fieldData = '<option value="0">Select</option>'
+                     for (var j = 0; j < data.Response.length; j++) {
+                         fieldData += "<option value='" + data.Response[j].FieldId + "'>" + data.Response[j].Display_name + "</option>";
+                     }
+                     $("#CompairFieldName").html(fieldData);
+                 },
+             });
+        });
+        $("#insert-more").click(function () {
+            $("#mytable").each(function () {
+                var count = 0;
+                var tds = '<tr>';
+                jQuery.each($('tr:last td', this), function () {
+                    var counter = count++;
+                    tds += '<td id="blah' + counter + '" name="blah' + counter + '">' + $(this).html() + '</td>';
+
+                });
+                tds += '</tr>';
+                if ($('tbody', this).length > 0) {
+                    $('tbody', this).append(tds);
+                } else {
+                    $(this).append(tds);
+                }
+            });
+
+            return false
+        });      
+    });
+</script>
+<script type="text/javascript">  
+    $("#FormName").change(function () {
+        var formId = document.getElementById("FormName").value;
+        var CompanyId = document.getElementById("CompanyId").value;
+        $.ajax
+         ({
+             type: "POST",
+             url: "/Dynamic/MultiFields/?formid=" + formId + "&CompanyId=" + CompanyId,
+             success: function (data) {
+                 var fieldData = '<option value="0">Select</option>'
+                 for (var j = 0; j < data.Response.length; j++) {
+                     fieldData += "<option value='" + data.Response[j].FieldId + "'>" + data.Response[j].Display_name + "</option>";
+                 }
+                 $("#FieldName").html(fieldData);
+             },
+         });
+    });
+    $("#FieldName").change(function () {
+        var fieldId = document.getElementById('FieldName').options[document.getElementById('FieldName').selectedIndex].value;
+        var fieldName = document.getElementById('FieldName').options[document.getElementById('FieldName').selectedIndex].textContent;
+        var fieldjavascript = fieldName;
+        $("#condition").html(fieldId);
+        $("#clientcondition").append(fieldjavascript);
+        fieldjavascript = '';
+    }) 
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+       
+        $('#equelfield').on('change', function (e) {
+            var optionSelected = document.getElementById('equelfield').options[document.getElementById('equelfield').selectedIndex].value;
+            debugger;
+            if ('is_empty' == optionSelected) {
+                $(".rule-value-container").hide();
+              
+            }
+           else if('is_not_empty'==optionSelected)
+            {
+                $(".rule-value-container").hide();
+            }
+          else  if ('is_null' == optionSelected)
+            {
+                $(".rule-value-container").hide();
+            }
+         else   if ('is_not_null' == optionSelected)
+            {
+                $(".rule-value-container").hide();
+            }
+            else {
+                $(".rule-value-container").show();
+         }
+           
+        
+        });
+        $('#Conditon').on('change', function (e) {
+            var optionSelected = document.getElementById('Conditon').options[document.getElementById('Conditon').selectedIndex].value;
+            debugger;
+            if ('category' == optionSelected) {
+                $("#catgorieCondition").removeClass('dspn');
+                $(".rule-value-container").hide();
+                $("#equelfield").hide();
+            }
+            else if ('price' == optionSelected)
+            {
+                debugger;
+
+                $("#PriceCondition").removeClass('dspn');
+                $('#catgorieCondition').addClass('dspn')
+                $(".rule-value-container").show();
+                $("#equelfield").addClass('dspn');
+            }
+
+            else {
+                $("#catgorieCondition").addClass('dspn');
+                $(".rule-value-container").show();
+                $("#equelfield").show();
+            }
+        });
+    });
+    $("#fieldvalue").blur(function () {
+        fieldvalue = document.getElementById("fieldvalue").value;        
+        $("#condition").append(fieldvalue);
+        $("#clientcondition").append(fieldvalue);
+        fieldvalue = '';
+    })
+    $("#PriceConditionrule").change(function () {
+        debugger;
+        var fieldId = document.getElementById('PriceConditionrule').options[document.getElementById('PriceConditionrule').selectedIndex].value;
+        $("#condition").html(fieldId);
+        $("#clientcondition").append(fieldId);
+        fieldId = '';
+    });
+</script>
+
+<script type="text/javascript">
+    $("InsertRule").click(function () {
+        RuleName: document.getElementById("ruleName").value;
+
+    });
+</script>
+

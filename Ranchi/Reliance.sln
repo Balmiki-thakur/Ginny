@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reliance", "Reliance\Reliance.csproj", "{BF2E5994-5254-4E8D-B3EE-FBC8E705DE01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reliance.SqlDll", "Reliance.SqlDll\Reliance.SqlDll.csproj", "{CC2A19CB-9FB8-4942-B8CE-1C45CFBEE068}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reliance.Modals", "Reliance.Modals\Reliance.Modals.csproj", "{3B5C8888-C7DC-4E32-AB5E-CBACDCD70322}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RelianceController", "RelianceController\RelianceController.csproj", "{55BFDF0E-E2CD-4E49-B3B7-BD8D39EFF44E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reliance_Service", "Reliance_Service\Reliance_Service.csproj", "{46D5AF8F-852E-42FE-9D17-D7332134F243}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuleEngin", "RuleEngin\RuleEngin.csproj", "{F14687EB-4D47-449F-B1F9-C663D11767CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RelianceWebApi", "RelianceWebApi\RelianceWebApi.csproj", "{E71AB69C-BF7C-4BEE-A5D5-EAC7F78A9847}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BF2E5994-5254-4E8D-B3EE-FBC8E705DE01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF2E5994-5254-4E8D-B3EE-FBC8E705DE01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF2E5994-5254-4E8D-B3EE-FBC8E705DE01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF2E5994-5254-4E8D-B3EE-FBC8E705DE01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC2A19CB-9FB8-4942-B8CE-1C45CFBEE068}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC2A19CB-9FB8-4942-B8CE-1C45CFBEE068}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC2A19CB-9FB8-4942-B8CE-1C45CFBEE068}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC2A19CB-9FB8-4942-B8CE-1C45CFBEE068}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B5C8888-C7DC-4E32-AB5E-CBACDCD70322}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B5C8888-C7DC-4E32-AB5E-CBACDCD70322}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B5C8888-C7DC-4E32-AB5E-CBACDCD70322}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B5C8888-C7DC-4E32-AB5E-CBACDCD70322}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55BFDF0E-E2CD-4E49-B3B7-BD8D39EFF44E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55BFDF0E-E2CD-4E49-B3B7-BD8D39EFF44E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55BFDF0E-E2CD-4E49-B3B7-BD8D39EFF44E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55BFDF0E-E2CD-4E49-B3B7-BD8D39EFF44E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46D5AF8F-852E-42FE-9D17-D7332134F243}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46D5AF8F-852E-42FE-9D17-D7332134F243}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46D5AF8F-852E-42FE-9D17-D7332134F243}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46D5AF8F-852E-42FE-9D17-D7332134F243}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F14687EB-4D47-449F-B1F9-C663D11767CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F14687EB-4D47-449F-B1F9-C663D11767CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F14687EB-4D47-449F-B1F9-C663D11767CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F14687EB-4D47-449F-B1F9-C663D11767CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E71AB69C-BF7C-4BEE-A5D5-EAC7F78A9847}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E71AB69C-BF7C-4BEE-A5D5-EAC7F78A9847}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E71AB69C-BF7C-4BEE-A5D5-EAC7F78A9847}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E71AB69C-BF7C-4BEE-A5D5-EAC7F78A9847}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

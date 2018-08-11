@@ -1,0 +1,175 @@
+﻿@{
+    ViewBag.Title = "DashboardEcommerce";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+						
+						<div class="row">
+							<div class="col-md-14">
+								
+								<div class="leave-status">
+									<!-- BEGIN ALERTS PORTLET-->
+									<div class="portlet light z-depth-1 clearfix">
+										<div class="portlet-title">
+											<div class="caption">
+												
+												<div class="btn-group">
+													<button type="button" class="dropdown-toggle brn white-bg" data-toggle="dropdown">
+													<span class="hidden-sm hidden-xs caption-subject  bold uppercase">Leave Status&nbsp;</span>&nbsp;<i class="fa fa-angle-down"></i>
+													</button>
+													<ul class="dropdown-menu" role="menu">
+														<li>
+															<a href="#">
+															<i class="icon-user"></i> New User </a>
+														</li>
+														<li>
+															<a href="#">
+																<i class="icon-present"></i> New Event <span class="badge badge-success">4</span>
+															</a>
+														</li>
+														<li>
+															<a href="#">
+															<i class="icon-basket"></i> New order </a>
+														</li>
+														<li class="divider">
+														</li>
+														<li>
+															<a href="#">
+																<i class="icon-flag"></i> Pending Orders <span class="badge badge-danger">4</span>
+															</a>
+														</li>
+														<li>
+															<a href="#">
+																<i class="icon-users"></i> Pending Users <span class="badge badge-warning">12</span>
+															</a>
+														</li>
+													</ul>
+												</div>
+												
+											</div>
+											<div class="tabbable-line">
+												<ul class="nav nav-tabs fl-r">
+													
+													<li class="green-active">
+														<a href="#tab_15_2" data-toggle="tab">
+														Need To Act </a>
+													</li>
+													<li>
+														<a href="#tab_15_3" data-toggle="tab">
+														MY Request</a>
+													</li>
+                                                    <li>
+														<a href="#tab_15_3" data-toggle="tab">
+														MY History</a>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="portlet-body">
+											
+											
+											<div class="tab-content">
+												<div class="tab-pane active" id="tab_15_2">
+													
+												
+ <div class="row">
+   @{ RelianceController.MasterDocumentController MomentMasterController = new RelianceController.MasterDocumentController();
+      int userid = Convert.ToInt32(Session["LOGGED_UserId"]);
+      Reliance.Modals.MasterMomentList masterMomentList = MomentMasterController.mastermomentId(userid);
+
+                         for (int i = 0; i < masterMomentList.Count; i++)
+                            {		
+                          <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+						                  <a class="dashboard-stat dashboard-stat-light blue-soft" href="#">
+						                  <div class="visual">
+						                  	<i class="fa fa-comments"></i>
+						                 </div>
+						                    <div  class="details">
+						                    	<div id="" class="number">
+							                 	@masterMomentList[i].FormCount
+							             </div>
+							             <div class="desc">
+								 @masterMomentList[i].FormName
+							</div>
+						</div>
+						</a>
+					</div>					
+                            }
+      }
+					<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+						<a class="dashboard-stat dashboard-stat-light green-soft" href="#">
+						<div class="visual">
+							<i class="fa fa-shopping-cart"></i>
+						</div>
+						<div class="details">
+							<div class="number">
+								 549
+							</div>
+							<div class="desc">
+								 New Orders
+							</div>
+						</div>
+						</a>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+						<a class="dashboard-stat dashboard-stat-light purple-soft" href="#">
+						<div class="visual">
+							<i class="fa fa-globe"></i>
+						</div>
+						<div class="details">
+							<div class="number">
+								 +89%
+							</div>
+							<div class="desc">
+								 Brand Popularity
+							</div>
+						</div>
+						</a>
+					</div>
+     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+						<a class="dashboard-stat dashboard-stat-light green-soft" href="#">
+						<div class="visual">
+							<i class="fa fa-shopping-cart"></i>
+						</div>
+						<div class="details">
+							<div class="number">
+								 549
+							</div>
+							<div class="desc">
+								 New Orders
+							</div>
+						</div>
+						</a>
+					</div>
+					
+				</div>
+									</div>
+									<div class="tab-pane" id="tab_15_3">
+										
+										
+										<ul class="list-group">
+											
+											<li class="list-group-item p-0 pb-15 pt-15">
+												<span class="fs-16">21st Apr 16 - 30th Apr 16</span> <span class="badge badge-default red-bg br2">
+											WPL </span>
+											<span class="fs-14 grey-txt dsb">Lorem Ipsum is simply dummy text of the industry.</span>
+										</li>
+										<li class="list-group-item p-0 pb-15 pt-15">
+											<span class="fs-16">21st Apr 16 - 30th Apr 16</span> <span class="badge badge-default green-bg br2">
+										PL </span>
+										<span class="fs-14 grey-txt dsb">Lorem Ipsum is simply dummy text of the industry.</span>
+									</li>
+									
+									
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- END ALERTS PORTLET-->
+			</div>
+			
+			
+		</div>
+	
+	</div>

@@ -1,0 +1,955 @@
+﻿@{
+    ViewBag.Title = "GPSMileageReport";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+@model Reliance.Modals.MilageGPSDataReport
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> 
+    <div class="row">
+                            <div class="col-md-12">
+                                <div class="portlet box blue-hoki">
+                                    <div class="portlet-title">
+                                        <div class="caption">
+                                            <i class="fa fa-navicon"></i>Device Report
+                                        </div>
+
+                                    </div>
+                                    <div class="portlet-body">
+                                        <div class="table-toolbar">
+                                            <div class=" portlet-tabs">
+                                                <ul class="nav nav-tabs">
+                                                    <li class="active">
+                                                        <a href="#portlet_tab1" data-toggle="tab">
+                                                            Replay Report
+                                                        </a>
+                                                    </li>
+                                                  
+                                                        <li>
+                                                            <a href="#portlet_tab2" data-toggle="tab">
+                                                                Last Signal Report</a>
+                                                        </li>
+                                                    <?php //} ?>
+                                                    <li>
+                                                        <a href="#portlet_tab3" data-toggle="tab" onclick="batteryStatus();">
+                                                            Battery Status</a>
+                                                    </li>
+                                                    
+                                                    <li>
+                                                        <a href="#portlet_tab4" data-toggle="tab">
+                                                            Mileage Report</a>
+                                                    </li>
+
+                                                    <li class="dropdown">
+                                                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Violation Report
+                                                            <span class="caret"></span></a>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a href="#portlet_tab5" data-toggle="tab" onclick="latedeviceDeparture();">Late Departure</a></li>
+                                                            <li><a href="#portlet_tab6" data-toggle="tab" onclick="latedeviceArrival();">Late arrival</a></li> 
+															<li><a href="#portlet_tab7" data-toggle="tab" onclick="violationDevice();">Way Point Violation</a></li>															
+                                                        </ul>
+                                                    </li>
+
+
+                                                </ul>
+                                                <div class="tab-content">
+                                                    <div class="tab-pane active" id="portlet_tab1">
+                                                        <form role="form"  enctype="multipart/form-data" id="replay_form" name="replay_form">
+                                                            <script type="text/javascript">
+                                                                $(document).ready(function () {
+                                                                    $("#start_date").datepicker({ dateFormat: 'dd-mm-yy' });
+
+                                                                });
+                                                                $(document).ready(function () {
+                                                                    $("#end_date").datepicker({ dateFormat: 'dd-mm-yy' });
+
+                                                                });
+                                                                $(document).ready(function () {
+                                                                    $("#mstart_date").datepicker({ dateFormat: 'dd-mm-yy' });
+
+                                                                });
+                                                                $(document).ready(function () {
+                                                                    $("#mend_date").datepicker({ dateFormat: 'dd-mm-yy' });
+
+                                                                });
+                                                            </script>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Select Device Type 
+                                                                        <span style="color:red">*</span><span id="imei_number_error" style="color:red"></span>
+                                                                        <span id="device_type_error" style="color:red"></span>
+                                                                    </label><br />
+                                                                    <select class="form-control" name="device_type" id="device_type">
+                                                                        <option value="">Select Device Type</option>
+                                                                        <option value="portable">Portable</option>
+                                                                        <option value="fixed">Fixed</option>
+                                                                        <option value="silo">Silo</option>
+
+                                                                    </select>
+
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Select Device 
+                                                                        <span style="color:red">*</span><span id="imei_number_error" style="color:red"></span>
+                                                                        <span id="imei_number_formaterror" style="color:red"></span>
+                                                                    </label><br />
+                                                                    <select class="form-control" name="imei_number" id="imei_number">
+                                                                        
+                                                                            
+
+                                                                    </select>
+
+                                                                </div>
+                                                            </div>
+
+
+
+                                                            <div class="col-md-8">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Start Date <span style="color:red">*</span><span id="start_date_error" style="color:red"></span><span id="start_date_formaterror" style="color:red"></span></label>
+                                                                        <input type="text" size="16" class="form-control" name="start_date" id="start_date" placeholder="dd-mm-yyyy"  >
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Start Time <span style="color:red">*</span><span id="start_date_error" style="color:red"></span><span id="start_time_formaterror" style="color:red"></span></label>
+                                                                        <input type="text" size="16" placeholder="00:00" value="00:00" class="form-control" name="start_time" maxlength="5" id="start_time"  >
+                                                                    </div>
+                                                                </div>
+
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">End Date<span style="color:red">*</span><span id="start_date_error" style="color:red"></span><span id="start_date_formaterror" style="color:red"></span>
+                                                                        </label>
+                                                                        <input type="text" size="16" class="form-control" name="end_date" id="end_date" placeholder="dd-mm-yyyy">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">End Time <span style="color:red">*</span><span id="end_date_error" style="color:red"></span><span id="end_time_formaterror" style="color:red"></span></label>
+                                                                        <input type="text" size="16" maxlength="5" placeholder="00:00" value="23:59" class="form-control" name="end_time" id="end_time" required>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-md-12">	
+                                                                <div class="form-group">
+                                                                    <input type="submit" class="btn blue pull-right" name="replay_button" id="replay_button"  onclick="setRoutes();" class="btn blue pull-right" value="Submit" />
+                                                                </div>			
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+
+                                                                </div>
+                                                                <hr>
+                                                            </div>
+                                                        </form>
+
+
+                                                        <div id="dialogoverlay"></div>
+                                                        <div id="dialogbox">
+                                                            <div>
+                                                                <div id="dialogboxhead"></div>
+                                                                <div id="dialogboxbody"></div>
+                                                                <div id="dialogboxfoot"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="show_error"></div>
+
+                                                        <div class="portlet-body"> 
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="col-md-12" id="stopPlayBtn" style="display:none;">
+                                                                        <input type="hidden" id="hdnmove" value="0" />
+                                                                        <button onclick="Play();" class="btn blue pull-left">Start</button>&nbsp;&nbsp;&nbsp;
+                                                                        <button onclick="StopMarker()"  class="btn blue pull-right">Stop</button>
+
+
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                            </div>    
+                                                        </div>
+                                                        <div id="mymap" style="margin-right: 100px">
+
+                                                                </div>
+                                                    </div>
+                                                   
+                                                        <div class="tab-pane" id="portlet_tab2">
+                                                            <form role="form" name="lastSignalReportForm"  id="lastSignalReportForm" enctype="multipart/form-data">
+                                                                <div class="col-md-8">
+                                                                	<div class="form-group col-lg-6">
+	                                                                    <label class="control-label">Select Device Type 
+	                                                                        <span style="color:red">*</span><span id="imei_number_error" style="color:red"></span>
+	                                                                        <span id="device_type_error" style="color:red"></span>
+	                                                                    </label><br />
+	                                                                    <select class="form-control" name="device_type" id="device_type" required="required" onchange="getDeviceList(this.value,'imei_number2');">
+	                                                                        <option value="">Select Device Type</option>
+	                                                                        <option value="portable">Portable</option>
+	                                                                        <option value="fixed">Fixed</option>
+	                                                                        <option value="silo">Silo</option>
+	
+	                                                                    </select>
+	
+	                                                                </div>  
+                                                                    <div class="form-group col-lg-6">
+                                                                        <label class="control-label">Select Device 
+                                                                            <span style="color:red">*</span><span id="imei_number2_error" style="color:red"></span>
+                                                                            <span id="imei_number2_formaterror" style="color:red"></span>
+                                                                        </label><br />
+                                                                        <select multiple class="form-control" name="imei_number2[]" id="imei_number2" required="required">
+                                                                            
+																		</select>
+
+                                                                    </div>
+                                                                </div>  
+                                                                <div class="col-md-12" id="show">   
+                                                                    <div class="form-group">
+                                                                        <button type="button" name="LastSignalReportBtn" id="LastSignalReportBtn" class="btn blue pull-right" value="1">Submit</button>
+                                                                    </div>          
+                                                                </div>
+                                                            </form>
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+
+                                                                </div>
+                                                                <hr>
+                                                            </div>
+                                                            <div id="show_value">
+                                                                <div class="table-toolbar">
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="btn-group pull-right">
+                                                                                <button class="btn dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i>
+                                                                                </button>
+                                                                                <ul class="dropdown-menu pull-right">
+                                                                                    <li>
+                                                                                        <a href="#" id="lastSignalOnlick">
+                                                                                            Export to Excel </a>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                                <table class="table table-striped table-hover table-bordered" id="sample_editable_2">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>
+                                                                                S.No.
+                                                                            </th>
+                                                                            <th>
+                                                                                Device Name
+                                                                            </th>
+                                                                            <th>
+                                                                                cTime/Last Signal Time
+                                                                            </th>
+                                                                            <th>
+                                                                                Record Time
+                                                                            </th>
+                                                                            <th>
+                                                                                Battery volt
+                                                                            </th>
+                                                                            <th>
+                                                                                Device Status  
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody id="deviceDataList">
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                
+
+                                                    <div class="tab-pane" id="portlet_tab3">
+                                                        <div class="table-toolbar">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="btn-group pull-right">
+                                                                        <button class="btn dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu pull-right">
+                                                                            <li>
+                                                                             
+                                                                                    Export to Excel </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <table class="table table-striped table-bordered table-hover" id="sample_editable_1">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>
+                                                                        S.No.
+                                                                    </th>
+                                                                    <th>
+                                                                        Device IMEI NO.
+                                                                    </th>
+                                                                    <th>
+                                                                        Device Name
+                                                                    </th>
+                                                                    <th style="width:130px !important;">
+                                                                        cTime
+                                                                    </th>
+                                                                    <th style="width:115px !important;">
+                                                                        Battery Percent
+                                                                    </th>
+                                                                    <th>
+                                                                        Device Status
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="currentallDeviceTable">
+                                                                
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    
+                                                    <div class="tab-pane" id="portlet_tab4">
+                                             @* @using (Html.BeginForm("mileage_form_submit", "GPSDataReport", FormMethod.Get))
+                                                      {
+                                                      *@<form role="form" onsubmit="mileage_form_submit();" enctype="multipart/form-data" id="mileageReportForm">
+                                                            <div class="col-md-4">
+																
+                                                                <div class="form-group">
+
+                                                                    <label class="control-label">Select VehicleName-VehicleNo.
+
+                                                                        <span style="color:red">*</span><span id="imei_number_error" style="color:red"></span>
+
+                                                                        <span id="imei_number3_formaterror" style="color:red"></span>
+
+                                                                    </label><br />
+
+                                                                    <select multiple class="form-control" name="imei_number3" id="imei_number3" required="required" style="height: 110px !important">
+
+                                                                        <option value="">Select Device</option>
+
+                                                                     
+
+                                                                    </select>
+
+
+
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="col-md-8">
+
+                                                                <div class="col-md-6">
+
+                                                                    <div class="form-group">
+                                                                        <label class="control-label">Start Date <span style="color:red">*</span>
+                                                                            <span id="mstart_date_error" style="color:red"></span>
+                                                                            <span id="mstart_date_formaterror" style="color:red"></span>
+                                                                        </label>
+                                                                        <input type="text" size="16" class="form-control" name="mstart_date" id="mstart_date" placeholder="dd-mm-yyyy" required >
+                                                                    </div>
+
+                                                                </div>
+
+
+
+                                                                <div class="col-md-6">
+
+                                                                    <div class="form-group">
+
+                                                                        <label class="control-label">Start Time <span style="color:red">*</span><span id="mstart_date_error" style="color:red"></span><span id="mstart_time_formaterror" style="color:red"></span></label>
+
+                                                                        <input type="text" size="16" placeholder="00:00" value="00:00" class="form-control" name="mstart_time" maxlength="5" id="mstart_time" required >
+
+                                                                    </div>
+
+                                                                </div>
+
+
+
+
+
+                                                                <div class="col-md-6">
+
+                                                                    <div class="form-group">
+
+                                                                        <label class="control-label">End Date<span style="color:red">*</span><span id="mstart_date_error" style="color:red"></span><span id="mstart_date_formaterror" style="color:red"></span>
+
+                                                                        </label>
+
+                                                                        <input type="text" size="16" class="form-control" name="mend_date" id="mend_date" placeholder="dd-mm-yyyy">
+
+                                                                    </div>
+
+                                                                </div>
+
+
+
+                                                                <div class="col-md-6">
+
+                                                                    <div class="form-group">
+
+                                                                        <label class="control-label">End Time <span style="color:red">*</span><span id="mend_date_error" style="color:red"></span><span id="mend_time_formaterror" style="color:red"></span></label>
+
+                                                                        <input type="text" size="16" maxlength="5" placeholder="00:00" value="23:59" class="form-control" name="mend_time" id="mend_time" required>
+
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="col-md-12"> 
+
+                                                                <div class="form-group">
+
+                                                                    <input type="button" class="btn blue pull-right" id="mileage_button" class="btn blue pull-right" value="Submit" />
+
+                                                                </div>           
+
+                                                            </div>
+
+                                                            <div class="col-md-12">
+
+                                                                <div class="form-group">
+
+
+
+                                                                </div>
+
+                                                                <hr>
+
+                                                            </div>
+
+                                                       </form>                      
+                                                      @* }*@
+                                                        <div id="show_value3">
+
+                                                            <div class="table-toolbar">
+
+                                                                <div class="row">
+
+                                                                    <div class="col-md-12">
+
+                                                                        <div class="btn-group pull-right">
+
+                                                                            <button class="btn dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i>
+
+                                                                            </button>
+
+                                                                            <ul class="dropdown-menu pull-right">
+
+                                                                                <li>
+
+                                                                                    <a href="#" id="mileageOnclick">
+
+                                                                                        Export to Excel </a>
+
+                                                                                </li>
+
+                                                                            </ul>
+
+                                                                        </div>
+
+                                                                    </div>
+
+
+
+                                                                </div>
+
+                                                            </div>
+                                                            <table class="table table-striped table-hover table-bordered" id="sample_editable_3">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th> S.No.</th><th>Vehicle Name </th><th>Total Km</th><th>Max. Speed</th><th>Date</th><th>Action</th>
+
+                                                                    </tr>
+
+                                                                </thead>
+
+                                                                <tbody id="mileageReportList">
+                                         
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div class="modal fade bs-modal-lg" id="large" data-backdrop="static" data-keyboard="false">
+                                                            <div  tabindex="-1" role="dialog" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg">
+                                                                    <div class="portlet box blue-madison">
+                                                                        <div class="portlet-title">
+                                                                            <div class="caption">
+                                                                                Device On Map
+                                                                            </div>
+
+                                                                            <div class="tools">
+
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="closemodalbutton">
+                                                                                	
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-content">
+                                                                        <div class="portlet-body form">
+
+                                                                            <div class="modal-body">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12">
+                                                                                        <div id="mileageMap"></div>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>   
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>    
+                                                                <!-- /.modal-content -->
+                                                            </div>
+                                                            <!-- /.modal-dialog -->
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="tab-pane" id="portlet_tab5">
+                                                        <div class="table-toolbar">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="btn-group pull-right">
+                                                                        <button class="btn dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu pull-right">
+                                                                            <li>
+                                                                                <a href="#" onclick="document.location.href ='views/export_excel/export_excel.php?userName=<?php echo $userEmail; ?>&companyCode=<?php echo $logoCompanyCode ?>&PageName=lateDeparture'">
+                                                                                    Export to Excel </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <table class="table table-striped table-bordered table-hover" id="sample_editable_5">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>
+                                                                        S.No.
+                                                                    </th>
+                                                                    <th>
+                                                                        Shipment Name
+                                                                    </th>
+                                                                    <th>
+                                                                        Creation Date
+                                                                    </th>
+                                                                    <th>
+                                                                        Actual Start Time
+                                                                    </th>
+                                                                    <th>
+                                                                        Device Name
+                                                                    </th>
+                                                                     <th>
+                                                                        Graph
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="lateallDeviceTable">
+                                                                
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+
+                                                    
+                                                    
+                                                    <div class="tab-pane" id="portlet_tab6">
+                                                        <div class="table-toolbar">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="btn-group pull-right">
+                                                                        <button class="btn dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu pull-right">
+                                                                            <li>
+                                                                              @*  <a href="#" onclick="document.location.href ='views/export_excel/export_excel.php?userName=<?php echo $userEmail; ?>&companyCode=<?php echo $logoCompanyCode ?>&PageName=lateArrival'">
+                                                                                    Export to Excel </a>*@
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <table class="table table-striped table-bordered table-hover" id="sample_editable_6">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>
+                                                                        S.No.
+                                                                    </th>
+                                                                    <th>
+                                                                        Shipment Name
+                                                                    </th>
+                                                                    <th>
+                                                                        Expected Arrival 
+                                                                    </th>
+                                                                    <th>
+                                                                        Actual Arrival
+                                                                    </th>
+                                                                    <th>
+                                                                        Device Name
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="arrivalallDeviceTable">
+                                                               
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+
+
+                                                    <div class="tab-pane" id="portlet_tab7">
+                                                        <div class="table-toolbar">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="btn-group pull-right">
+                                                                        <button class="btn dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i>
+                                                                        </button>
+                                                                        <ul class="dropdown-menu pull-right">
+                                                                            <li>
+                                                                                <a href="#">
+                                                                                    Export to Excel </a>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <table class="table table-striped table-bordered table-hover" id="sample_editable_7">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>S.No.
+                                                                    </th>
+                                                                    <th>Shipment Name
+                                                                    </th>
+                                                                    <th>Way1 Entry
+                                                                    </th>
+                                                                    <th>Way1 EntryTime
+                                                                    </th>
+                                                                    <th>Way1 Exit
+                                                                    </th>
+                                                                    <th>Way1 ExitTime
+                                                                    </th>
+                                                                    <th>Way2 Entry
+                                                                    </th>
+                                                                    <th>Way2 EntryTime
+                                                                    </th>
+                                                                    <th>Way2 Exit
+                                                                    </th>
+                                                                    <th>Way2 ExitTime
+                                                                    </th>
+                                                                    <th>Way3 Entry
+                                                                    </th>
+                                                                    <th>Way3 EntryTime
+                                                                    </th>
+                                                                    <th>Way3 Exit
+                                                                    </th>
+                                                                    <th>Way3 ExitTime
+                                                                    </th>
+                                                                    <th>Way4 Entry
+                                                                    </th>
+                                                                    <th>Way4 EntryTime
+                                                                    </th>
+                                                                    <th>Way4 Exit
+                                                                    </th>
+                                                                    <th>Way4 ExitTime
+                                                                    </th>
+                                                                    <th>Way5 Entry
+                                                                    </th>
+                                                                    <th>Way5 EntryTime
+                                                                    </th>
+                                                                    <th>Way5 Exit
+                                                                    </th>
+                                                                    <th>Way5 ExitTime
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="violationallDeviceTable"></tbody>
+                                                            </table>
+                                                    </div>
+                                                </div>
+                                                <!-- END EXAMPLE TABLE PORTLET-->
+
+
+                                            </div>
+                                        </div>
+                                        <!-- END PAGE CONTENT-->
+                                    </div>
+
+                                </div>
+
+                                <!-- END CONTENT -->
+                                <!-- BEGIN QUICK SIDEBAR -->
+                                <!--Cooming Soon...-->
+                                <!-- END QUICK SIDEBAR -->
+                            </div>
+                            </form>
+                            <!-- END CONTAINER -->
+                        </div>
+    <!-- startttttttttttttttttttttttttttttttttt Violation Report Map-->
+
+        <div class="modal fade bs-modal-lg" id="violationlarge" data-backdrop="static" data-keyboard="false">
+            <div  tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="portlet box blue-madison">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                Device On Map
+                            </div>
+
+                            <div class="tools">
+
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="closemodalbutton"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-content">
+                        <div class="portlet-body form">
+
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div id="violationReportMap"></div>
+                                    </div>
+
+                                </div>
+                            </div>   
+
+                        </div>
+                    </div>
+                </div>    
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal-dialog -->
+
+
+        <!-- Endddddddddddddddddddddddddddddddddddd -->
+
+
+    <style>
+        #mymap{width:95%; height:500px;left:2%;}
+         /*----------------New Code Here ------------------------------------------*/
+        #mileageMap{width:95%; height:500px;left:2%;}
+        #violationReportMap{width:95%; height:500px;left:2%;}
+        /*----------------New Code End Here ------------------------------------------*/
+    </style>
+
+
+
+
+
+ <script src="https://maps.googleapis.com/maps/api/js?key= AIzaSyAYfOhUF687Tn_DfRO1SJ5JoBtotnQF0AE" type="text/javascript"></script> 
+<script type ="text/javascript" src="http://www.geocodezip.com/scripts/v3_epoly.js"></script>
+<script src="~/Scripts/RelayReport.js"></script>
+    <script type="text/javascript">
+                               
+                                    var mapdiv = document.getElementById("mymap");
+                                    var mapoption = {
+                                        center: new google.maps.LatLng(28.6129, 77.2295),
+                                        zoom: 10,
+                                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                                    };
+                                    var map = new google.maps.Map(mapdiv, mapoption);
+                                    var locations = "";
+                                    var bounds = new google.maps.LatLngBounds();
+                               
+                                    $("#mileage_button").click(function () {                                    
+                                        var mstart_date= document.getElementById("mstart_date").value;
+                                        var mend_date= document.getElementById("mend_date").value;
+                                        var mstart_time = document.getElementById("mstart_time").value;
+                                        var mend_time= document.getElementById("mend_time").value;
+                                        var imei_number3 = document.getElementById('imei_number3').options[document.getElementById('imei_number3').selectedIndex].value;
+                                       $.ajax({
+                                           url: "/GPSDataReport/mileage_form_submit?mstart_date=" + mstart_date + "&mend_date=" + mend_date + '&mstart_time=' + mstart_time + '&mend_time=' + mend_time + '&imei_number3=' + imei_number3,
+                                            type: "POST",
+                                            dataType: "json",
+                                            //cache: false,
+                                          //  dataType: "html",
+                                            contentType: "application/json;charset=utf-8",
+                                            traditional: true,
+                                            type: "POST",
+                                            success: function (data)
+                                            {
+                                                debugger;
+                                                var request = "";
+                                                for (var j = 0; j < data.Response.length; j++)
+                                                {
+                                                    var data = $.parseJSON(JSON.stringify(data));
+                           
+                                                    request += "<tr>";
+                                                    request += "<td>" + j + "</td>";
+                                                    request += "<td>" + data.Response[j].IMIENO + "</td>";
+                                                    request += "<td>" + data.Response[j].TotalKm + "</td>";
+                                                    request += "<td>" + data.Response[j].Speed + "</td>";
+                                                    request += "<td>" + data.Response[j].Date + "</td>";
+                                                    request += "<td><i  class='fa fa-map-marker' onclick='GraphMilage(" + data.Response[j].IMIENO + ")' id='DoceId' title='Insert a Fields'></i></td></tr>";
+                                                }
+                                              
+                                                $("table tbody#mileageReportList").html(request);
+                                            }
+
+                                        });
+                                    });
+                                
+                                    function  GraphMilage(id)
+                                    {
+
+                                     
+                                        var win = window.open('http://localhost:46702/GPSDataReport/GPSMileageGraph', id);
+                                           win.focus();
+                                     }
+                                    $('#gmap_routes_start').click(function (e) {
+                                        e.preventDefault();
+                                        Metronic.scrollTo($(this), 400);
+                                        map.travelRoute({
+                                            origin: [-12.044012922866312, -77.02470665341184],
+                                            destination: [-12.090814532191756, -77.02271108990476],
+                                            travelMode: 'driving',
+                                            step: function (e) {
+                                                $('#gmap_routes_instructions').append('<li>' + e.instructions + '</li>');
+                                                $('#gmap_routes_instructions li:eq(' + e.step_number + ')').delay(800 * e.step_number).fadeIn(500, function () {
+                                                    map.setCenter(e.end_location.lat(), e.end_location.lng());
+                                                    map.drawPolyline({
+                                                        path: e.path,
+                                                        strokeColor: '#131540',
+                                                        strokeOpacity: 0.6,
+                                                        strokeWeight: 6
+                                                    });
+                                                });
+                                            }
+                                        });
+                                    });
+                              </Script> 
+
+
+    <!-- END PAGE LEVEL SCRIPTS -->
+    <script type="javascript">
+   @*  jQuery(document).ready(function () {
+        // initiate layout and plugins
+        Metronic.init(); // init metronic core components
+        Layout.init(); // init current layout
+        Demo.init(); // init demo features
+       TableEditable.init();
+       TableEditable5.init();
+        TableEditable6.init();
+		TableEditable7.init();
+        
+        FormWizard.init();
+        ComponentsPickers.init();
+        //UIBlockUI.init();
+        //UIToastr.init();*@
+        
+    });
+</script>
+<script type="text/javascript">
+    var dropid = "16";
+    var FieldId = "49";
+    var htmlvalue = '';
+    $.ajax({
+        type: "POST",
+        url: "/GPSDataReport/GPSVehicle/?FormId=" + dropid + "&FieldId=" + FieldId,
+        datatype: "JSON",
+        contentType: "application/json;charset=utf-8",
+        traditional: true,
+        async: false,
+        success: function (data) {
+            var data = $.parseJSON(JSON.stringify(data));
+            htmlvalue += '<option value="0">Select</option>';
+            for (var i = 0; i < data.Response.length; i++)
+            {
+                htmlvalue += "<option class=' " + data.Response[i].FormName + "' value='" + data.Response[i].Values + "'>" + data.Response[i].Values + "</option>";
+            }
+            $("#imei_number3").html(htmlvalue)
+             $("#imei_number").html(htmlvalue)
+        }
+
+    });
+  
+
+
+
+</script>
+@*<script language="javascript">
+
+var pfmarker     = 'public/runningicon/pfmarker.png';
+
+var botmarker     = 'public/runningicon/botmarker.png';
+
+var omtmarker     = 'public/runningicon/omtmarker.png';
+
+var spvmarker     = 'public/runningicon/spvmarker.png';
+
+var bridgemarker = 'public/runningicon/bridgemarker.png';
+
+
+
+
+    function loading() {
+        Metronic.blockUI({boxed: true});
+    }
+
+    function unloading() {
+        Metronic.unblockUI();
+
+    }
+
+
+
+        //---- toll info start ------
+
+        
+        bounds.extend(new google.maps.LatLng(parseFloat(tollRecord[i].latitude), parseFloat(tollRecord[i].longitude)));
+        var infoWindow = new google.maps.InfoWindow(), marker, i;
+            google.maps.event.addListener(marker, 'mouseover', (function (marker, i) {
+        var info = '<div><p>'+tollRecord[i].Location+'</p></div>';
+            return function () {
+                infoWindow.setContent(info);
+                infoWindow.open(map, marker);
+            }
+        })(marker, i));
+        
+        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+                abc(tollRecord[i].HtmlPopup);
+            }
+        })(marker, i));
+        
+    }
+
+
+    //-----toll info end --------
+
+
+
+  //  }
+    window.onload = init;
+   
+
+    $(document).ajaxStart(loading).ajaxStop(unloading);
+
+
+  
+</script>*@
+

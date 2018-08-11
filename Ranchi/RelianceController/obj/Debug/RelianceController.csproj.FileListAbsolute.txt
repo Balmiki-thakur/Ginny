@@ -1,0 +1,15 @@
+E:\Project\Reliance\Reliance\Ranchi\RelianceController\bin\Debug\RelianceController.dll
+E:\Project\Reliance\Reliance\Ranchi\RelianceController\bin\Debug\RelianceController.pdb
+E:\Project\Reliance\Reliance\Ranchi\RelianceController\bin\Debug\Glimpse.AspNet.dll
+E:\Project\Reliance\Reliance\Ranchi\RelianceController\bin\Debug\Glimpse.Core.dll
+E:\Project\Reliance\Reliance\Ranchi\RelianceController\bin\Debug\Glimpse.Mvc4.dll
+E:\Project\Reliance\Reliance\Ranchi\RelianceController\bin\Debug\Reliance.Modals.dll
+E:\Project\Reliance\Reliance\Ranchi\RelianceController\bin\Debug\Reliance.SqlDll.dll
+E:\Project\Reliance\Reliance\Ranchi\RelianceController\bin\Debug\Reliance.Modals.pdb
+E:\Project\Reliance\Reliance\Ranchi\RelianceController\bin\Debug\Reliance.SqlDll.pdb
+E:\Project\Reliance\Reliance\Ranchi\RelianceController\obj\Debug\RelianceController.csprojResolveAssemblyReference.cache
+E:\Project\Reliance\Reliance\Ranchi\RelianceController\obj\Debug\Interop.AdHocReportingExcelClientLib.dll
+E:\Project\Reliance\Reliance\Ranchi\RelianceController\obj\Debug\Interop.PowerPivotExcelClientAddInLib.dll
+E:\Project\Reliance\Reliance\Ranchi\RelianceController\obj\Debug\RelianceController.csproj.ResolveComReference.cache
+E:\Project\Reliance\Reliance\Ranchi\RelianceController\obj\Debug\RelianceController.dll
+E:\Project\Reliance\Reliance\Ranchi\RelianceController\obj\Debug\RelianceController.pdb

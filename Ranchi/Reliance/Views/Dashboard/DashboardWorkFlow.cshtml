@@ -1,0 +1,176 @@
+﻿
+@{
+    ViewBag.Title = "DashboardEcommerce";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+<div class="portlet light z-depth-1 clearfix">
+										<div class="portlet-title">
+											<div class="caption">
+												
+												WorkFlow 
+												
+											</div>
+											<div class="tabbable-line">
+												<ul class="nav nav-tabs fl-r">	
+													<li class="green-active active">
+														<a href="#tab_15_2" data-toggle="tab" aria-expanded="true">
+														Need To Acts <span id="totalCount"></span> </a>
+													</li>
+													<li class="">
+														<a href="#tab_15_3" data-toggle="tab" aria-expanded="false">
+														MyRequest <span id="totalRequest"></span> </a>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<div class="portlet-body">
+											
+											
+											<div class="tab-content">
+												<div class="tab-pane active" id="tab_15_2">
+												<ul class="list-group">
+                                         <li>
+											<div class="table-scrollable">
+									<table class="table table-hover">
+									<thead>
+									<tr>
+									
+										<th>
+											Subject
+										</th>
+										<th>
+										Current User	
+										</th>
+										<th>
+											Recive On
+										</th>
+										<th>
+										 Status		
+										</th>
+                                        <th>
+										PENDING DAYS	
+										</th>
+                                        <th style="display:none">
+										Recive On
+										</th>
+                                        <th  style="display:none" >
+										Action
+										</th>
+                                         <th>
+										Action
+										</th>
+									</tr>
+									</thead>
+									<tbody id="datarow">
+									
+									  
+									</tbody>
+									</table>
+								            </div>
+		                                </li>
+								       </ul>		
+													
+									</div>
+									<div class="tab-pane" id="tab_15_3">
+										
+										<ul class="list-group">
+										
+                                       <li>  
+											
+									<table class="table table-hover">
+									<thead>
+									<tr>
+										<th>
+											Subject
+										</th>
+										<th>
+										Current User	
+										</th>
+										<th>
+											Created By
+										</th>
+										
+                                        <th>
+										PENDING DAYS	
+										</th>
+                                        <th style="display:none">
+										Recive On
+										</th>
+                                        <th  style="display:none" >
+										Action
+										</th>
+                                         <th>
+										Action
+										</th>
+									</tr>
+									</thead>
+									<tbody id="RequerstRow">
+									</tbody>
+									</table>
+                                    </li>   
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+                  <script type="text/javascript">
+                                 $.ajax({
+                                     url: "/Dashboard/NeedtoAct",
+                                     type: "POST",
+                                     success: function (data) {
+                                         var td = "";
+                                        for (var j = 0; j < data.Response.length; j++)
+                                        {
+                                            var data = $.parseJSON(JSON.stringify(data));  
+                                            td += "<tr>"
+                                            td += "<td>" + data.Response[j].FormName +   "</td>"
+                                            td += "<td>" + data.Response[j].UserName +   "</td>"
+                                            td += "<td>" + data.Response[j].CreateOn +   "</td>"
+                                            td += "<td>" + data.Response[j].StatusName + "</td>"
+                                            td += "<td>" + data.Response[j].PendingTime + "</td>"
+                                            td += "<td style='display:none'>" + data.Response[j].DocId + "</td>"
+                                            td += "<td style='display:none'>" + data.Response[j].FormId + "</td>";
+                                            td += "<td style='display:none'>" + data.Response[j].Approve + "</td>"
+                                            td += "<td style='display:none'>" + data.Response[j].Reject + "</td>";
+                                            td += "<td style='display:none'>" + data.Response[j].Reconisider + "</td>"
+                                            td += '<td><i class="fa fa-plus-circle" onclick="DocInvoice(' + data.Response[j].DocId + ',' + data.Response[j].FormId + ',\'' + data.Response[j].Approve + '\',\'' + data.Response[j].Reject + '\',\'' + data.Response[j].Reconisider + '\',\'' + data.Response[j].StatusName + '\',\'' + data.Response[j].FormName + '\',\'' + data.Response[j].UserName + '\',\'' + data.Response[j].CreateOn + '\')"  id="DoceId" title="Insert a Fields"></i></td>';
+                                            td += '</tr>'
+                                        }  
+                                        $("#datarow").html(td);
+                                        $("#totalCount").html("( "+data.Response.length+" )");
+                                    },     
+                                 });
+           
+                    </script>
+                  <script type="text/javascript">
+                                $.ajax({
+                                    url: "/Dashboard/MyRequest",
+                                    type: "POST",
+                                    success: function (data) {
+                                        var request = "";
+                                        for (var j = 0; j < data.Response.length; j++) {
+                                            var data = $.parseJSON(JSON.stringify(data));
+                                            request += "<tr>"
+                                            request += "<td>" + data.Response[j].FormName + "</td>"
+                                            request += "<td>" + data.Response[j].UserName + "</td>"
+                                            request += "<td>" + data.Response[j].CreateOn + "</td>"
+                                            request += "<td>" + data.Response[j].PendingTime + "</td>"
+                                            request += "<td style='display:none'>" + data.Response[j].DocId + "</td>"
+                                            request += "<td style='display:none'>" + data.Response[j].FormId + "</td>";
+                                            request += "<td><i  class='fa fa-plus-circle' onclick='DocInvoice(" + data.Response[j].DocId + ")' id='DoceId' title='Insert a Fields'></i></td></tr>"
+                                        }
+                                        $("#RequerstRow").html(request);
+                                        $("#totalRequest").html("( " + data.Response.length + " )");
+                                    },
+                                });
+                              </Script> 
+<script type="text/javascript">
+    function DocInvoice(Docid, FormId, Approve, Reject, Reconsider, StatusName,FormName,UserName,CreateOn) {
+       
+        var url = "InvoiceTicket?FormId=" + FormId + "&Docid=" + Docid + "&Approve=" + Approve + "&Reject=" + Reject + "&Reconsider=" + Reconsider + "&StatusName=" + StatusName + "&FormName=" + FormName + "&UserName=" + UserName + "&CreateOn=" + CreateOn;
+        // window.open = url;
+  
+        window.open(url, '_blank');
+
+    }
+</script>

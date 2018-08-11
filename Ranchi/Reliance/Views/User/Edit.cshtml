@@ -1,0 +1,93 @@
+﻿@model Reliance.Modals.RegistationDo
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+</head>
+<body>
+    <script src="~/Scripts/jquery-1.7.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    
+    @using (Html.BeginForm( "Update","User")) {
+        @Html.ValidationSummary(true)
+    
+        <fieldset>
+            <legend>RegistationDo</legend>
+    
+@*            <div class="editor-label">
+                @Html.LabelFor(model => model.Userid)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Userid)
+                @Html.ValidationMessageFor(model => model.Userid)
+            </div>
+    *@
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Username)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Username)
+                @Html.ValidationMessageFor(model => model.Username)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Password)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Password)
+                @Html.ValidationMessageFor(model => model.Password)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.Email)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Email)
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.MobileNo)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.MobileNo)
+                @Html.ValidationMessageFor(model => model.MobileNo)
+            </div>
+    
+          
+    
+            <div class="editor-label">
+                @Html.LabelFor(model => model.IsAuthantication)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.IsAuthantication)
+                @Html.ValidationMessageFor(model => model.IsAuthantication)
+            </div>
+    
+        @*    <div class="editor-label">
+                @Html.LabelFor(model => model.CreateOn)
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.CreateOn)
+                @Html.ValidationMessageFor(model => model.CreateOn)
+            </div>*@
+    
+            <p>
+                <input type="submit" value="Save" name="Update" />
+            </p>
+        </fieldset>
+    }
+    
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</body>
+</html>

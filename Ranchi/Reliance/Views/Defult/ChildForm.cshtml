@@ -1,0 +1,722 @@
+﻿@{
+    ViewBag.Title = "ChildForm";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+<input type="hidden"   id="FormId"  name="FormId" value="@ViewBag.Id" />
+<input type="hidden"   id="RoleId"  name="FormId" value="@Session["LOGGED_ROLE"]"  />
+<input type="hidden"   id="UserId"  name="FormId" value="@Session["LOGGED_UserId"]" />
+<input type="hidden" id="CompanyId" name="Eid" value="@Session["LOGGED_Company"]" />
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/select2/select2.css" />
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.css" />
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/icheck/skins/all.css" />
+<link rel="stylesheet" type="text/css" href="../../assets/global/plugins/icheck/skins/all.css" />
+<script src="~/Scripts/ChildForm.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var formid = 20010//document.getElementById('FormId').value;
+        var CompanyId = 1// document.getElementById('CompanyId').value;
+        $.ajax({
+            type: "POST",
+            url: "/Dynamic/MultiFields/?formid=" + formid + "&CompanyId=" + CompanyId,
+            datatype: "JSON",
+            contentType: "application/json;charset=utf-8",
+            traditional: true,
+            success: function (data) {
+
+                var data = $.parseJSON(JSON.stringify(data));
+                debugger;
+
+                var FormName = '';
+
+                for (var j = 0; j < data.Response.length; j++) {
+                    var Display_name = data.Response[j].Display_name;
+                    var dropid = data.Response[j].FormId;
+                    var place = data.Response[j].Field_description;
+                    var DisplayName = data.Response[j].Display_name;
+                    var DataType = data.Response[j].Field_type;
+                    var FormName = data.Response[j].FormName;
+                    var DocumentName = data.Response[j].DocumentName
+                    var DocumentField = data.Response[j].DocumentField
+                    var FieldId = data.Response[j].FieldId;
+                    var IsLookUp = data.Response[j].IsLookUp;
+                    var Dataway = data.Response[j].DataTypes;
+                    var UFieldName = data.Response[j].UFieldName;
+                    var IsDDLFilter = data.Response[j].IsDDLFilter;
+                    var FormulaField = data.Response[j].FormulaField;
+                    var FormWorkFlow = data.Response[j].FormWorkFlow;
+                    switch (data.Response[j].Field_type) {
+                        case 'Text Box':
+                            switch (Dataway) {
+                                case 'date':
+                                    $(content).append
+                                   (
+                                     " <div class='FormCounter'>"
+                                   + "<span class='form-group'>" + UFieldName + ":</span>"
+                                   + " <input type='text' required class='form-control input-circle datepicker' placeholder='" + place + "' id='" + Display_name + "' name='" + Display_name + "'value=''/>"
+                                   + "</div>"
+                                    );
+                                    $(".datepicker").datepicker({ format: 'dd-mm-yyyy' });
+                                    break;
+                                case 'TextArea':
+                                    $(content).append
+                                    (
+                                    "<div class='FormCounter'>"
+                                     + "<span class='form-group'>" + UFieldName + ":</span>"
+                                     + "<textarea name='" + Display_name + "' rows='4' class='form-control input-circle'  placeholder='" + place + "' id='" + Display_name + "'>"
+                                     + "</textarea>"
+                                     + "</div>"
+
+                                   );
+                                    break;
+                                default:
+                                    $(content).append
+                                        (
+                                         "<div class='FormCounter'>"
+                                        + "<span class='form-group'>" + UFieldName + ":</span>"
+                                        + " <input type='" + Dataway + "' required class='form-control input-circle' placeholder='" + place + "' id='" + Display_name + "' name='" + Display_name + "'value=''/>"
+                                        + "</div>"
+                                       );
+                            }
+                            break;
+                        case 'formulafield':
+                            var formulaappend = "";
+                            formulaappend += "<input type='" + DataType + "'  required readonly='readonly' class='form-control input-circle FormulaField-" + FieldId + "'  placeholder='" + place + "' id='" + Display_name + "' name='" + Display_name + "'value=''/>"
+                            formulaappend += "<input type='button' id='calculate' value='" + FieldId + "' class='btn btn-circle green'>"
+                            var formula = "";
+                            formula += FormulaField;
+                            $("#formuladata").val(formula);
+                            $("#formulField").html(formulaappend);
+                            break;
+                        case 'AutoComplete':
+                            var autoComplet = '';
+                            autoComplet = "<div class='FormCounter'>"
+                            autoComplet += "<span class='form-group'>" + UFieldName + ":</span>"
+                            autoComplet += " <input type='" + Dataway + "' id='txtName'   required class='form-control input-circle autocomplet='" + FieldId + " placeholder='" + place + "'    name='" + Display_name + "'value=''/>"
+                            autoComplet += "<div id='display'  value=[]/>"
+                            autoComplet += "</div>"
+                            $("#autoComplet").html(autoComplet);
+                            break;
+                        case 'RadioCheck':
+                            var htmlCheckBoxList = '';
+                            var htmlCheckBox = '';
+                            htmlCheckBoxList += "<label class='col-md-3 control-label'>" + UFieldName + "</label>"
+                            $.ajax({
+                                type: "POST",
+                                url: "/FormMaster/DropDownData/?FormId=" + dropid + "&FieldId=" + FieldId,
+                                datatype: "JSON",
+                                contentType: "application/json;charset=utf-8",
+                                traditional: true,
+                                async: false,
+                                success: function (data) {
+                                    var data = $.parseJSON(JSON.stringify(data));
+                                    //htmlvalue += '<option value="0">Select</option>';
+                                    for (var i = 0; i < data.Responses.length; i++) {
+                                        htmlCheckBoxList = "<div >"
+                                        htmlCheckBoxList += "<label class='col-md-3 control-label'>" + UFieldName + "</label>"
+                                        htmlCheckBox += " <span>  <input type='radio' name=" + Display_name + " value=" + data.Responses[i].Key + " /><label>" + data.Responses[i].Values + "</label></span>"
+                                        htmlCheckBoxList += "</div>";
+                                        //htmlCheckBoxList += "<option class=' " + data.Responses[i].FormName + "' value='" + data.Responses[i].Key + "'>" + data.Responses[i].Values + "</option>";
+                                    }
+
+                                },
+                            });
+                            $('#htmlRadioLable').append(htmlCheckBoxList);
+                            $('#htmlCheckRadioList').append(htmlCheckBox);
+                            break;
+                        case 'Lookup':
+                            var LookUpAppand = '';
+                            LookUpAppand += "<div class='FormCounter'>"
+                            LookUpAppand += "<span class='form-group'>" + UFieldName + ":</span>"
+                            LookUpAppand += " <input type='" + DataType + "'  required readonly='readonly' class='form-control input-circle LookUpID-" + FieldId + "' placeholder='" + place + "' id='" + Display_name + "' name='" + Display_name + "'value=''/>"
+                            LookUpAppand += "</div>";
+                            $("#LookUp").append(LookUpAppand);
+                            break;
+                        case 'FilterDDL':
+                            if (IsDDLFilter == 1) {
+                                var IsDDLFilterAppand = '';
+                                var IsDDLFilterS = '';
+                                IsDDLFilterAppand += "<div class='FormCounter'>"
+                                IsDDLFilterAppand += "<span class='form-group'>" + UFieldName + ":</span>"
+                                IsDDLFilterAppand += "<select   onchange=GetDDlFilter('" + DisplayName + "') required class=' form-control1 input-circle  ISDDLFIlterss' DDlFilter='" + FieldId + "' placeholder='" + place + "' id='" + Display_name + "' name='" + Display_name + "' value=''>"
+
+                                IsDDLFilterAppand += "</select>"
+
+                                //IsDDLFilterAppand += " <input type='" + DataType + "'  required readonly='readonly' class='form-control input-circle LookUpID-" + FieldId + "' placeholder='" + place + "' id='" + Display_name + "' name='" + Display_name + "'value=''/>"
+                                IsDDLFilterAppand += "</div>";
+                            }
+                            else {
+
+                                var IsDDLFilterAppand = '';
+                                var IsDDLFilterS = '';
+                                IsDDLFilterAppand += "<div class='FormCounter'>"
+                                IsDDLFilterAppand += "<span class='form-group'>" + UFieldName + ":</span>"
+                                IsDDLFilterAppand += "<select   required class='form-control input-circle  ISDDLFIlterss  ISDDLFIlter-" + FieldId + "' placeholder='" + place + "' id='" + Display_name + "' name='" + Display_name + "'value=''>"
+                                IsDDLFilterAppand += "</select>"
+                                IsDDLFilterAppand += "</div>";
+
+                            }
+                            //  IsDDLFilterS += "<select onchange='GetDDlFilter(" + DisplayName + ")' class='form-control' DDlFilter='" + FieldId + "' id='" + DisplayName + "' name='" + DisplayName + "' required='' class='form-control input-lg dspn' placeholder=' " + place + "'>" + htmlvalue + "</select>"
+                            $("#IsDDLFilter").append(IsDDLFilterAppand);
+                            break;
+                        case 'Drop Down':
+                            if (data.Response[j].IsRoleAssignment == 1) {
+                                var UserId = document.getElementById("UserId").value;
+                                var RoleId = document.getElementById("RoleId").value;
+                                var Form = document.getElementById("FormId").value;
+                                var htmlvalue = '';
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/FormMaster/DropDownDataIsRoleAssignMent/?FormId=" + dropid + "&FieldId=" + FieldId + "&UserId=" + UserId + "&RoleId=" + RoleId + "&Form=" + Form,
+                                    datatype: "JSON",
+                                    contentType: "application/json;charset=utf-8",
+                                    traditional: true,
+                                    async: false,
+                                    success: function (data) {
+                                        var data = $.parseJSON(JSON.stringify(data));
+                                        htmlvalue += '<option value="0">Select</option>';
+                                        for (var i = 0; i < data.Responses.length; i++) {
+                                            htmlvalue += "<option class=' " + data.Responses[i].FormName + "' value='" + data.Responses[i].Key + "'>" + data.Responses[i].Values + "</option>";
+                                        }
+                                    },
+                                });
+                                var htmlappend = '';
+                                htmlappend += "<div class='FormCounter'><span class='form-group'>" + UFieldName + ":</span>" + "<div class='form-group'>"
+                                if (IsLookUp == 1) {
+
+                                    htmlappend += "<select onchange='GetLooKUP(" + DisplayName + ")' class='form-control' look='" + FieldId + "' id='" + DisplayName + "' name='" + DisplayName + "' required='' class='form-control input-lg dspn' placeholder=' " + place + "'>" + htmlvalue + "</select>"
+                                }
+
+                                else if (IsDDLFilter == 1) {
+                                    htmlappend += "<select onchange=GetDDlFilter('" + DisplayName + "') class='form-control1' DDlFilter='" + FieldId + "' id='" + DisplayName + "' name='" + DisplayName + "' required='' class='form-control input-lg dspn' placeholder=' " + place + "'>" + htmlvalue + "</select>"
+                                }
+                                else {
+
+                                    htmlappend += "<select  class='form-control' look='" + FieldId + "' id='" + DisplayName + "' name='" + DisplayName + "' required='' class='form-control input-lg dspn' placeholder=' " + place + "'>" + htmlvalue + "</select>"
+                                }
+                                htmlappend += "</div></div>"
+                                $('#dropdow').append(htmlappend);
+                            }
+                            else {
+                                var htmlvalue = '';
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/FormMaster/DropDownData/?FormId=" + dropid + "&FieldId=" + FieldId,
+
+                                    datatype: "JSON",
+                                    contentType: "application/json;charset=utf-8",
+                                    traditional: true,
+                                    async: false,
+                                    success: function (data) {
+                                        var data = $.parseJSON(JSON.stringify(data));
+                                        htmlvalue += '<option value="0">Select</option>';
+                                        for (var i = 0; i < data.Responses.length; i++) {
+                                            htmlvalue += "<option class=' " + data.Responses[i].FormName + "' value='" + data.Responses[i].Key + "'>" + data.Responses[i].Values + "</option>";
+                                        }
+                                    },
+                                });
+                                var htmlappend = '';
+                                htmlappend += "<div class='FormCounter'><span class='form-group'>" + UFieldName + ":</span>" + "<div class='form-group'>"
+                                if (IsLookUp == IsDDLFilter && (IsLookUp != '0' && IsDDLFilter != '0')) {
+                                    htmlappend += "<select color='1' data-attr='" + FieldId + "' data-value='" + DisplayName + "' class='form-control testClass' look='" + FieldId + "' DDlFilter='" + FieldId + "' id='" + DisplayName + "' name='" + DisplayName + "' required='' class='form-control input-lg dspn' placeholder=' " + place + "'>" + htmlvalue + "</select>"
+                                }
+                                else if (IsLookUp == 1) {
+                                    htmlappend += "<select onchange=GetLooKUP('" + DisplayName + "') class='form-control' look='" + FieldId + "' id='" + DisplayName + "' name='" + DisplayName + "' required='' class='form-control input-lg dspn' placeholder=' " + place + "'>" + htmlvalue + "</select>"
+                                }
+                                else if (IsDDLFilter == 1) {
+                                    htmlappend += "<select onchange=GetDDlFilter('" + DisplayName + "') class='form-control' DDlFilter='" + FieldId + "' id='" + DisplayName + "' name='" + DisplayName + "' required='' class='form-control input-lg dspn' placeholder=' " + place + "'>" + htmlvalue + "</select>"
+                                }
+                                else {
+                                    htmlappend += "<select  class='form-control' look='" + FieldId + "' id='" + DisplayName + "' name='" + DisplayName + "' required='' class='form-control input-lg dspn' placeholder=' " + place + "'>" + htmlvalue + "</select>"
+                                }
+                                htmlappend += "</div></div>"
+                                $('#dropdow').append(htmlappend);
+                            }
+                            //$('#body_fields').append(htmlappend);
+                            break;
+                        case 'CheckBoxList':
+                            var htmlCheckBoxList = '';
+                            var htmlCheckBox = '';
+                            htmlCheckBoxList += "<label class='col-md-3 control-label'>" + Display_name + "</label>"
+                            $.ajax({
+                                type: "POST",
+                                url: "/FormMaster/DropDownData/?FormId=" + dropid + "&FieldId=" + FieldId,
+                                datatype: "JSON",
+                                contentType: "application/json;charset=utf-8",
+                                traditional: true,
+                                async: false,
+                                success: function (data) {
+
+                                    var data = $.parseJSON(JSON.stringify(data));
+                                    //htmlvalue += '<option value="0">Select</option>';
+                                    for (var i = 0; i < data.Responses.length; i++) {
+                                        var Key = data.Responses[i].Key;
+                                        htmlCheckBoxList = "<div >"
+                                        htmlCheckBoxList += "<label class='col-md-3 control-label'>" + Display_name + "</label>"
+                                        htmlCheckBox += " <span><input type='checkbox' class=CheckBoxData" + Key + " name=" + Display_name + " value=" + Key + " /><label>" + data.Responses[i].Values + "</label></span>"
+                                        htmlCheckBoxList += "</div>";
+                                        var ids = '';
+                                        var count = $('input.CheckBoxData' + Key + ':checked').length;
+                                        if (count == 1) {
+                                            $('.CheckBoxData' + Key + ':checked').each(function () {
+                                                Key += $(this).val() + ',';
+
+                                            });
+                                        }
+                                        //htmlCheckBoxList += "<option class=' " + data.Responses[i].FormName + "' value='" + data.Responses[i].Key + "'>" + data.Responses[i].Values + "</option>";
+                                    }
+
+                                },
+                            });
+                            $('#htmlCheckBox').append(htmlCheckBoxList);
+                            $('#htmlCheckBoxslist').append(htmlCheckBox);
+                            break;
+
+                    }
+                  //  document.getElementById('formNameId').innerText = FormName;
+                    //document.getElementById('formNameTable').innerHTML = FormName;
+                    //document.getElementById('formName').value = FormName;
+                    //document.getElementById('FormWorkFlow_1').value = FormWorkFlow;
+
+                    var n = 2;
+                    $("[class*='columnStyle'] div").children('.FormCounter').addClass('col-md-' + 12 / n + '');
+                    // $("#content").html(str);ss
+                }
+            },
+        });
+    });
+
+    function GetLooKUPChild(sel, Counts) {
+        
+        var currentFieldId = $(sel).attr("look");
+        var Id = $('option:selected', sel).val();      
+        $.ajax({
+            type: "POST",
+            url: "/FormMaster/LooKUpdataBind/?currentFieldId=" + currentFieldId + "&Id=" + Id,
+            // url: "/FormMaster/DropDownFunctionValue/?colloumType=" + DocumentName + "&formName=" + FormName + "&ColloumName=" + DocumentField + "&fieldtype=" + DataType + "&fieldName=" + Display_name,
+            datatype: "JSON",
+            contentType: "application/json;charset=utf-8",
+            traditional: true,
+            async: false,
+            success: function (data) {
+                //  var FormName = '';
+                for (var j = 0; j < data.Responses.length; j++) {
+                    var data = $.parseJSON(JSON.stringify(data));
+                    var lookdata = data.Responses[j].LookUpData;
+                    var lookKey = data.Responses[j].Id;
+                    var lookId = data.Responses[j].LookUpId;
+                    // var lookupId = lookId;
+                    if (Counts != null) {
+                        $(".LookUpID-" + lookId + Counts).val(lookdata);
+                    }
+                    else {
+                        $(".LookUpID-" + lookId).val(lookdata);
+                    }
+                    //  $(".LookUpID-" + lookupId).name(lookKey);
+                    //  <input type='" + DataType + "' required class='form-control input-circle' placeholder='" + place + "' id='" + Display_name + "' name='" + Display_name + "'value=''/>
+                    //  $('#lookup1').val(lookdata);
+
+
+                }
+            }
+        });
+    }
+    function GetDDlFilterChild(sel)
+    {
+        
+        var currentFieldId = $(sel).attr("DDlFilter");
+        var Id = $('option:selected', sel).val();
+        var htmlFilter = '';
+        $.ajax({
+            type: "POST",
+            url: "/FormMaster/DDLFilterUpdataBind/?currentFieldId=" + currentFieldId + "&Id=" + Id,
+            // url: "/FormMaster/DropDownFunctionValue/?colloumType=" + DocumentName + "&formName=" + FormName + "&ColloumName=" + DocumentField + "&fieldtype=" + DataType + "&fieldName=" + Display_name,
+            datatype: "JSON",
+            contentType: "application/json;charset=utf-8",
+            traditional: true,
+            async: false,
+            success: function (data)
+            {
+
+                var data = $.parseJSON(JSON.stringify(data));
+                htmlFilter += '<option value="0">Select</option>';
+                for (var i = 0; i < data.Responses.length; i++) {
+                    htmlFilter += "<option class=' " + data.Responses[i].FormName + "' value='" + data.Responses[i].Key + "'>" + data.Responses[i].Values + "</option>";
+                }
+               // $(".LookUpID-" + lookId).val(lookdata);
+                $(".ISDDLFIlterss").html(htmlFilter)
+            }
+        });
+    }
+    $(document).ready(function () {
+        $("#txtAutoComplete").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/FormMaster/AutoCompleteCountry",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                    
+                        response($.map(data, function (item, idx) {
+                            //   alert(item);
+                            //   alert(idx);
+                            return {
+                                label: item.Value,
+                                value: item.Key
+                            };
+                        }));
+                    }
+                })
+            },
+            messages: {
+                noResults: "", results: ""
+            }
+        });
+    })
+</script>
+   <div class="modal-content">
+            <div>
+                 <input type="hidden" id="formuladata" value="" />
+               @using (Html.BeginForm("TextBoxControl", "Dynamic", FormMethod.Post, new { enctype = "multipart/form-data" }))
+               {                 
+               @*  @using (Ajax.BeginForm("MasterFormcreates", "FormMaster", new AjaxOptions() { HttpMethod = "Post", OnSuccess = "success", enctype = "multipart/form-data", onsubmit = "validateForm()" }))
+                {
+                    *@<div class="portlet box green">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                <i class="fa fa-gift"></i><span name="formNameId" id="formNameId"></span>
+                            </div>
+                            <div class="tools">
+                                <a href="javascript:;" class="collapse" data-original-title="" title=""></a>
+                                <a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title=""></a>
+                                <a href="javascript:;" class="reload" data-original-title="" title=""></a>
+                                @*<a href="javascript:;" class="remove" data-original-title="" title="">
+									</a>*@
+                            </div>
+                        </div>
+                        <div class="portlet-body form">
+                            <!-- BEGIN FORM-->
+                            <form action="#" class="form-horizontal formOrder">
+                                <input type="hidden" id="formName" name="formName" />
+                                 <input type="hidden" id="FormWorkFlow_1" name="FormWorkFlow_1" />                                     
+                                   <div class="form-body 2columnStyle">
+                                   <div id='content' class='dsib'></div>
+                                    <div id="RadioCheck" class="dsib"></div>
+                                    <div id="dropdow" class="dsib"></div>
+                                    <div id="formulField" class="dsib"></div>
+                                    <div id="autoComplet" class="dsib"></div>
+                                    <div id="LookUp" class="dsib"></div>
+                                    <div id="IsDDLFilter" class="dsib"></div>
+                                    <div id="htmlCheckBox" class="dsib"></div>
+                                    <div id="htmlCheckBoxslist" class="col-md-4 Checkboxlist dsib"></div>
+                                    <div id="htmlRadioLable" class="dsib"></div>
+                                    <div id="htmlCheckRadioList" class="col-md-4 CheckRadioList dsib"></div>
+
+                                      
+                                       @*<ol>
+                    <li>
+                        <label for="time_employeeName">Employee Name <em>*</em></label>                  
+                              <input class="ac_input validation-error" id="employee" type="text" name="time[employeeName]" value="Type for hints..." autocomplete="off"><span for="employee" generated="true" class="validation-error">Invalid</span>                                            </li>
+                    <li class="required">
+                        <em>*</em> Required field                    </li>
+                </ol>*@
+                                         <div class="portlet-body">
+								<div class="table-scrollable">
+                                     <input type="button" id="addbutton" class="classAdd" value="AddRow" />
+									<table  class="table table-hover">
+									<thead  >
+									<tr  id="headerth" class="data ChildTextBoxTh ChildAutoCompletTh ChildLookUpAppandTh htmlappendChild RadioCheckchildLable">										
+									</tr>
+									</thead>
+                                       
+									<tbody id="ds">
+                                        
+									<tr class="data-contact-person ChildTexboxBody ChildLookUpAppandTd RadioCheckchild ChildIsDDLFiltertd ChildLookUpAppandTd dropdowchild" id="trbody">  
+                                                                                   
+									</tr>
+									</tbody>
+									</table>
+								</div>
+							</div>
+                                </div>
+                                   <div class="form-actions">
+                                    <div class="row">
+                                        <div class="col-md-offset-3 col-md-9">
+                                             <div id="contentdiv"></div>
+                                            @* <input type="button" id="Calculater" value="Calculater" class="btn btn-circle green" />*@
+                                            <input type="submit" id="btnSave" value="Save" class="btn btn-circle green" /> @*onclick="javascript:return ShowMessage();"*@
+                                            <button type="button" id="cancle" data-dismiss="modal" class="btn btn-circle default">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                              
+                            </form>
+                            <!-- END FORM-->
+                        </div>
+                    </div>                 
+               }
+            </div>
+        </div>
+@*<div class="col-md-12">
+						<!-- BEGIN SAMPLE TABLE PORTLET-->
+						<div class="portlet box red">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-cogs"></i>Simple Table
+								</div>
+								<div class="tools">
+									<a href="javascript:;" class="collapse" data-original-title="" title="">
+									</a>
+									<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+									</a>
+									<a href="javascript:;" class="reload" data-original-title="" title="">
+									</a>
+									<a href="javascript:;" class="remove" data-original-title="" title="">
+									</a>
+								</div>
+							</div>
+							
+						</div>
+						<!-- END SAMPLE TABLE PORTLET-->
+					</div>*@
+
+<script type="text/javascript">  
+    $(document).ready(function () {
+        var Count = 0;
+        $(document).on("click", ".classAdd", function () {
+            var Counts = Count++;
+
+            var formid = 20010//document.getElementById('FormId').value;
+            var CompanyId = 1//document.getElementById('CompanyId').value;
+            $.ajax({
+                type: "POST",
+                url: "/Dynamic/MultiFields/?formid=" + formid + "&CompanyId=" + CompanyId,
+                datatype: "JSON",
+                contentType: "application/json;charset=utf-8",
+                traditional: true,
+                success: function (data)
+                {
+
+                    var data = $.parseJSON(JSON.stringify(data));
+                    var FormName = '';
+                    var trdiv = '<tr class="ChildTexboxBody' + Counts + " ChildLookUpAppandTd" + Counts + " RadioCheckchild" + Counts + " ChildIsDDLFiltertd" + Counts + " ChildLookUpAppandTd" + Counts + " dropdowchild" + Counts + '"> </tr>'
+                    $("#ds").append(trdiv);
+                    for (var j = 0; j < data.Response.length; j++)
+                    {
+                        var Display_name = data.Response[j].Display_name;
+                        var dropid = data.Response[j].FormId;
+                        var place = data.Response[j].Field_description;
+                        var DisplayName = data.Response[j].Display_name;
+                        var DataType = data.Response[j].Field_type;
+                        var FormName = data.Response[j].FormName;
+                        var DocumentName = data.Response[j].DocumentName
+                        var DocumentField = data.Response[j].DocumentField
+                        var FieldId = data.Response[j].FieldId;
+                        var IsLookUp = data.Response[j].IsLookUp;
+                        var Dataway = data.Response[j].DataTypes;
+                        var UFieldName = data.Response[j].UFieldName;
+                        var IsDDLFilter = data.Response[j].IsDDLFilter;
+                        if (data.Response[j].Field_type == 'Text Box') {
+                            switch (Dataway) {
+                                case 'date':
+
+                                   // $(".ChildTextBoxTh").append("<th>" + UFieldName + "</th>")
+                                  
+                                    $(".ChildTexboxBody" + Counts).append
+                                   (
+                                     "<td> <input type='text' required class='form-control input-circle datepicker' placeholder='" + place + "' id='" + Display_name + Counts + "' name='" + Display_name + Counts + "'value=''/></td>"
+                                    );
+                                    $(".datepicker").datepicker({ format: 'dd-mm-yyyy' });
+                                    break;
+                                case 'TextArea':
+                                 //   $(".ChildTextBoxTh").append("<th>" + UFieldName + "</th>")
+                                    $(".ChildTexboxBody" + Counts).append
+                                    (
+                                     + "<td><textarea name='" + Display_name + "' rows='4' class='form-control input-circle'  placeholder='" + place + "' id='" + Display_name + Counts + "'>"
+                                     + "</textarea></td>"
+
+                                   );
+                                    break;
+                                default:
+                                  //  $(".ChildTextBoxTh").append("<th>" + UFieldName + "</th>")
+                                    $(".ChildTexboxBody" + Counts).append
+                                        (
+                                        "<td> <input type='" + Dataway + "' required class='form-control input-circle' placeholder='" + place + "' id='" + Display_name + Counts + "' name='" + Display_name + Counts + "'value=''/></td>"
+                                       );
+                            }
+                        }
+
+                        else if (data.Response[j].Field_type == 'RadioCheck') {
+                            var ChildRadioButtonTh = '';
+                            var ChildRadioButtonTd = '';
+                           // ChildRadioButtonTh += "<th>" + UFieldName + "</th>"
+                            $.ajax({
+                                type: "POST",
+                                url: "/FormMaster/DropDownData/?FormId=" + dropid + "&FieldId=" + FieldId,
+                                datatype: "JSON",
+                                contentType: "application/json;charset=utf-8",
+                                traditional: true,
+                                async: false,
+                                success: function (data) {
+                                    var data = $.parseJSON(JSON.stringify(data));
+                                    for (var i = 0; i < data.Responses.length; i++) {
+                                        ChildRadioButtonTd = "<td ><span><input type='radio' name=" + Display_name + " value=" + data.Responses[i].Key + " /><label>" + data.Responses[i].Values + "</label></span></td>"
+                                    }
+                                },
+                            });
+                           // $('.RadioCheckchildLable').append(ChildRadioButtonTh);
+                            $(".RadioCheckClild" + Counts).append(ChildRadioButtonTd);
+                          
+                        }
+                        else if (data.Response[j].Field_type == 'AutoComplete') {
+                            var ChildAutoCompletTh = ''
+                            var ChildAutoCompletTd = ''
+                          //  ChildAutoCompletTh = "<th>" + UFieldName + "</th>"
+                            ChildAutoCompletTd = " <td><input type='" + Dataway + "' required class='form-control input-circle autocomplet' placeholder='" + place + "'  id='txtAutoComplete'  name='" + Display_name + "'value=''/></td>"
+                           // $(".ChildAutoCompletTh").html(ChildAutoCompletTh);
+                            $(".ChildAutoCompletTd" + Counts).html(ChildAutoCompletTd);
+                        }
+
+                        else if (data.Response[j].Field_type == 'Lookup') {
+                            var ChildLookUpAppandTh = '';
+                            var ChildLookUpAppandTd = '';
+                            //ChildLookUpAppandTh += "<th>" + UFieldName + "</th>"
+                            ChildLookUpAppandTd += " <td><input type='" + DataType + "'  required readonly='readonly' class='form-control  LookUpID-" + FieldId + Counts + "' placeholder='" + place + "' id='" + Display_name + Counts + "' name='" + Display_name + Counts + "'value=''/></td>"
+                           // $(".ChildLookUpAppandTh").append(ChildLookUpAppandTh);
+                            $(".ChildLookUpAppandTd" + Counts).append(ChildLookUpAppandTd);
+                        }
+                        else if (data.Response[j].Field_type == 'FilterDDL') {
+                            if (IsDDLFilter == 1) {
+                                var ChildIsDDLFilterth = '';
+                                var ChildIsDDLFiltertd = '';
+                               // ChildIsDDLFilterth = "<th><label class='control-label'>" + UFieldName + "</label></th>"
+                                ChildIsDDLFiltertd = "<td><select   onchange='GetDDlFilterChild(" + DisplayName + ")' required class=' form-control   ISDDLFIlterss' DDlFilter='" + FieldId + "' placeholder='" + place + "' id='" + Display_name + Counts + "' name='" + Display_name + Counts + "' value=''></select></td>"
+
+                            }
+                            else {
+                                ChildIsDDLFiltertd += "<td><select   required class='form-control   ISDDLFIlterss  ISDDLFIlter-" + FieldId + Counts + "' placeholder='" + place + "' id='" + Display_name + Counts + "' name='" + Display_name + Counts + "'value=''></select></td>"
+                            }
+                            //$(".ChildIsDDLFilterth").append(ChildIsDDLFilterth);
+                            $(".ChildIsDDLFiltertd" + Counts).append(ChildIsDDLFiltertd);
+
+                        }
+                        else if (data.Response[j].Field_type == 'Drop Down') {
+                            if (data.Response[j].IsRoleAssignment == 1) {
+                                var UserId = document.getElementById("UserId").value;
+                                var RoleId = document.getElementById("RoleId").value;
+                                var Form = document.getElementById("FormId").value;
+                                var htmlvalue = '';
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/FormMaster/DropDownDataIsRoleAssignMent/?FormId=" + dropid + "&FieldId=" + FieldId + "&UserId=" + UserId + "&RoleId=" + RoleId + "&Form=" + Form,
+                                    datatype: "JSON",
+                                    contentType: "application/json;charset=utf-8",
+                                    traditional: true,
+                                    async: false,
+                                    success: function (data) {
+                                        var data = $.parseJSON(JSON.stringify(data));
+                                        htmlvalue += '<option value="0">Select</option>';
+                                        for (var i = 0; i < data.Responses.length; i++) {
+                                            htmlvalue += "<option class=' " + data.Responses[i].FormName + "' value='" + data.Responses[i].Key + "'>" + data.Responses[i].Values + "</option>";
+                                        }
+                                    },
+                                });
+                                var htmlappend = '';
+                                htmlappend += "<td'>"
+                                if (IsLookUp == 1) {
+                                    htmlappend += "<select onchange='GetLooKUPChild(" + DisplayName + Counts + ")' class='form-control' look='" + FieldId + "' id='" + DisplayName + Counts + "' name='" + DisplayName + Counts + "' required='' class='form-control input-lg dspn' placeholder=' " + place + "'>" + htmlvalue + "</select>"
+                                }
+                                else if (IsDDLFilter == 1) {
+                                    htmlappend += "<select onchange='GetDDlFilterChild(" + DisplayName + Counts + ")' class='form-control' DDlFilter='" + FieldId + "' id='" + DisplayName + Counts + "' name='" + DisplayName + Counts + "' required='' class='form-control input-lg dspn' placeholder=' " + place + "'>" + htmlvalue + "</select>"
+                                }
+                                else {
+                                    htmlappend += "<select  class='form-control' look='" + FieldId+ "' id='" + DisplayName + Counts + "' name='" + DisplayName + Counts + "' required='' class='form-control input-lg dspn' placeholder=' " + place + "'>" + htmlvalue + "</select>"
+                                }
+                                htmlappend += "</td>"
+
+                                $('.dropdowchild' + Counts).append(htmlappend);
+                            }
+                            else {
+                                var htmlvalue = '';
+                                var htmlappendChild = '';
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/FormMaster/DropDownData/?FormId=" + dropid + "&FieldId=" + FieldId,
+
+                                    datatype: "JSON",
+                                    contentType: "application/json;charset=utf-8",
+                                    traditional: true,
+                                    async: false,
+                                    success: function (data) {
+                                        var data = $.parseJSON(JSON.stringify(data));
+                                        htmlvalue += '<option value="0">Select</option>';
+                                        for (var i = 0; i < data.Responses.length; i++) {
+                                            htmlvalue += "<option class=' " + data.Responses[i].FormName + "' value='" + data.Responses[i].Key + "'>" + data.Responses[i].Values + "</option>";
+                                        }
+                                    },
+                                });
+                                htmlappendChild += "<th>" + UFieldName + ":</th>"
+                                var htmlappend = '';
+                                if (IsLookUp == 1) {
+                                    htmlappend += "<td><select onchange='GetLooKUPChild(" + DisplayName + Counts + "," + Counts + ")' class='form-control' look='" + FieldId + "' id='" + DisplayName + Counts + "' name='" + DisplayName + Counts + "' required='' class='form-control input-lg dspn' placeholder=' " + place + "'>" + htmlvalue + "</select></td>"
+                                }
+                                else if (IsDDLFilter == 1) {
+                                    htmlappend += "<td><select onchange='GetDDlFilterChild(" + DisplayName + Counts + ")' class='form-control' DDlFilter='" + FieldId + "' id='" + DisplayName + Counts + "' name='" + DisplayName + Counts + "' required='' class='form-control input-lg dspn' placeholder=' " + place + "'>" + htmlvalue + "</select></td>"
+                                }
+                                else {
+                                    htmlappend += "<td><select  class='form-control filterForSelect' look='" + FieldId +"' id='" + DisplayName + Counts + "' name='" + DisplayName + Counts + "' required='' class='form-control input-lg dspn' placeholder=' " + place + "'>" + htmlvalue + "</select>"
+                                }
+                                htmlappend += "</td>"
+                              //  $(".htmlappendChild").html(htmlappendChild);
+                                $('.dropdowchild' + Counts).append(htmlappend);
+                            }
+
+                            //$('#body_fields').append(htmlappend);
+                        }
+
+                        //else if (data.Response[j].Field_type == 'CheckBoxList')
+                        //{
+
+                        //    var htmlCheckBoxList = '';
+                        //    var htmlCheckBox = '';
+                        //    htmlCheckBoxList += "<label class='col-md-3 control-label'>" + Display_name + "</label>"
+                        //    $.ajax({
+                        //        type: "POST",
+                        //        url: "/FormMaster/DropDownData/?FormId=" + dropid + "&FieldId=" + FieldId,
+                        //        datatype: "JSON",
+                        //        contentType: "application/json;charset=utf-8",
+                        //        traditional: true,
+                        //        async: false,
+                        //        success: function (data) {
+
+                        //            var data = $.parseJSON(JSON.stringify(data));
+                        //            //htmlvalue += '<option value="0">Select</option>';
+                        //            for (var i = 0; i < data.Responses.length; i++) {
+                        //                htmlCheckBoxList = "<td >"
+                        //                htmlCheckBoxList += "<label class='col-md-3 control-label'>" + Display_name + "</label>"
+                        //                htmlCheckBox += " <span><input type='checkbox' name=" + Display_name + " value=" + data.Responses[i].Key + " /><label>" + data.Responses[i].Values + "</label></span>"
+                        //                htmlCheckBoxList += "</div>";
+                        //                //htmlCheckBoxList += "<option class=' " + data.Responses[i].FormName + "' value='" + data.Responses[i].Key + "'>" + data.Responses[i].Values + "</option>";
+                        //            }
+
+                        //        },
+                        //    });
+                        //    $('#htmlCheckBox').append(htmlCheckBoxList);
+                        //    $('#htmlCheckBoxslist').append(htmlCheckBox);
+                        //}
+                    }
+                    // document.getElementById('formNameId').innerText = FormName;
+                    //document.getElementById('formNameTable').innerHTML = FormName;
+                    //   document.getElementById('formName').value = FormName;
+                    var n = 2;
+                    $("[class*='columnStyle'] div").children('.FormCounter').addClass('col-md-' + 12 / n + '');
+                    // $("#content").html(str);ss
+                },
+            
+            });
+
+        });
+    });
+</script> 

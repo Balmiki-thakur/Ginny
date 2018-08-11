@@ -1,0 +1,278 @@
+﻿@{
+    ViewBag.Title = "MPSDataReportCofig";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+<script src="~/Scripts/jquery-1.7.1.js"></script>
+<script src="~/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="~/Scripts/jquery-ui-1.8.20.min.js"></script>
+<script src="~/Scripts/jquery-1.7.1.min.js"></script>
+<div class="tab-pane active" id="tab_1">
+    <form>
+          <input type="hidden" id="CompanyId" name="Eid" value="@Session["LOGGED_Company"]" />
+									<div class="portlet box blue">
+										<div class="portlet-title">
+											<div class="caption">
+												<i class="fa fa-gift"></i>Device Issuance
+											</div>
+											<div class="tools">
+												<a href="javascript:;" class="collapse" data-original-title="" title="">
+												</a>
+												<a href="#portlet-config" data-toggle="modal" class="config" data-original-title="" title="">
+												</a>
+												<a href="javascript:;" class="reload" data-original-title="" title="">
+												</a>
+												<a href="javascript:;" class="remove" data-original-title="" title="">
+												</a>
+											</div>
+										</div>
+										<div class="portlet-body form">
+													
+														<div class="col-md-3">
+															<div class="form-group">
+																<label>Select Report Type<span style="color:#FF0000">*</span></label>		 
+                                                                <select id="" class="form-control">
+                                                                 <option  value="Select">Select</option>
+															     <option  value="MileageReport">Mileage Report</option>
+                                                                 <option  value="VehiclePosition">Online Vehicle Position Report</option>
+                                                                 <option  value="VehicleMap">Online Vehicles Map Report</option>
+                                                                  <option  value="Imagesetting">GPS Image Setting</option>
+																</select>
+															</div>
+														</div>
+                                            <div class="col-md-3">
+                                             <div class="form-group">
+											<label>Document Type</label>
+                                            <select class="form-control" id="DocumentName" name="datatype"  required="" class="form-control input-lg dspn" placeholder="Please Select Document Type">
+                                                  <option  value="NULL">Select</option>
+                                                 
+							                   </select>
+							                </div>
+
+                                                </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+											<label>IMEINo Field</label>
+                                            <select class="form-control" id="IMEINoField" name="datatype"  required="" class="form-control input-lg dspn" placeholder="Please Select Document Fields">
+                                                   <option  value="NULL">Select</option>
+							                   </select>
+					                        		</div>
+                                                </div>
+										</div>	
+													
+												</div>
+												
+											</form>
+   
+</div>
+<div class="portlet-body form">
+										<div class="tab-content">
+											<div class="tab-pane active" id="portlet_tab_1_1">
+												<div class="skin skin-minimal">
+													<form role="form" onsubmit="saveRecords(); return false;">
+														<div class="form-body">
+                                                            <div class="col-md-12" >
+														<div class="row">
+                                                           
+															<div class="form-group col-md-2" style="background-color:aliceblue">
+                                                                <div class="caption caption-md">										
+										                         	<span class="caption-subject font-green-sharp bold uppercase">All Form</span>
+										                         </div>															
+																<div class="input-group">
+																	<div class="icheck-list">
+																	<div id="FormName">
+
+																	</div>
+                                                                    <button type="button" id="SaveFields" class="btn blue"><i class="fa fa-check"></i>Add Form Field </button> 
+																	</div>
+
+																</div>
+                                                               
+															</div> 
+                                                          	<div class="form-group col-md-4" style="background-color:aliceblue">
+                                                              <div class="caption caption-md">										
+										                         	<span class="caption-subject font-green-sharp bold uppercase">Select GPS fields to be displayed:*</span>
+										                         </div>		
+                                                                  <div id="dds">
+                                                                      <div id="childImeino">
+                                                                 <input type='checkbox' id="IMIENO" class='IMIENO' value="1" /><label >IMIENO</label></br>
+                                                                 </div>
+                                                                       <div class="childImeino">
+                                                                      
+                                                                                <input type='checkbox' id="cTime" class='IMIENO' value="2"/><label> cTime</label></br>
+                                                                           </div>
+                                                                 <div class="childImeino">
+                                                                     
+                                                                            <input type='checkbox' id="DevDist" class='IMIENO' value="3"/><label>DevDist </label></br>
+                                                                     </div>
+                                                                         <div class="childImeino">
+                                                                 <input type='checkbox' id="speed" class='IMIENO' value="4"/><label>speed </label></br>
+                                                                  </div>
+                                                                      </div>
+                                                                  <button type="button" id="SaveField" class="btn blue"><i class="fa fa-check"></i> Add Field</button>                                                                                                                          
+                          								</div>
+                                                              </div>
+
+                                                                <div class="row">
+                                                              <div class="form-group col-md-12" style="background-color:aliceblue">
+                                                              <div class="caption caption-md">										
+										                         	<span class="caption-subject font-green-sharp bold uppercase">Grid Setting*</span>
+										                         </div>		
+                                                               
+                                                 <div>
+	                            <table class="k-grid" cellspacing="0" rules="all" border="1" id="gvGPS" style="width:100%;border-collapse:collapse;">
+		                     <thead>
+                                   <tr>
+			                             <th align="left" scope="col">S No.</th>
+                                        <th align="center" scope="col">Field Name</th>
+                                        <th align="center" scope="col">Display Name</th>
+                                        <th align="center" scope="col">Action</th>
+		                                  </tr>
+		                     </thead>
+                                       <tbody id="l">
+                                        
+                         </tbody>
+	                        </table>
+                                                 </div>                                                                                                                           
+                          								</div>
+
+                                                                </div>
+
+                                                                    <div class="form-actions right">
+	                                                                   <button type="button" class="btn default">Cancel</button>
+                                                                       <button type="submit" id="btnSubmit" class="btn blue"><i class="fa fa-check"></i> Save</button>
+	                                                               </div>
+                                                            </div>
+                                                           </div>														  														   
+                                                                                       
+												</form>
+												</div>
+											</div>
+										
+									
+										</div>
+									</div>
+<div class="row" style="">
+      
+    </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var CompanyId = document.getElementById("CompanyId").value;
+        $.ajax
+                ({
+                    type: "POST",
+                    url: "/Dynamic/AllFormList/?CompanyId=" + CompanyId,
+                    datatype: "JSON",
+                    success: function (data) {
+                        var item = '<option value="0">Select</option>'
+                        for (var j = 0; j < data.Response.length; j++) {
+                            var formName = data.Response[j].FormName;
+                            item += "<option value='" + data.Response[j].Id + "'>" + data.Response[j].FormName + "</option>";
+                        };
+                        $("#DocumentName").html(item);
+                    },
+                });
+        $("#DocumentName").change(function () {
+            var formId = document.getElementById("DocumentName").value;
+            var CompanyId = document.getElementById("CompanyId").value;
+            $.ajax
+             ({
+                 type: "POST",
+                 url: "/Dynamic/MultiFields/?formid=" + formId + "&CompanyId=" + CompanyId,
+                 success: function (data) {
+                     var item = '';
+                     var imeino = '';
+                     for (var j = 0; j < data.Response.length; j++)
+                     {
+                         if (data.Response[j].IsIMEINo==1)
+                         {
+                             debugger;
+                             imeino += "<option value='" + data.Response[j].FieldId + "'>" + data.Response[j].Display_name + "</option>";
+
+                         }
+                         item += "<div class='firstCheckBoxGroup'><input type='checkbox'  class='iChildcheck' value='" + data.Response[j].FieldId + "'/> <label>" + data.Response[j].Display_name + "</label></div></br>";
+                     };
+                     $("#FormName").html(item);
+                     $("#IMEINoField").html(imeino);
+                 },
+             });
+
+        });
+    });
+    $("#SaveFields").click(function () {
+        $("#gvGPS tbody").html("");
+        serialNumber = 1;
+        $(".firstCheckBoxGroup").each(function () {
+
+            var checkBoxValue = $(this).find(".iChildcheck:checked").val();
+
+            if (typeof checkBoxValue !== "undefined") {
+                var labelValue = $(this).find("label").text();
+
+                item = '<tr role="row" class="odd"><td  class=""> ' + serialNumber++ + '</td><td class="center"><input type="hidden" id="IMIENOValue" name="Displayname" class="form-control" value="' + checkBoxValue + '">' + labelValue + '</td><td class="center"> <input type="text" id="Displayname" name="Displayname" class="form-control" value=""></td><td class="center">All Action</td></tr>';
+
+                $("#gvGPS tbody").append(item)
+            }
+
+
+        });
+    });
+    $("#SaveField").click(function () {
+        $("#gvGPS tbody").html("");
+        serialNumber = 1;
+        $(".childImeino").each(function () {
+            var checkBoxValues = $(this).find(".IMIENO:checked").val();
+            if (typeof checkBoxValues !== "undefined") {
+                var labelValues = $(this).find("label").text();
+
+                items = '<tr role="row" class="odd"><td class=""> ' + serialNumber++ + '</td><td class="center"><input type="hidden" id="IMIENOValue" name="Displayname" class="form-control" value="' + checkBoxValues + '">' + labelValues + '</td><td class="center"> <input type="text" id="Displayname" name="Displayname" class="form-control" value=""></td><td class="center">All Action</td></tr>';
+                $("#gvGPS tbody").append(items)
+            }
+        });
+    });
+</script>
+<script type ="text/javascript">
+    $(document).ready(function () {
+        $("#btnSubmit").click(function () {
+            var roleid = document.getElementById("selectItems").value;
+            var useridId = document.getElementById("roleuser").value;
+            var DocumentFormId = document.getElementById("DocumentName").value;
+            var DocumentFieldid = document.getElementById("DocumentField").value;
+            var formIdvalue = '';
+            $('.icheck:checked').each(function () {
+                formIdvalue += $(this).val();
+            });
+            var FormFieldData = '';
+            $('.iChildcheck:checked').each(function () {
+                FormFieldData += $(this).val() + ',';
+            });
+            var View = '';
+            $('#View:checked').each(function () {
+                debugger;
+                View += $(this).val();
+            });
+            var Create = '';
+            $('#Create:checked').each(function () {
+                debugger;
+                Create += $(this).val();
+
+            });
+            var Edit = '';
+            $('#Edit:checked').each(function () {
+                debugger;
+                Edit += $(this).val();
+            });
+
+            $.ajax({
+                url: "/RoleAssignment/AddRoleAssigment?Roleis=" + roleid + "&Userid=" + useridId + '&DocumentFormId=' + DocumentFormId + '&DocumentFields=' + DocumentFieldid + '&FormId=' + formIdvalue + '&documentDataid=' + FormFieldData + '&IsView=' + View + '&IsCreate=' + Create + '&IsEdit=' + Edit,
+                type: "POST",
+                success: function (data) {
+                    alert("Role Is Successfully Add Thanku");
+                },
+                error: function () {
+                    $("#testarea").html("ERROR");
+                }
+            });
+        });
+    });
+	</script>

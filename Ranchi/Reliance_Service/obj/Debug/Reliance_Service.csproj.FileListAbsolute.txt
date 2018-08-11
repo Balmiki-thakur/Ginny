@@ -1,0 +1,15 @@
+E:\Project\Reliance\Reliance\Ranchi\Reliance_Service\bin\Glimpse.AspNet.dll
+E:\Project\Reliance\Reliance\Ranchi\Reliance_Service\bin\Glimpse.Core.dll
+E:\Project\Reliance\Reliance\Ranchi\Reliance_Service\bin\Glimpse.Mvc4.dll
+E:\Project\Reliance\Reliance\Ranchi\Reliance_Service\bin\Reliance.Modals.pdb
+E:\Project\Reliance\Reliance\Ranchi\Reliance_Service\bin\RelianceController.pdb
+E:\Project\Reliance\Reliance\Ranchi\Reliance_Service\bin\Reliance.SqlDll.pdb
+E:\Project\Reliance\Reliance\Ranchi\Reliance_Service\bin\Reliance.Modals.dll
+E:\Project\Reliance\Reliance\Ranchi\Reliance_Service\bin\RelianceController.dll
+E:\Project\Reliance\Reliance\Ranchi\Reliance_Service\bin\Reliance.SqlDll.dll
+E:\Project\Reliance\Reliance\Ranchi\Reliance_Service\obj\Debug\Reliance_Service.csprojResolveAssemblyReference.cache
+E:\Project\Reliance\Reliance\Ranchi\Reliance_Service\obj\Debug\Reliance_Service.dll
+E:\Project\Reliance\Reliance\Ranchi\Reliance_Service\obj\Debug\Reliance_Service.pdb
+E:\Project\Reliance\Reliance\Ranchi\Reliance_Service\bin\Reliance_Service.dll.config
+E:\Project\Reliance\Reliance\Ranchi\Reliance_Service\bin\Reliance_Service.dll
+E:\Project\Reliance\Reliance\Ranchi\Reliance_Service\bin\Reliance_Service.pdb

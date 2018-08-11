@@ -1,0 +1,134 @@
+﻿@model Reliance.Modals.MasterFormDO
+
+@{
+    ViewBag.Title = "DefultForm";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+
+ <div style="float: right;"> <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myFormModal1"  style="background-color:#2d3b52"> Form</button>
+</div>
+<h2>DefultForm</h2>
+<div id="myFormModal1" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">      
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+			<h4 class="modal-title">Form Master</h4>
+		</div>
+
+        <div class="col-md-12">
+						<!-- BEGIN EXAMPLE TABLE PORTLET-->
+						<div class="portlet box blue">
+							<div class="portlet-title">
+								<div class="caption">
+									<i class="fa fa-edit"></i>WorkFolw Status Add
+								</div>					
+							</div>
+							<div class="portlet-body">
+						
+								<table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+									<thead>
+                                         <input type="hidden" id="CompanyId" name="Eid" value="@Session["LOGGED_Company"]" />
+								<tr role="row">
+                                    <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Username
+									: activate to sort column ascending" style="width: 165px;">
+										Document Type
+									</th>
+                                  
+                                    <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+									Status Name
+									</th>
+                                  @* <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+								Display Order
+									</th>
+                                     <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+								Activate Doc
+									</th>*@
+                                     <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+								Approve Caption
+									</th>
+                                     <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+								Reject Caption	
+									</th>
+                                     <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+								Reconsider Caption	
+									</th>
+                                    @* <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+							 Reconsider Status
+									</th>
+                                     <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+							Amendment Status
+									</th>
+                                     <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+							
+                                    Recall Status
+                                   </th>
+                                     <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+                                    Cancel Status
+                                         </th>
+                                     <th class="sorting" tabindex="0" aria-controls="sample_editable_1" rowspan="1" colspan="1" aria-label="
+										 Notes
+									: activate to sort column ascending" style="width: 144px;">
+                                   Action
+                                         </th>*@
+									</tr>
+								</thead>
+                                     		<tbody>	
+                                  @{RelianceController.WorkFlowStatusControllers workFlowStatusControllers= new RelianceController.WorkFlowStatusControllers();
+                                    Reliance.Modals.WorkFlowList roleModal = workFlowStatusControllers.WorkFlowStatus();
+                                    for (int i = 0; i < roleModal.Count; i++)
+                                 {							
+								<tr role="row" class="odd">
+                                
+                                     <td  class="">@roleModal[i].FormName</td> 
+									 <td  class="">@roleModal[i].StatusName</td> 
+                                     
+                                                             
+									 <td class="center">@roleModal[i].ApproveCaption</td>
+
+                                      <td class="center">@roleModal[i].RejectCaption</td>
+                                    
+                                      <td class="center">@roleModal[i].ReconsiderCaption</td>
+                                                       	
+                                    </tr>
+                                }
+                                 }  
+                                                  		
+								</tbody>
+								</table>
+								
+							</div>
+						</div>
+						<!-- END EXAMPLE TABLE PORTLET-->
+					</div>
+						       </div>          
+<div class="modal-footer">
+   
+	<button type="button" class="btn default" data-dismiss="modal">Close</button>
+		</div> 			</div>
+										<!-- /.modal-content -->
+									</div>
+       
+</div>
+       
